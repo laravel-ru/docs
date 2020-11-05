@@ -1,135 +1,135 @@
 # Установка
 
-- [Installation](#installation)
-    - [Server Requirements](#server-requirements)
-    - [Installing Laravel](#installing-laravel)
-    - [Configuration](#configuration)
-- [Web Server Configuration](#web-server-configuration)
-    - [Directory Configuration](#directory-configuration)
-    - [Pretty URLs](#pretty-urls)
+- [Установка](#installation)
+    - [Требования к серверу](#server-requirements)
+    - [Установка Laravel](#installing-laravel)
+    - [Конфигурация](#configuration)
+- [Конфигурация веб-сервера](#web-server-configuration)
+    - [Конфигурация каталога](#directory-configuration)
+    - [Красивые URL-адреса](#pretty-urls)
 
 <a name="installation"></a>
-## Installation
+## Установка
 
 <a name="server-requirements"></a>
-### Server Requirements
+### Требования к серверу
 
-The Laravel framework has a few system requirements. All of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
+Фреймворк Laravel имеет несколько системных требований. Всем этим требованиям удовлетворяет виртуальная машина [Laravel Homestead](/docs/{{version}}/homestead), поэтому настоятельно рекомендуется использовать Homestead в качестве локальной среды разработки Laravel.
 
-However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
+Однако, если Вы не используете Homestead, Вам необходимо убедиться, что Ваш сервер соответствует следующим требованиям:
 
 <div class="content-list" markdown="1">
 - PHP >= 7.3
-- BCMath PHP Extension
-- Ctype PHP Extension
-- Fileinfo PHP Extension
-- JSON PHP Extension
-- Mbstring PHP Extension
-- OpenSSL PHP Extension
-- PDO PHP Extension
-- Tokenizer PHP Extension
-- XML PHP Extension
+- Расширение BCMath PHP
+- Расширение Ctype PHP
+- Расширение Fileinfo PHP
+- Расширение JSON PHP
+- Расширение Mbstring PHP
+- Расширение OpenSSL PHP
+- Расширение PDO PHP
+- Расширение Tokenizer PHP
+- Расширение XML PHP
 </div>
 
 <a name="installing-laravel"></a>
-### Installing Laravel
+### Установка Laravel
 
-Laravel utilizes [Composer](https://getcomposer.org) to manage its dependencies. So, before using Laravel, make sure you have Composer installed on your machine.
+Для управления зависимостями Laravel использует [Composer](https://getcomposer.org). Перед использованием Laravel убедитесь, что на компьютере установлен Composer.
 
 <a name="via-laravel-installer"></a>
-#### Via Laravel Installer
+#### Через установщик Laravel
 
-First, download the Laravel installer using Composer:
+Сначала загрузите установщик Laravel с помощью Composer:
 
     composer global require laravel/installer
 
-Make sure to place Composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
+Убедитесь, что системный каталог bin поставщика Composer помещен в `$PATH`, чтобы исполняемый файл laravel можно было найти в системе. Этот каталог существует в различных местах и зависит от Вашей операционной системы; однако некоторые общие местоположения включают в себя:
 
 <div class="content-list" markdown="1">
 - macOS: `$HOME/.composer/vendor/bin`
 - Windows: `%USERPROFILE%\AppData\Roaming\Composer\vendor\bin`
-- GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin` or `$HOME/.composer/vendor/bin`
+- GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin` или `$HOME/.composer/vendor/bin`
 </div>
 
-You could also find the composer's global installation path by running `composer global about` and looking up from the first line.
+Вы также можете найти глобальный путь установки composer, выполнив `composer global about` и посмотрев в первой строке.
 
-Once installed, the `laravel new` command will create a fresh Laravel installation in the directory you specify. For instance, `laravel new blog` will create a directory named `blog` containing a fresh Laravel installation with all of Laravel's dependencies already installed:
+После установки команда `laravel new` создаст новую установку Laravel в указанном Вами каталоге. Например, `laravel new blog` создаст каталог с именем `blog`, содержащий новую установку Laravel со всеми уже установленными зависимостями Laravel:
 
     laravel new blog
 
-> {tip} Want to create a Laravel project with login, registration, and more features already built for you? Check out [Laravel Jetstream](https://jetstream.laravel.com).
+> {tip} Хотите создать проект Laravel с уже созданными для вас функциями входа, регистрации и другими функциями? Посмотрите [Laravel Jetstream](https://jetstream.laravel.com) или [Перевод Laravel Jetstream](https://jetstream.getlaravel.ru).
 
 <a name="via-composer-create-project"></a>
-#### Via Composer Create-Project
+#### Через Composer Создать-Проект
 
-Alternatively, you may also install Laravel by issuing the Composer `create-project` command in your terminal:
+В качестве альтернативы Вы также можете установить Laravel, введя команду Composer `create-project` в Вашем терминале:
 
     composer create-project --prefer-dist laravel/laravel blog
 
 <a name="local-development-server"></a>
-#### Local Development Server
+#### Локальный сервер разработки
 
-If you have PHP installed locally and you would like to use PHP's built-in development server to serve your application, you may use the `serve` Artisan command. This command will start a development server at `http://localhost:8000`:
+Если у Вас установлен PHP локально и Вы хотите использовать встроенный сервер разработки PHP для работы своего приложения, Вы можете использовать Artisan-команду `serve`. Эта команда запустит сервер разработки по адресу `http://localhost:8000`:
 
     php artisan serve
 
-More robust local development options are available via [Homestead](/docs/{{version}}/homestead) and [Valet](/docs/{{version}}/valet).
+Более надежные варианты локальной разработки доступны через [Homestead](/docs/{{version}}/homestead) или [Valet](/docs/{{version}}/valet).
 
 <a name="configuration"></a>
-### Configuration
+### Конфигурация
 
 <a name="public-directory"></a>
-#### Public Directory
+#### Каталог public
 
-After installing Laravel, you should configure your web server's document / web root to be the `public` directory. The `index.php` in this directory serves as the front controller for all HTTP requests entering your application.
+После установки Laravel Вы должны настроить корневой каталог веб-сервера в папку `public`. Файл `index.php` в этом каталоге служит главным контроллером для всех HTTP-запросов, поступающих в приложение.
 
 <a name="configuration-files"></a>
-#### Configuration Files
+#### Файлы конфигурации
 
-All of the configuration files for the Laravel framework are stored in the `config` directory. Each option is documented, so feel free to look through the files and get familiar with the options available to you.
+Все файлы конфигурации для фреймворка Laravel хранятся в каталоге `config`. Каждый вариант задокументирован, поэтому не стесняйтесь просматривать файлы и знакомиться с доступными Вам вариантами.
 
 <a name="directory-permissions"></a>
-#### Directory Permissions
+#### Разрешения каталога
 
-After installing Laravel, you may need to configure some permissions. Directories within the `storage` and the `bootstrap/cache` directories should be writable by your web server or Laravel will not run. If you are using the [Homestead](/docs/{{version}}/homestead) virtual machine, these permissions should already be set.
+После установки Laravel Вам может потребоваться настроить некоторые разрешения. Каталоги `storage` и `bootstrap/cache` должны быть доступны для записи веб-сервером, иначе Laravel не будет запущен. Если Вы используете виртуальную машину [Homestead](/docs/{{version}}/homestead), эти разрешения уже должны быть установлены.
 
 <a name="application-key"></a>
-#### Application Key
+#### Ключ приложения
 
-The next thing you should do after installing Laravel is set your application key to a random string. If you installed Laravel via Composer or the Laravel installer, this key has already been set for you by the `php artisan key:generate` command.
+Следующее, что Вам нужно сделать после установки Laravel, - это установить для ключа приложения случайную строку. Если Вы установили Laravel через Composer или установщик Laravel, этот ключ уже был установлен для Вас с помощью команды `php artisan key:generate`.
 
-Typically, this string should be 32 characters long. The key can be set in the `.env` environment file. If you have not copied the `.env.example` file to a new file named `.env`, you should do that now. **If the application key is not set, your user sessions and other encrypted data will not be secure!**
+Обычно эта строка должна состоять из 32 символов. Ключ может быть установлен в файле окружения `.env`. Если Вы не скопировали файл `.env.example` в новый файл с именем `.env`, Вам следует сделать это сейчас. **Если ключ приложения не установлен, Ваши пользовательские сеансы и другие зашифрованные данные не будут защищены!**
 
 <a name="additional-configuration"></a>
-#### Additional Configuration
+#### Дополнительная конфигурация
 
-Laravel needs almost no other configuration out of the box. You are free to get started developing! However, you may wish to review the `config/app.php` file and its documentation. It contains several options such as `timezone` and `locale` that you may wish to change according to your application.
+Laravel почти не нуждается в другой конфигурации из коробки. Вы можете начать разработку! Однако Вы можете просмотреть файл `config/app.php` и его документацию. Он содержит несколько параметров, таких как `timezone` и `locale`, которые Вы можете изменить в соответствии с Вашим приложением.
 
-You may also want to configure a few additional components of Laravel, such as:
+Вы также можете настроить несколько дополнительных компонентов Laravel, например:
 
 <div class="content-list" markdown="1">
-- [Cache](/docs/{{version}}/cache#configuration)
-- [Database](/docs/{{version}}/database#configuration)
-- [Session](/docs/{{version}}/session#configuration)
+- [Кэш](/docs/{{version}}/cache#configuration)
+- [База данных](/docs/{{version}}/database#configuration)
+- [Сессия](/docs/{{version}}/session#configuration)
 </div>
 
 <a name="web-server-configuration"></a>
-## Web Server Configuration
+## Конфигурация веб-сервера
 
 <a name="directory-configuration"></a>
-### Directory Configuration
+### Конфигурация каталога
 
-Laravel should always be served out of the root of the "web directory" configured for your web server. You should not attempt to serve a Laravel application out of a subdirectory of the "web directory". Attempting to do so could expose sensitive files present within your application.
+Laravel всегда должен обслуживаться из корня «веб-каталога», настроенного для Вашего веб-сервера. Вы не должны пытаться обслуживать приложение Laravel из подкаталога «веб-каталога». Попытка сделать это может открыть доступ к конфиденциальным файлам, присутствующим в Вашем приложении.
 
 <a name="pretty-urls"></a>
-### Pretty URLs
+### Красивые URL-адреса
 
 <a name="apache"></a>
 #### Apache
 
-Laravel includes a `public/.htaccess` file that is used to provide URLs without the `index.php` front controller in the path. Before serving Laravel with Apache, be sure to enable the `mod_rewrite` module so the `.htaccess` file will be honored by the server.
+Laravel включает файл `public/.htaccess`, который используется для предоставления URL-адресов без фронт-контроллера `index.php` в пути. Перед обслуживанием Laravel с Apache обязательно включите модуль `mod_rewrite`, чтобы файл `.htaccess` был обработан сервером.
 
-If the `.htaccess` file that ships with Laravel does not work with your Apache installation, try this alternative:
+Если файл `.htaccess`, поставляемый с Laravel, не работает с Вашей установкой Apache, попробуйте следующий вариант:
 
     Options +FollowSymLinks -Indexes
     RewriteEngine On
@@ -144,10 +144,10 @@ If the `.htaccess` file that ships with Laravel does not work with your Apache i
 <a name="nginx"></a>
 #### Nginx
 
-If you are using Nginx, the following directive in your site configuration will direct all requests to the `index.php` front controller:
+Если Вы используете Nginx, следующая директива в конфигурации Вашего сайта будет направлять все запросы на фронт-контроллер `index.php`:
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-When using [Homestead](/docs/{{version}}/homestead) or [Valet](/docs/{{version}}/valet), pretty URLs will be automatically configured.
+При использовании [Homestead](/docs/{{version}}/homestead) или [Valet](/docs/{{version}}/valet), красивые URL-адреса будут настроены автоматически.
