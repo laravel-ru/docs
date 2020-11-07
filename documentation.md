@@ -1,14 +1,14 @@
-- ## Prologue
-    - [Release Notes](/docs/{{version}}/releases)
-    - [Upgrade Guide](/docs/{{version}}/upgrade)
-    - [Contribution Guide](/docs/{{version}}/contributions)
-- ## Getting Started
-    - [Installation](/docs/{{version}}/installation)
-    - [Configuration](/docs/{{version}}/configuration)
-    - [Directory Structure](/docs/{{version}}/structure)
+- ## Пролог
+    - [Информация о выпуске](/docs/{{version}}/releases)
+    - [Руководство по обновлению](/docs/{{version}}/upgrade)
+    - [Руководство по вкладу](/docs/{{version}}/contributions)
+- ## Начало работы
+    - [Установка](/docs/{{version}}/installation)
+    - [Конфигурация](/docs/{{version}}/configuration)
+    - [Структура каталога](/docs/{{version}}/structure)
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
-    - [Deployment](/docs/{{version}}/deployment)
+    - [Развертывание](/docs/{{version}}/deployment)
 - ## Architecture Concepts
     - [Request Lifecycle](/docs/{{version}}/lifecycle)
     - [Service Container](/docs/{{version}}/container)
