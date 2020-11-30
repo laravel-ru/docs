@@ -21,7 +21,7 @@
     - [Querying Relationship Absence](#querying-relationship-absence)
     - [Querying Polymorphic Relationships](#querying-polymorphic-relationships)
     - [Aggregating Related Models](#aggregating-related-models)
-    - [Aggregating Related Models On Polymorphic Relationships](#aggregating-related-models-on-polymorphic-relationships)
+    - [Counting Related Models On Polymorphic Relationships](#counting-related-models-on-polymorphic-relationships)
 - [Eager Loading](#eager-loading)
     - [Constraining Eager Loads](#constraining-eager-loads)
     - [Lazy Eager Loading](#lazy-eager-loading)
@@ -1055,10 +1055,10 @@ Instead of passing an array of possible polymorphic models, you may provide `*` 
         $query->where('title', 'like', 'foo%');
     })->get();
 
-<a name="counting-related-models"></a>
-<a name="aggregating-related-models-related-models"></a>
+<a name="aggregating-related-models"></a>
 ### Aggregating Related Models
 
+<a name="counting-related-models"></a>
 #### Counting Related Models
 
 If you want to count the number of results from a relationship without actually loading them you may use the `withCount` method, which will place a `{relation}_count` column on your resulting models. For example:
@@ -1312,6 +1312,27 @@ In this example, Eloquent will only eager load posts where the post's `title` co
     }])->get();
 
 > {note} The `limit` and `take` query builder methods may not be used when constraining eager loads.
+
+<a name="constraining-eager-loading-of-morph-to-relationships"></a>
+#### Constraining Eager Loading Of `MorphTo` Relationships
+
+If you are eager loading a `MorphTo` relationship, Eloquent will run multiple queries to fetch each different type of related model. You may target conditions to each of these queries using the `MorphTo` relation's `constrain` method:
+
+    use Illuminate\Database\Eloquent\Builder;
+    use Illuminate\Database\Eloquent\Relations\MorphTo;
+
+    $comments = Comment::with(['commentable' => function (MorphTo $morphTo) {
+        $morphTo->constrain([
+            Post::class => function (Builder $query) {
+                $query->whereNull('hidden_at');
+            },
+            Video::class => function (Builder $query) {
+                $query->where('type', 'educational');
+            },
+        ]);
+    }])->get();
+
+In this example, Eloquent will only eager load posts that have not been hidden and videos have a `type` value of "educational".
 
 <a name="lazy-eager-loading"></a>
 ### Lazy Eager Loading

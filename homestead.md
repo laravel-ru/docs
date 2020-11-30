@@ -59,8 +59,10 @@ Homestead runs on any Windows, Mac, or Linux system, and includes Nginx, PHP, My
 </style>
 
 <div id="software-list" markdown="1">
-- Ubuntu 18.04
+- Ubuntu 18.04 (`master` branch)
+- Ubuntu 20.04 (`20.04` branch)
 - Git
+- PHP 8.0
 - PHP 7.4
 - PHP 7.3
 - PHP 7.2
@@ -335,7 +337,7 @@ The default MongoDB installation will set the database username to `homestead` a
 <a name="elasticsearch"></a>
 #### Elasticsearch
 
-You may specify a supported version of Elasticsearch, which may be a major version or an exact version number (major.minor.patch). The default installation will create a cluster named 'homestead'. You should never give Elasticsearch more than half of the operating system's memory, so make sure your Homestead machine has at least twice the Elasticsearch allocation.
+You may specify a supported version of Elasticsearch, which must be an exact version number (major.minor.patch). The default installation will create a cluster named 'homestead'. You should never give Elasticsearch more than half of the operating system's memory, so make sure your Homestead machine has at least twice the Elasticsearch allocation.
 
 > {tip} Check out the [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current) to learn how to customize your configuration.
 

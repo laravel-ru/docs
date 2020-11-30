@@ -320,7 +320,7 @@ You may use the `joinSub`, `leftJoinSub`, and `rightJoinSub` methods to join a q
 <a name="unions"></a>
 ## Unions
 
-The query builder also provides a quick way to "union" two queries together. For example, you may create an initial query and use the `union` method to union it with a second query:
+The query builder also provides a quick way to "union" two or more queries together. For example, you may create an initial query and use the `union` method to union it with more queries:
 
     $first = DB::table('users')
                 ->whereNull('first_name');
@@ -802,6 +802,11 @@ The query builder may also be used to delete records from the table via the `del
 If you wish to truncate the entire table, which will remove all rows and reset the auto-incrementing ID to zero, you may use the `truncate` method:
 
     DB::table('users')->truncate();
+
+<a name="table-truncation-and-postgresql"></a>
+#### Table Truncation & PostgreSQL
+
+When truncating a PostgreSQL database, the `CASCADE` behavior will be applied. This means that all foreign key related records in other tables will be deleted as well.
 
 <a name="pessimistic-locking"></a>
 ## Pessimistic Locking

@@ -7,6 +7,7 @@
 - [Running Raw SQL Queries](#running-queries)
 - [Listening For Query Events](#listening-for-query-events)
 - [Database Transactions](#database-transactions)
+- [Connecting To The Database CLI](#connecting-to-the-database-cli)
 
 <a name="introduction"></a>
 ## Introduction
@@ -178,6 +179,24 @@ Some database statements do not return any value. For these types of operations,
 
     DB::statement('drop table users');
 
+<a name="running-an-unprepared-statement"></a>
+#### Running An Unprepared Statement
+
+Sometimes you may want to execute an SQL statement without binding any values. You may use the `DB` facade's `unprepared` method to accomplish this:
+
+    DB::unprepared('update users set votes = 100 where name = "Dries"');
+
+> {note} Since unprepared statements do not bind parameters, they may be vulnerable to SQL injection. You should never allow user controlled values within an unprepared statement.
+
+<a name="implicit-commits-in-transactions"></a>
+#### Implicit Commits
+
+When using the `DB` facade's `statement` and `unprepared` methods within transactions you must be careful to avoid statements that cause [implicit commits](https://dev.mysql.com/doc/refman/8.0/en/implicit-commit.html). These statements will cause the database engine to indirectly commit the entire transaction, leaving Laravel unaware of the database's transaction level. An example of such a statement is creating a database table:
+
+    DB::unprepared('create table a (col varchar(1) null)');
+
+Please refer to the MySQL manual for [a list of all statements](https://dev.mysql.com/doc/refman/8.0/en/implicit-commit.html) that trigger implicit commits.
+
 <a name="listening-for-query-events"></a>
 ## Listening For Query Events
 
@@ -255,3 +274,14 @@ Lastly, you can commit a transaction via the `commit` method:
     DB::commit();
 
 > {tip} The `DB` facade's transaction methods control the transactions for both the [query builder](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent).
+
+<a name="connecting-to-the-database-cli"></a>
+## Connecting To The Database CLI
+
+If you would like to connect to your database's CLI, you may use the `db` Artisan command:
+
+    php artisan db
+
+If needed, you may specify a database connection name to connect to a database connection that is not the default connection:
+
+    php artisan db mysql
