@@ -8,7 +8,7 @@
     - [Структура каталога](/docs/{{version}}/structure)
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
-    - [Развертывание](/docs/{{version}}/deployment)
+    - [Деплой](/docs/{{version}}/deployment)
 - ## Architecture Concepts
     - [Request Lifecycle](/docs/{{version}}/lifecycle)
     - [Service Container](/docs/{{version}}/container)

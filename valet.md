@@ -1,31 +1,31 @@
 # Laravel Valet
 
-- [Introduction](#introduction)
-    - [Valet Or Homestead](#valet-or-homestead)
-- [Installation](#installation)
-    - [Upgrading](#upgrading)
-- [Serving Sites](#serving-sites)
-    - [The "Park" Command](#the-park-command)
-    - [The "Link" Command](#the-link-command)
-    - [Securing Sites With TLS](#securing-sites)
-- [Sharing Sites](#sharing-sites)
-- [Site Specific Environment Variables](#site-specific-environment-variables)
-- [Proxying Services](#proxying-services)
-- [Custom Valet Drivers](#custom-valet-drivers)
-    - [Local Drivers](#local-drivers)
-- [Other Valet Commands](#other-valet-commands)
-- [Valet Directories & Files](#valet-directories-and-files)
+- [Введение](#introduction)
+    - [Valet или Homestead](#valet-or-homestead)
+- [Установка](#installation)
+    - [Обновление](#upgrading)
+- [Обслуживание сайтов](#serving-sites)
+    - [Команда "Park"](#the-park-command)
+    - [Команда "Link"](#the-link-command)
+    - [Защита сайтов с помощью TLS](#securing-sites)
+- [Совместное использование сайтов](#sharing-sites)
+- [Переменные среды для конкретного сайта](#site-specific-environment-variables)
+- [Прокси-услуги](#proxying-services)
+- [Пользовательские драйверы Valet](#custom-valet-drivers)
+    - [Локальные драйверы](#local-drivers)
+- [Другие Valet команды](#other-valet-commands)
+- [Каталоги и файлы Valet](#valet-directories-and-files)
 
 <a name="introduction"></a>
-## Introduction
+## Введение
 
-Valet is a Laravel development environment for Mac minimalists. No Vagrant, no `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
+Valet - это среда разработки Laravel для минималистов Mac. Нет Vagrant, нет файла `/etc/hosts`. Вы даже можете делиться своими сайтами публично, используя локальные туннели. _Да, нам это тоже нравится._
 
-Laravel Valet configures your Mac to always run [Nginx](https://www.nginx.com/) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.test` domain to point to sites installed on your local machine.
+Laravel Valet настраивает Ваш Mac так, чтобы он всегда запускал [Nginx](https://www.nginx.com/) в фоновом режиме при запуске Вашего компьютера. Затем, используя [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet проксирует все запросы в домене `*.test`, чтобы указать на сайты, установленные на Вашем локальном компьютере.
 
-In other words, a blazing fast Laravel development environment that uses roughly 7 MB of RAM. Valet isn't a complete replacement for Vagrant or Homestead, but provides a great alternative if you want flexible basics, prefer extreme speed, or are working on a machine with a limited amount of RAM.
+Другими словами, невероятно быстрая среда разработки Laravel, которая использует примерно 7 МБ ОЗУ. Valet не является полной заменой Vagrant или Homestead, но предоставляет отличную альтернативу, если Вам нужны гибкие основы, Вы предпочитаете экстремальную скорость или работаете на машине с ограниченным объемом оперативной памяти.
 
-Out of the box, Valet support includes, but is not limited to:
+Стандартная поддержка Valet включает, но не ограничивается:
 
 <style>
     #valet-support > ul {
@@ -59,148 +59,148 @@ Out of the box, Valet support includes, but is not limited to:
 - [Zend](https://framework.zend.com)
 </div>
 
-However, you may extend Valet with your own [custom drivers](#custom-valet-drivers).
+Однако Вы можете расширить Valet своими собственными [пользовательскими драйверами](#custom-valet-drivers).
 
 <a name="valet-or-homestead"></a>
-### Valet Or Homestead
+### Valet или Homestead
 
-As you may know, Laravel offers [Homestead](/docs/{{version}}/homestead), another local Laravel development environment. Homestead and Valet differ in regards to their intended audience and their approach to local development. Homestead offers an entire Ubuntu virtual machine with automated Nginx configuration. Homestead is a wonderful choice if you want a fully virtualized Linux development environment or are on Windows / Linux.
+Как Вы, возможно, знаете, Laravel предлагает [Homestead](/docs/{{version}}/homestead), еще одну локальную среду разработки Laravel. Homestead и Valet различаются своей целевой аудиторией и подходом к развитию на локальном уровне. Homestead предлагает всю виртуальную машину Ubuntu с автоматической настройкой Nginx. Homestead - прекрасный выбор, если Вам нужна полностью виртуализированная среда разработки Linux или Windows / Linux.
 
-Valet only supports Mac, and requires you to install PHP and a database server directly onto your local machine. This is easily achieved by using [Homebrew](https://brew.sh/) with commands like `brew install php` and `brew install mysql`. Valet provides a blazing fast local development environment with minimal resource consumption, so it's great for developers who only require PHP / MySQL and do not need a fully virtualized development environment.
+Valet поддерживает только Mac и требует, чтобы Вы установили PHP и сервер базы данных прямо на локальный компьютер. Этого легко добиться, используя [Homebrew](https://brew.sh/) с такими командами, как `brew install php` и `brew install mysql`. Valet предоставляет невероятно быструю локальную среду разработки с минимальным потреблением ресурсов, поэтому она отлично подходит для разработчиков, которым требуется только PHP / MySQL и которым не нужна полностью виртуализированная среда разработки.
 
-Both Valet and Homestead are great choices for configuring your Laravel development environment. Which one you choose will depend on your personal taste and your team's needs.
+И Valet, и Homestead - отличный выбор для настройки среды разработки Laravel. Какой из них вы выберете, будет зависеть от Вашего личного вкуса и потребностей Вашей команды.
 
 <a name="installation"></a>
-## Installation
+## Установка
 
-**Valet requires macOS and [Homebrew](https://brew.sh/). Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.**
+**Valet требует macOS и [Homebrew](https://brew.sh/). Перед установкой Вы должны убедиться, что никакие другие программы, такие как Apache или Nginx, не привязаны к порту 80 Вашего локального компьютера.**
 
 <div class="content-list" markdown="1">
-- Install or update [Homebrew](https://brew.sh/) to the latest version using `brew update`.
-- Install PHP 8.0 using Homebrew via `brew install php`.
-- Install [Composer](https://getcomposer.org).
-- Install Valet with Composer via `composer global require laravel/valet`. Make sure the `~/.composer/vendor/bin` directory is in your system's "PATH".
-- Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
+- Установите или обновите [Homebrew](https://brew.sh/) до последней версии с помощью `brew update`.
+- Установите PHP 8.0 с помощью Homebrew через `brew install php`.
+- Установите [Composer](https://getcomposer.org).
+- Установите Valet с Composer через `composer global require laravel/valet`. Убедитесь, что каталог `~/.composer/vendor/bin` находится в "PATH" Вашей системы.
+- Запустите команду `valet install`. Это настроит и установит Valet и DnsMasq, а также зарегистрирует демон Valet для запуска при запуске Вашей системы.
 </div>
 
-Once Valet is installed, try pinging any `*.test` domain on your terminal using a command such as `ping foobar.test`. If Valet is installed correctly you should see this domain responding on `127.0.0.1`.
+После установки Valet попробуйте выполнить пинг любого домена `*.test` а Вашем терминале с помощью такой команды, как `ping foobar.test`. Если Valet установлен правильно, Вы должны увидеть, что этот домен отвечает на `127.0.0.1`.
 
-Valet will automatically start its daemon each time your machine boots. There is no need to run `valet start` or `valet install` ever again once the initial Valet installation is complete.
+Valet автоматически запускает своего демона при каждой загрузке Вашей машины. После завершения первоначальной установки Valet больше не нужно запускать `valet start` или `valet install`.
 
 <a name="database"></a>
-#### Database
+#### База данных
 
-If you need a database, try MySQL by running `brew install mysql@5.7` on your command line. Once MySQL has been installed, you may start it using the `brew services start mysql@5.7` command. You can then connect to the database at `127.0.0.1` using the `root` username and an empty string for the password.
+Если Вам нужна база данных, попробуйте MySQL, запустив `brew install mysql@5.7` в командной строке. После установки MySQL Вы можете запустить его с помощью команды `brew services start mysql@5.7`. Затем Вы можете подключиться к базе данных по адресу `127.0.0.1`, используя имя пользователя `root` и пустую строку в качестве пароля.
 
 <a name="php-versions"></a>
-#### PHP Versions
+#### Версии PHP
 
-Valet allows you to switch PHP versions using the `valet use php@version` command. Valet will install the specified PHP version via Brew if it is not already installed:
+Valet позволяет переключать версии PHP с помощью команды `valet use php@version`. Valet установит указанную версию PHP через Brew, если она еще не установлена:
 
     valet use php@7.2
 
     valet use php
 
-> {note} Valet only serves one PHP version at a time, even if you have multiple PHP versions installed.
+> {note} Valet обслуживает только одну версию PHP за раз, даже если у Вас установлено несколько версий PHP.
 
 <a name="resetting-your-installation"></a>
-#### Resetting Your Installation
+#### Сброс Вашей установки
 
-If you are having trouble getting your Valet installation to run properly, executing the `composer global update` command followed by `valet install` will reset your installation and can solve a variety of problems. In rare cases it may be necessary to "hard reset" Valet by executing `valet uninstall --force` followed by `valet install`.
+Если у Вас возникли проблемы с правильной работой установки Valet, выполнение команды `composer global update`, за которой следует `valet install`, сбросит Вашу установку и может решить множество проблем. В редких случаях может потребоваться «полный сброс» Valet, выполнив `valet uninstall --force`, а затем `valet install`.
 
 <a name="upgrading"></a>
-### Upgrading
+### Обновление
 
-You may update your Valet installation using the `composer global update` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
+Вы можете обновить установку Valet с помощью команды `composer global update` в Вашем терминале. После обновления рекомендуется запустить команду `valet install`, чтобы Valet мог при необходимости выполнить дополнительные обновления Ваших файлов конфигурации.
 
 <a name="serving-sites"></a>
-## Serving Sites
+## Обслуживание сайтов
 
-Once Valet is installed, you're ready to start serving sites. Valet provides two commands to help you serve your Laravel sites: `park` and `link`.
+После установки Valet Вы готовы приступить к обслуживанию сайтов. Valet предоставляет две команды, которые помогут Вам обслуживать Ваши сайты Laravel: `park` и `link`.
 
 <a name="the-park-command"></a>
-#### The `park` Command
+#### Команда `park`
 
 <div class="content-list" markdown="1">
-- Create a new directory on your Mac by running something like `mkdir ~/Sites`. Next, `cd ~/Sites` and run `valet park`. This command will register your current working directory as a path that Valet should search for sites.
-- Next, create a new Laravel site within this directory: `laravel new blog`.
-- Open `http://blog.test` in your browser.
+- Создайте новый каталог на Вашем Mac, запустив что-то вроде `mkdir ~/Sites`. Далее, `cd ~/Sites` и запускаем `valet park`. Эта команда зарегистрирует Ваш текущий рабочий каталог как путь, по которому Valet должен искать сайты.
+- Затем создайте новый сайт Laravel в этом каталоге: `laravel new blog`.
+- Откройте в браузере `http://blog.test`.
 </div>
 
-**That's all there is to it.** Now, any Laravel project you create within your "parked" directory will automatically be served using the `http://folder-name.test` convention.
+**Вот и все.** Теперь любой проект Laravel, который Вы создаете в своем «припаркованном» каталоге, будет автоматически обслуживаться с использованием соглашения `http://folder-name.test`.
 
 <a name="the-link-command"></a>
-#### The `link` Command
+#### Команда `link`
 
-The `link` command may also be used to serve your Laravel sites. This command is useful if you want to serve a single site in a directory and not the entire directory.
+Команду `link` также можно использовать для обслуживания Ваших сайтов Laravel. Эта команда полезна, если Вы хотите обслуживать один сайт в каталоге, а не весь каталог.
 
 <div class="content-list" markdown="1">
-- To use the command, navigate to one of your projects and run `valet link app-name` in your terminal. Valet will create a symbolic link in `~/.config/valet/Sites` which points to your current working directory.
-- After running the `link` command, you can access the site in your browser at `http://app-name.test`.
+- Чтобы использовать команду, перейдите к одному из Ваших проектов и запустите `valet link app-name` в Вашем терминале. Valet создаст символическую ссылку в `~/.config/valet/Sites`, которая указывает на Ваш текущий рабочий каталог.
+- После выполнения команды `link` Вы можете получить доступ к сайту в своем браузере по адресу `http://app-name.test`.
 </div>
 
-To see a listing of all of your linked directories, run the `valet links` command. You may use `valet unlink app-name` to destroy the symbolic link.
+Чтобы увидеть список всех Ваших связанных каталогов, выполните команду `valet links`. Вы можете использовать `valet unlink app-name`, чтобы уничтожить символическую ссылку.
 
-> {tip} You can use `valet link` to serve the same project from multiple (sub)domains. To add a subdomain or another domain to your project run `valet link subdomain.app-name` from the project folder.
+> {tip} Вы можете использовать `valet link` для обслуживания одного и того же проекта из нескольких (под) доменов. Чтобы добавить поддомен или другой домен к Вашему проекту, запустите `valet link subdomain.app-name` из папки проекта.
 
 <a name="securing-sites"></a>
-#### Securing Sites With TLS
+#### Защита сайтов с помощью TLS
 
-By default, Valet serves sites over plain HTTP. However, if you would like to serve a site over encrypted TLS using HTTP/2, use the `secure` command. For example, if your site is being served by Valet on the `laravel.test` domain, you should run the following command to secure it:
+По умолчанию Valet обслуживает сайты по обычному протоколу HTTP. Однако, если Вы хотите обслуживать сайт через зашифрованный TLS с использованием HTTP/2, используйте команду `secure`. Например, если Ваш сайт обслуживается Valet в домене `laravel.test`, Вы должны выполнить следующую команду, чтобы защитить его:
 
     valet secure laravel
 
-To "unsecure" a site and revert back to serving its traffic over plain HTTP, use the `unsecure` command. Like the `secure` command, this command accepts the host name that you wish to unsecure:
+Чтобы "снять защиту" с сайта и вернуться к обслуживанию его трафика по обычному протоколу HTTP, используйте команду `unsecure`. Как и команда `secure`, эта команда принимает имя хоста, который Вы хотите снять с защиты:
 
     valet unsecure laravel
 
 <a name="sharing-sites"></a>
-## Sharing Sites
+## Совместное использование сайтов
 
-Valet even includes a command to share your local sites with the world, providing an easy way to test your site on mobile devices or share it with team members and clients. No additional software installation is required once Valet is installed.
+Valet даже включает команду для предоставления доступа к Вашим локальным сайтам всему миру, предоставляя простой способ протестировать Ваш сайт на мобильных устройствах или поделиться им с членами команды и клиентами. После установки Valet установка дополнительного программного обеспечения не требуется.
 
 <a name="sharing-sites-via-ngrok"></a>
-### Sharing Sites Via Ngrok
+### Совместное использование сайтов через Ngrok
 
-To share a site, navigate to the site's directory in your terminal and run the `valet share` command. A publicly accessible URL will be inserted into your clipboard and is ready to paste directly into your browser or share with your team.
+Чтобы поделиться сайтом, перейдите в каталог сайта в Вашем терминале и выполните команду `valet share`. Общедоступный URL-адрес будет вставлен в Ваш буфер обмена, и его можно будет вставить прямо в Ваш браузер или поделиться с Вашей командой.
 
-To stop sharing your site, hit `Control + C` to cancel the process.
+Чтобы прекратить совместное использование Вашего сайта, нажмите `Control + C`, чтобы отменить процесс.
 
-> {tip} You may pass additional parameters to the share command, such as `valet share --region=eu`. For more information, consult the [ngrok documentation](https://ngrok.com/docs).
+> {tip} Вы можете передать дополнительные параметры команде share, например, `valet share --region=eu`. Для получения дополнительной информации обратитесь к [документации ngrok](https://ngrok.com/docs).
 
 <a name="sharing-sites-via-expose"></a>
-### Sharing Sites Via Expose
+### Совместное использование сайтов через Expose
 
-If you have [Expose](https://beyondco.de/docs/expose) installed, you can share your site by navigating to the site's directory in your terminal and running the `expose` command. Consult the expose documentation for additional command-line parameters it supports. After sharing the site, Expose will display the sharable URL that you may use on your other devices or amongst team members.
+Если у Вас установлен [Expose](https://beyondco.de/docs/expose) Вы можете поделиться своим сайтом, перейдя в каталог сайта в Вашем терминале и запустив команду `expose`. Обратитесь к документации expose, чтобы узнать о дополнительных параметрах командной строки, которые она поддерживает. После публикации сайта Expose отобразит URL-адрес, который Вы можете использовать на других своих устройствах или среди членов команды.
 
-To stop sharing your site, hit `Control + C` to cancel the process.
+Чтобы прекратить совместное использование Вашего сайта, нажмите `Control + C`, чтобы отменить процесс.
 
 <a name="sharing-sites-on-your-local-network"></a>
-### Sharing Sites On Your Local Network
+### Совместное использование сайтов в Вашей локальной сети
 
-Valet restricts incoming traffic to the internal `127.0.0.1` interface by default. This way your development machine isn't exposed to security risks from the Internet.
+По умолчанию Valet ограничивает входящий трафик внутренним интерфейсом `127.0.0.1`. Таким образом, Ваша машина разработки не подвергается угрозам безопасности из Интернета.
 
-If you wish to allow other devices on your local network to access the Valet sites on your machine via your machine's IP address (eg: `192.168.1.10/app-name.test`), you will need to manually edit the appropriate Nginx configuration file for that site to remove the restriction on the `listen` directive by removing the `127.0.0.1:` prefix on the directive for ports 80 and 443.
+Если Вы хотите разрешить другим устройствам в Вашей локальной сети доступ к сайтам Valet на Вашем компьютере через IP-адрес Вашего компьютера (например: `192.168.1.10/app-name.test`), Вам необходимо вручную отредактировать соответствующую конфигурацию Nginx для этого сайта, чтобы снять ограничение на директиву `listen`, удалив префикс `127.0.0.1:` в директиве для портов 80 и 443.
 
-If you have not run `valet secure` on the project, you can open up network access for all non-HTTPS sites by editing the `/usr/local/etc/nginx/valet/valet.conf` file. However, if you're serving the project site over HTTPS (you have run `valet secure` for the site) then you should edit the `~/.config/valet/Nginx/app-name.test` file.
+Если Вы не запускали `valet secure` в проекте, Вы можете открыть сетевой доступ для всех сайтов, не поддерживающих HTTPS, отредактировав файл `/usr/local/etc/nginx/valet/valet.conf`. Однако, если Вы обслуживаете сайт проекта через HTTPS (Вы запустили `valet secure` для сайта), Вам следует отредактировать файл `~/.config/valet/Nginx/app-name.test`.
 
-Once you have updated your Nginx configuration, run the `valet restart` command to apply the configuration changes.
+После обновления конфигурации Nginx запустите команду `valet restart`, чтобы применить изменения конфигурации.
 
 <a name="site-specific-environment-variables"></a>
-## Site Specific Environment Variables
+## Переменные среды для конкретного сайта
 
-Some applications using other frameworks may depend on server environment variables but do not provide a way for those variables to be configured within your project. Valet allows you to configure site specific environment variables by adding a `.valet-env.php` file within the root of your project. These variables will be added to the `$_SERVER` global array:
+Некоторые приложения, использующие другие платформы, могут зависеть от переменных среды сервера, но не позволяют настраивать эти переменные в Вашем проекте. Valet позволяет Вам настраивать переменные среды для конкретных сайтов, добавляя файл `.valet-env.php` в корень Вашего проекта. Эти переменные будут добавлены в глобальный массив `$_SERVER`:
 
     <?php
 
-    // Set $_SERVER['key'] to "value" for the foo.test site...
+    // Установите для $_SERVER['key'] значение "value" для сайта foo.test...
     return [
         'foo' => [
             'key' => 'value',
         ],
     ];
 
-    // Set $_SERVER['key'] to "value" for all sites...
+    // Установите для $_SERVER['key'] значение "value" для всех сайтов...
     return [
         '*' => [
             'key' => 'value',
@@ -208,42 +208,42 @@ Some applications using other frameworks may depend on server environment variab
     ];
 
 <a name="proxying-services"></a>
-## Proxying Services
+## Прокси-услуги
 
-Sometimes you may wish to proxy a Valet domain to another service on your local machine. For example, you may occasionally need to run Valet while also running a separate site in Docker; however, Valet and Docker can't both bind to port 80 at the same time.
+Иногда Вам может потребоваться прокси-домен Valet для другой службы на Вашем локальном компьютере. Например, иногда Вам может потребоваться запустить Valet при одновременном запуске отдельного сайта в Docker; однако Valet и Docker не могут одновременно подключаться к порту 80.
 
-To solve this, you may use the `proxy` command to generate a proxy. For example, you may proxy all traffic from `http://elasticsearch.test` to `http://127.0.0.1:9200`:
+Чтобы решить эту проблему, Вы можете использовать команду `proxy` для создания прокси. Например, Вы можете проксировать весь трафик с `http://elasticsearch.test` на `http://127.0.0.1:9200`:
 
     valet proxy elasticsearch http://127.0.0.1:9200
 
-You may remove a proxy using the `unproxy` command:
+Вы можете удалить прокси с помощью команды `unproxy`:
 
     valet unproxy elasticsearch
 
-You may use the `proxies` command to list all site configuration that are proxied:
+Вы можете использовать команду `proxies`, чтобы вывести список всех конфигураций сайта, которые проксируются:
 
     valet proxies
 
 <a name="custom-valet-drivers"></a>
-## Custom Valet Drivers
+## Пользовательские драйверы Valet
 
-You can write your own Valet "driver" to serve PHP applications running on another framework or CMS that is not natively supported by Valet. When you install Valet, a `~/.config/valet/Drivers` directory is created which contains a `SampleValetDriver.php` file. This file contains a sample driver implementation to demonstrate how to write a custom driver. Writing a driver only requires you to implement three methods: `serves`, `isStaticFile`, and `frontControllerPath`.
+Вы можете написать свой собственный «драйвер» Valet для обслуживания приложений PHP, работающих на другой платформе или CMS, которые изначально не поддерживаются Valet. Когда Вы устанавливаете Valet, создается каталог `~/.config/valet/Drivers`, содержащий файл `SampleValetDriver.php`. Этот файл содержит образец реализации драйвера, демонстрирующий, как написать собственный драйвер. Для написания драйвера необходимо реализовать только три метода: `serves`, `isStaticFile` и `frontControllerPath`.
 
-All three methods receive the `$sitePath`, `$siteName`, and `$uri` values as their arguments. The `$sitePath` is the fully qualified path to the site being served on your machine, such as `/Users/Lisa/Sites/my-project`. The `$siteName` is the "host" / "site name" portion of the domain (`my-project`). The `$uri` is the incoming request URI (`/foo/bar`).
+Все три метода получают в качестве аргументов значения `$sitePath`, `$siteName` и `$uri`. `$sitePath` - это полный путь к сайту, обслуживаемому на Вашем компьютере, например, `/Users/Lisa/Sites/my-project`. `$siteName` - это часть домена "хост"/"имя сайта" (`my-project`). `$uri` - это URI входящего запроса (`/foo/bar`).
 
-Once you have completed your custom Valet driver, place it in the `~/.config/valet/Drivers` directory using the `FrameworkValetDriver.php` naming convention. For example, if you are writing a custom valet driver for WordPress, your file name should be `WordPressValetDriver.php`.
+После того, как Вы закончите свой собственный драйвер Valet, поместите его в каталог `~/.config/valet/Drivers`, используя соглашение об именах `FrameworkValetDriver.php`. Например, если Вы пишете специальный драйвер для WordPress, имя Вашего файла должно быть `WordPressValetDriver.php`.
 
-Let's take a look at a sample implementation of each method your custom Valet driver should implement.
+Давайте рассмотрим пример реализации каждого метода, который должен реализовать Ваш пользовательский драйвер Valet.
 
 <a name="the-serves-method"></a>
-#### The `serves` Method
+#### Метод `serves`
 
-The `serves` method should return `true` if your driver should handle the incoming request. Otherwise, the method should return `false`. So, within this method you should attempt to determine if the given `$sitePath` contains a project of the type you are trying to serve.
+Метод `serves` должен возвращать `true` если Ваш драйвер должен обрабатывать входящий запрос. В противном случае метод должен вернуть `false`. Итак, в рамках этого метода Вы должны попытаться определить, содержит ли данный `$sitePath` проект того типа, который Вы пытаетесь обслуживать.
 
-For example, let's pretend we are writing a `WordPressValetDriver`. Our `serves` method might look something like this:
+Например, представим, что мы пишем `WordPressValetDriver`. Наш метод `serves` может выглядеть примерно так:
 
     /**
-     * Determine if the driver serves the request.
+     * Определить, обслуживает ли драйвер запрос.
      *
      * @param  string  $sitePath
      * @param  string  $siteName
@@ -256,12 +256,12 @@ For example, let's pretend we are writing a `WordPressValetDriver`. Our `serves`
     }
 
 <a name="the-isstaticfile-method"></a>
-#### The `isStaticFile` Method
+#### Метод `isStaticFile`
 
-The `isStaticFile` should determine if the incoming request is for a file that is "static", such as an image or a stylesheet. If the file is static, the method should return the fully qualified path to the static file on disk. If the incoming request is not for a static file, the method should return `false`:
+`isStaticFile` должен определять, относится ли входящий запрос к файлу, который является «статическим», таким как изображение или таблица стилей. Если файл статический, метод должен вернуть полный путь к статическому файлу на диске. Если входящий запрос не для статического файла, метод должен вернуть `false`:
 
     /**
-     * Determine if the incoming request is for a static file.
+     * Определить, относится ли входящий запрос к статическому файлу.
      *
      * @param  string  $sitePath
      * @param  string  $siteName
@@ -277,15 +277,15 @@ The `isStaticFile` should determine if the incoming request is for a file that i
         return false;
     }
 
-> {note} The `isStaticFile` method will only be called if the `serves` method returns `true` for the incoming request and the request URI is not `/`.
+> {note} Метод `isStaticFile` будет вызываться только в том случае, если метод `serves` возвращает `true` для входящего запроса, а URI запроса не равен `/`.
 
 <a name="the-frontcontrollerpath-method"></a>
-#### The `frontControllerPath` Method
+#### Метод `frontControllerPath`
 
-The `frontControllerPath` method should return the fully qualified path to your application's "front controller", which is typically your "index.php" file or equivalent:
+Метод `frontControllerPath` должен возвращать полный путь к «фронт-контроллеру» Вашего приложения, которым обычно является Ваш файл «index.php» или его эквивалент:
 
     /**
-     * Get the fully resolved path to the application's front controller.
+     * Получить полностью разрешенный путь к фронт-контроллеру приложения.
      *
      * @param  string  $sitePath
      * @param  string  $siteName
@@ -298,14 +298,14 @@ The `frontControllerPath` method should return the fully qualified path to your 
     }
 
 <a name="local-drivers"></a>
-### Local Drivers
+### Локальные драйверы
 
-If you would like to define a custom Valet driver for a single application, create a `LocalValetDriver.php` in the application's root directory. Your custom driver may extend the base `ValetDriver` class or extend an existing application specific driver such as the `LaravelValetDriver`:
+Если Вы хотите определить собственный драйвер Valet для одного приложения, создайте `LocalValetDriver.php` в корневом каталоге приложения. Ваш собственный драйвер может расширять базовый класс `ValetDriver` или расширять существующий драйвер для конкретного приложения, такой как `LaravelValetDriver`:
 
     class LocalValetDriver extends LaravelValetDriver
     {
         /**
-         * Determine if the driver serves the request.
+         * Определите, обслуживает ли драйвер запрос.
          *
          * @param  string  $sitePath
          * @param  string  $siteName
@@ -318,7 +318,7 @@ If you would like to define a custom Valet driver for a single application, crea
         }
 
         /**
-         * Get the fully resolved path to the application's front controller.
+         * Получить полностью разрешенный путь к фронт-контроллеру приложения.
          *
          * @param  string  $sitePath
          * @param  string  $siteName
@@ -332,38 +332,38 @@ If you would like to define a custom Valet driver for a single application, crea
     }
 
 <a name="other-valet-commands"></a>
-## Other Valet Commands
+## Другие Valet команды
 
-Command  | Description
+Команда       | Описание
 ------------- | -------------
-`valet forget` | Run this command from a "parked" directory to remove it from the parked directory list.
-`valet log` | View a list of logs which are written by Valet's services.
-`valet paths` | View all of your "parked" paths.
-`valet restart` | Restart the Valet daemon.
-`valet start` | Start the Valet daemon.
-`valet stop` | Stop the Valet daemon.
-`valet trust` | Add sudoers files for Brew and Valet to allow Valet commands to be run without prompting for passwords.
-`valet uninstall` | Uninstall Valet: Shows instructions for manual uninstall; or pass the `--force` parameter to aggressively delete all of Valet.
+`valet forget` | Выполните эту команду из «припаркованного» каталога, чтобы удалить его из списка припаркованных каталогов.
+`valet log` | Просмотреть список логов, которые ведутся службами Valet.
+`valet paths` | Просмотреть все свои «припаркованные» пути.
+`valet restart` | Перезапустить демон Valet.
+`valet start` | Запустить демон Valet.
+`valet stop` | Остановить демон Valet.
+`valet trust` | Добавить файлы sudoers для Brew и Valet, чтобы команды Valet могли запускаться без запроса паролей.
+`valet uninstall` | Удалить Valet: Показывает инструкции по удалению вручную; или передайте параметр `--force`, чтобы агрессивно удалить все Valet.
 
 <a name="valet-directories-and-files"></a>
-## Valet Directories & Files
+## Каталоги и файлы Valet
 
-You may find the following directory and file information helpful while troubleshooting issues with your Valet environment:
+Следующая информация о каталогах и файлах может оказаться полезной при устранении неполадок в среде Valet:
 
-File / Path | Description
---------- | -----------
-`~/.config/valet/` | Contains all of Valet's configuration. You may wish to maintain a backup of this folder.
-`~/.config/valet/dnsmasq.d/` | Contains DNSMasq's configuration.
-`~/.config/valet/Drivers/` | Contains custom Valet drivers.
-`~/.config/valet/Extensions/` | Contains custom Valet extensions / commands.
-`~/.config/valet/Nginx/` | Contains all Valet generated Nginx site configurations. These files are rebuilt when running the `install`, `secure`, and `tld` commands.
-`~/.config/valet/Sites/` | Contains all symbolic links for linked projects.
-`~/.config/valet/config.json` | Valet's master configuration file
-`~/.config/valet/valet.sock` | The PHP-FPM socket used by Valet's Nginx configuration. This will only exist if PHP is running properly.
-`~/.config/valet/Log/fpm-php.www.log` | User log for PHP errors.
-`~/.config/valet/Log/nginx-error.log` | User log for Nginx errors.
-`/usr/local/var/log/php-fpm.log` | System log for PHP-FPM errors.
-`/usr/local/var/log/nginx` | Contains Nginx access and error logs.
-`/usr/local/etc/php/X.X/conf.d` | Contains `*.ini` files for various PHP configuration settings.
-`/usr/local/etc/php/X.X/php-fpm.d/valet-fpm.conf` | PHP-FPM pool configuration file.
-`~/.composer/vendor/laravel/valet/cli/stubs/secure.valet.conf` | The default Nginx configuration used for building site certificates.
+Файл / Путь | Описание
+----------- | -----------
+`~/.config/valet/` | Содержит всю конфигурацию Valet. Вы можете сохранить резервную копию этой папки.
+`~/.config/valet/dnsmasq.d/` | Содержит конфигурацию DNSMasq.
+`~/.config/valet/Drivers/` | Содержит настраиваемые драйверы Valet.
+`~/.config/valet/Extensions/` | Содержит настраиваемые расширения / команды Valet.
+`~/.config/valet/Nginx/` | Содержит все конфигурации сайта Nginx, созданные Valet. Эти файлы перестраиваются при запуске команд `install`, `secure` и `tld`.
+`~/.config/valet/Sites/` | Содержит все символические ссылки для связанных проектов.
+`~/.config/valet/config.json` | Главный файл конфигурации Valet.
+`~/.config/valet/valet.sock` | Сокет PHP-FPM, используемый конфигурацией Valet Nginx. Это будет существовать только в том случае, если PHP работает правильно.
+`~/.config/valet/Log/fpm-php.www.log` | Пользовательский журнал ошибок PHP.
+`~/.config/valet/Log/nginx-error.log` | Пользовательский журнал ошибок Nginx.
+`/usr/local/var/log/php-fpm.log` | Системный журнал ошибок PHP-FPM.
+`/usr/local/var/log/nginx` | Содержит журналы доступа и ошибок Nginx.
+`/usr/local/etc/php/X.X/conf.d` | Содержит файлы `*.ini` для различных настроек конфигурации PHP.
+`/usr/local/etc/php/X.X/php-fpm.d/valet-fpm.conf` | Файл конфигурации пула PHP-FPM.
+`~/.composer/vendor/laravel/valet/cli/stubs/secure.valet.conf` | Конфигурация Nginx по умолчанию, используемая для создания сертификатов сайта.
