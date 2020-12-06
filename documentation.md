@@ -9,12 +9,12 @@
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
     - [Деплой](/docs/{{version}}/deployment)
-- ## Architecture Concepts
-    - [Request Lifecycle](/docs/{{version}}/lifecycle)
-    - [Service Container](/docs/{{version}}/container)
-    - [Service Providers](/docs/{{version}}/providers)
-    - [Facades](/docs/{{version}}/facades)
-    - [Contracts](/docs/{{version}}/contracts)
+- ## Архитектурные концепции
+    - [Жизненный цикл запроса](/docs/{{version}}/lifecycle)
+    - [Сервис Контейнер](/docs/{{version}}/container)
+    - [Сервис Провайдер](/docs/{{version}}/providers)
+    - [Фасады](/docs/{{version}}/facades)
+    - [Контракты](/docs/{{version}}/contracts)
 - ## The Basics
     - [Routing](/docs/{{version}}/routing)
     - [Middleware](/docs/{{version}}/middleware)

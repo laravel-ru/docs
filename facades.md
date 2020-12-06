@@ -1,19 +1,19 @@
-# Facades
+# Фасады
 
-- [Introduction](#introduction)
-- [When To Use Facades](#when-to-use-facades)
-    - [Facades Vs. Dependency Injection](#facades-vs-dependency-injection)
-    - [Facades Vs. Helper Functions](#facades-vs-helper-functions)
-- [How Facades Work](#how-facades-work)
-- [Real-Time Facades](#real-time-facades)
-- [Facade Class Reference](#facade-class-reference)
+- [Введение](#introduction)
+- [Когда использовать фасады](#when-to-use-facades)
+    - [Фасады против Внедрения зависимостей](#facades-vs-dependency-injection)
+    - [Фасады против Вспомогательных функций](#facades-vs-helper-functions)
+- [Как работают фасады](#how-facades-work)
+- [Фасады в реальном времени](#real-time-facades)
+- [Справочник классов фасадов](#facade-class-reference)
 
 <a name="introduction"></a>
-## Introduction
+## Введение
 
-Facades provide a "static" interface to classes that are available in the application's [service container](/docs/{{version}}/container). Laravel ships with many facades which provide access to almost all of Laravel's features. Laravel facades serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.
+Фасады предоставляют «статический» интерфейс для классов, которые доступны в [сервисном контейнере приложения](/docs/{{version}}/container). Laravel поставляется с множеством фасадов, которые обеспечивают доступ почти ко всем функциям Laravel. Фасады Laravel служат «статическими прокси» для базовых классов в сервисном контейнере, обеспечивая преимущества краткого выразительного синтаксиса при сохранении большей тестируемости и гибкости, чем традиционные статические методы.
 
-All of Laravel's facades are defined in the `Illuminate\Support\Facades` namespace. So, we can easily access a facade like so:
+Все фасады Laravel определены в пространстве имён `Illuminate\Support\Facades`. Итак, мы можем легко получить доступ к такому фасаду:
 
     use Illuminate\Support\Facades\Cache;
 
@@ -21,23 +21,23 @@ All of Laravel's facades are defined in the `Illuminate\Support\Facades` namespa
         return Cache::get('key');
     });
 
-Throughout the Laravel documentation, many of the examples will use facades to demonstrate various features of the framework.
+В документации Laravel во многих примерах будут использоваться фасады для демонстрации различных функций фреймворка.
 
 <a name="when-to-use-facades"></a>
-## When To Use Facades
+## Когда использовать фасады
 
-Facades have many benefits. They provide a terse, memorable syntax that allows you to use Laravel's features without remembering long class names that must be injected or configured manually. Furthermore, because of their unique usage of PHP's dynamic methods, they are easy to test.
+У фасадов много преимуществ. Они предоставляют краткий, запоминающийся синтаксис, который позволяет Вам использовать функции Laravel, не запоминая длинные имена классов, которые необходимо вводить или настраивать вручную. Более того, благодаря уникальному использованию динамических методов PHP их легко протестировать.
 
-However, some care must be taken when using facades. The primary danger of facades is class scope creep. Since facades are so easy to use and do not require injection, it can be easy to let your classes continue to grow and use many facades in a single class. Using dependency injection, this potential is mitigated by the visual feedback a large constructor gives you that your class is growing too large. So, when using facades, pay special attention to the size of your class so that its scope of responsibility stays narrow.
+Однако при использовании фасадов необходимо соблюдать некоторую осторожность. Основная опасность фасадов - это расползание класса. Поскольку фасады настолько просты в использовании и не требуют инъекций, можно легко позволить Вашим классам продолжать расти и использовать множество фасадов в одном классе. При использовании внедрения зависимостей этот потенциал снижается за счет визуальной обратной связи, которую дает большой конструктор, что Ваш класс становится слишком большим. Итак, при использовании фасадов обратите особое внимание на размер вашего класса, чтобы объем его ответственности оставался узким.
 
-> {tip} When building a third-party package that interacts with Laravel, it's better to inject [Laravel contracts](/docs/{{version}}/contracts) instead of using facades. Since packages are built outside of Laravel itself, you will not have access to Laravel's facade testing helpers.
+> {tip} При создании стороннего пакета, который взаимодействует с Laravel, лучше внедрить [контракты Laravel](/docs/{{version}}/contracts) вместо использования фасадов. Поскольку пакеты создаются вне самого Laravel, у Вас не будет доступа к помощникам Laravel по тестированию фасадов.
 
 <a name="facades-vs-dependency-injection"></a>
-### Facades Vs. Dependency Injection
+### Фасады против Внедрения зависимостей
 
-One of the primary benefits of dependency injection is the ability to swap implementations of the injected class. This is useful during testing since you can inject a mock or stub and assert that various methods were called on the stub.
+Одним из основных преимуществ внедрения зависимостей является возможность поменять местами реализации внедренного класса. Это полезно во время тестирования, так как Вы можете вставить имитацию или заглушку и утверждать, что для заглушки были вызваны различные методы.
 
-Typically, it would not be possible to mock or stub a truly static class method. However, since facades use dynamic methods to proxy method calls to objects resolved from the service container, we actually can test facades just as we would test an injected class instance. For example, given the following route:
+Как правило, невозможно издеваться над действительно статическим методом класса или заглушить его. Однако, поскольку фасады используют динамические методы для проксирования вызовов методов к объектам, разрешенным из контейнера службы, мы фактически можем тестировать фасады так же, как мы тестировали бы внедренный экземпляр класса. Например, учитывая следующий маршрут:
 
     use Illuminate\Support\Facades\Cache;
 
@@ -45,12 +45,12 @@ Typically, it would not be possible to mock or stub a truly static class method.
         return Cache::get('key');
     });
 
-We can write the following test to verify that the `Cache::get` method was called with the argument we expected:
+Мы можем написать следующий тест, чтобы убедиться, что метод `Cache::get` был вызван с ожидаемым аргументом:
 
     use Illuminate\Support\Facades\Cache;
 
     /**
-     * A basic functional test example.
+     * Пример базового функционального теста.
      *
      * @return void
      */
@@ -66,26 +66,26 @@ We can write the following test to verify that the `Cache::get` method was calle
     }
 
 <a name="facades-vs-helper-functions"></a>
-### Facades Vs. Helper Functions
+### Фасады против Вспомогательных функций
 
-In addition to facades, Laravel includes a variety of "helper" functions which can perform common tasks like generating views, firing events, dispatching jobs, or sending HTTP responses. Many of these helper functions perform the same function as a corresponding facade. For example, this facade call and helper call are equivalent:
+Помимо фасадов, Laravel включает в себя множество «вспомогательных» функций, которые могут выполнять общие задачи, такие как создание представлений, запуск событий, диспетчеризация заданий или отправка HTTP-ответов. Многие из этих вспомогательных функций выполняют ту же функцию, что и соответствующий фасад. Например, этот вызов фасада и вызов помощника эквивалентны:
 
     return View::make('profile');
 
     return view('profile');
 
-There is absolutely no practical difference between facades and helper functions. When using helper functions, you may still test them exactly as you would the corresponding facade. For example, given the following route:
+Практической разницы между фасадами и вспомогательными функциями нет абсолютно никакой. При использовании вспомогательных функций Вы все равно можете тестировать их точно так же, как и соответствующий фасад. Например, учитывая следующий маршрут:
 
     Route::get('/cache', function () {
         return cache('key');
     });
 
-Under the hood, the `cache` helper is going to call the `get` method on the class underlying the `Cache` facade. So, even though we are using the helper function, we can write the following test to verify that the method was called with the argument we expected:
+Под капотом помощник `cache` будет вызывать метод `get` класса, лежащего в основе фасада `Cache`. Итак, даже если мы используем вспомогательную функцию, мы можем написать следующий тест, чтобы убедиться, что метод был вызван с ожидаемым аргументом:
 
     use Illuminate\Support\Facades\Cache;
 
     /**
-     * A basic functional test example.
+     * Пример базового функционального теста.
      *
      * @return void
      */
@@ -101,11 +101,11 @@ Under the hood, the `cache` helper is going to call the `get` method on the clas
     }
 
 <a name="how-facades-work"></a>
-## How Facades Work
+## Как работают фасады
 
-In a Laravel application, a facade is a class that provides access to an object from the container. The machinery that makes this work is in the `Facade` class. Laravel's facades, and any custom facades you create, will extend the base `Illuminate\Support\Facades\Facade` class.
+В приложении Laravel фасад - это класс, который предоставляет доступ к объекту из контейнера. Техника, которая выполняет эту работу, относится к классу `Facade`. Фасады Laravel и любые пользовательские фасады, которые Вы создаете, будут расширять базовый класс `Illuminate\Support\Facades\Facade`.
 
-The `Facade` base class makes use of the `__callStatic()` magic-method to defer calls from your facade to an object resolved from the container. In the example below, a call is made to the Laravel cache system. By glancing at this code, one might assume that the static method `get` is being called on the `Cache` class:
+Базовый класс `Facade` использует магический метод `__callStatic()`, чтобы отложить вызовы Вашего фасада на объект, разрешенный из контейнера. В приведенном ниже примере выполняется вызов кэш-системы Laravel. Взглянув на этот код, можно предположить, что статический метод `get` вызывается в классе `Cache`:
 
     <?php
 
@@ -117,7 +117,7 @@ The `Facade` base class makes use of the `__callStatic()` magic-method to defer 
     class UserController extends Controller
     {
         /**
-         * Show the profile for the given user.
+         * Показать профиль данного пользователя.
          *
          * @param  int  $id
          * @return Response
@@ -130,26 +130,26 @@ The `Facade` base class makes use of the `__callStatic()` magic-method to defer 
         }
     }
 
-Notice that near the top of the file we are "importing" the `Cache` facade. This facade serves as a proxy to accessing the underlying implementation of the `Illuminate\Contracts\Cache\Factory` interface. Any calls we make using the facade will be passed to the underlying instance of Laravel's cache service.
+Обратите внимание, что в верхней части файла мы «импортируем» фасад `Cache`. Этот фасад служит прокси для доступа к базовой реализации интерфейса `Illuminate\Contracts\Cache\Factory`. Любые вызовы, которые мы делаем с использованием фасада, будут передаваться в базовый экземпляр службы кеширования Laravel.
 
-If we look at that `Illuminate\Support\Facades\Cache` class, you'll see that there is no static method `get`:
+Если мы посмотрим на этот класс `Illuminate\Support\Facades\Cache`, Вы увидите, что статического метода `get` не существует:
 
     class Cache extends Facade
     {
         /**
-         * Get the registered name of the component.
+         * Получите зарегистрированное имя компонента.
          *
          * @return string
          */
         protected static function getFacadeAccessor() { return 'cache'; }
     }
 
-Instead, the `Cache` facade extends the base `Facade` class and defines the method `getFacadeAccessor()`. This method's job is to return the name of a service container binding. When a user references any static method on the `Cache` facade, Laravel resolves the `cache` binding from the [service container](/docs/{{version}}/container) and runs the requested method (in this case, `get`) against that object.
+Вместо этого фасад `Cache` расширяет базовый класс `Facade` и определяет метод `getFacadeAccessor()`. Задача этого метода - вернуть имя привязки контейнера службы. Когда пользователь ссылается на любой статический метод на фасаде `Cache`, Laravel разрешает привязку `cache` из [сервис контейнера](/docs/{{version}}/container) и запускает запрошенный метод (в данном случае `get`) против этого объекта.
 
 <a name="real-time-facades"></a>
-## Real-Time Facades
+## Фасады в реальном времени
 
-Using real-time facades, you may treat any class in your application as if it were a facade. To illustrate how this can be used, let's examine an alternative. For example, let's assume our `Podcast` model has a `publish` method. However, in order to publish the podcast, we need to inject a `Publisher` instance:
+Используя фасады в реальном времени, Вы можете рассматривать любой класс в своем приложении, как если бы он был фасадом. Чтобы проиллюстрировать, как это можно использовать, давайте рассмотрим альтернативу. Например, предположим, что наша модель `Podcast` имеет метод `publish`. Однако, чтобы опубликовать подкаст, нам нужно внедрить экземпляр `Publisher`:
 
     <?php
 
@@ -161,7 +161,7 @@ Using real-time facades, you may treat any class in your application as if it we
     class Podcast extends Model
     {
         /**
-         * Publish the podcast.
+         * Публикация подкаста.
          *
          * @param  Publisher  $publisher
          * @return void
@@ -174,7 +174,7 @@ Using real-time facades, you may treat any class in your application as if it we
         }
     }
 
-Injecting a publisher implementation into the method allows us to easily test the method in isolation since we can mock the injected publisher. However, it requires us to always pass a publisher instance each time we call the `publish` method. Using real-time facades, we can maintain the same testability while not being required to explicitly pass a `Publisher` instance. To generate a real-time facade, prefix the namespace of the imported class with `Facades`:
+Внедрение реализации издателя в метод позволяет нам легко тестировать метод изолированно, поскольку мы можем имитировать внедренного издателя. Однако он требует от нас всегда передавать экземпляр издателя каждый раз, когда мы вызываем метод `publish`. Используя фасады в реальном времени, мы можем поддерживать такую же тестируемость, при этом не требуя явной передачи экземпляра `Publisher`. Чтобы сгенерировать фасад в реальном времени, добавьте к пространству имен импортируемого класса префикс `Facades`:
 
     <?php
 
@@ -186,7 +186,7 @@ Injecting a publisher implementation into the method allows us to easily test th
     class Podcast extends Model
     {
         /**
-         * Publish the podcast.
+         * Публикация подкаста.
          *
          * @return void
          */
@@ -198,7 +198,7 @@ Injecting a publisher implementation into the method allows us to easily test th
         }
     }
 
-When the real-time facade is used, the publisher implementation will be resolved out of the service container using the portion of the interface or class name that appears after the `Facades` prefix. When testing, we can use Laravel's built-in facade testing helpers to mock this method call:
+Когда используется фасад реального времени, реализация издателя будет разрешена из контейнера службы с использованием части интерфейса или имени класса, которая появляется после префикса `Facades`. При тестировании мы можем использовать встроенные помощники Laravel для тестирования фасадов, чтобы имитировать вызов этого метода:
 
     <?php
 
@@ -214,7 +214,7 @@ When the real-time facade is used, the publisher implementation will be resolved
         use RefreshDatabase;
 
         /**
-         * A test example.
+         * Пример теста.
          *
          * @return void
          */
@@ -229,11 +229,11 @@ When the real-time facade is used, the publisher implementation will be resolved
     }
 
 <a name="facade-class-reference"></a>
-## Facade Class Reference
+## Справочник классов фасадов
 
-Below you will find every facade and its underlying class. This is a useful tool for quickly digging into the API documentation for a given facade root. The [service container binding](/docs/{{version}}/container) key is also included where applicable.
+Ниже Вы найдете каждый фасад и его базовый класс. Это полезный инструмент для быстрого изучения документации API для данного корня фасада. Ключ [привязка сервисного контейнера](/docs/{{version}}/container) также включен, где это применимо.
 
-Facade  |  Class  |  Service Container Binding
+Фасад  |  Класс  |  Привязка сервисного контейнера
 ------------- | ------------- | -------------
 App  |  [Illuminate\Foundation\Application](https://laravel.com/api/{{version}}/Illuminate/Foundation/Application.html)  |  `app`
 Artisan  |  [Illuminate\Contracts\Console\Kernel](https://laravel.com/api/{{version}}/Illuminate/Contracts/Console/Kernel.html)  |  `artisan`

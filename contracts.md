@@ -1,42 +1,42 @@
-# Contracts
+# Контракты
 
-- [Introduction](#introduction)
-    - [Contracts Vs. Facades](#contracts-vs-facades)
-- [When To Use Contracts](#when-to-use-contracts)
-    - [Loose Coupling](#loose-coupling)
-    - [Simplicity](#simplicity)
-- [How To Use Contracts](#how-to-use-contracts)
-- [Contract Reference](#contract-reference)
+- [Введение](#introduction)
+    - [Контракты против Фасадов](#contracts-vs-facades)
+- [Когда использовать контракты](#when-to-use-contracts)
+    - [Слабая связь](#loose-coupling)
+    - [Простота](#simplicity)
+- [Как использовать контракты](#how-to-use-contracts)
+- [Справочник контрактов](#contract-reference)
 
 <a name="introduction"></a>
-## Introduction
+## Введение
 
-Laravel's Contracts are a set of interfaces that define the core services provided by the framework. For example, an `Illuminate\Contracts\Queue\Queue` contract defines the methods needed for queueing jobs, while the `Illuminate\Contracts\Mail\Mailer` contract defines the methods needed for sending e-mail.
+Контракты Laravel - это набор интерфейсов, которые определяют основные сервисы, предоставляемые фреймворком. Например, контрак `Illuminate\Contracts\Queue\Queue` определяет методы, необходимые для постановки заданий в очередь, а контракт `Illuminate\Contracts\Mail\Mailer` определяет методы, необходимые для отправки электронной почты.
 
-Each contract has a corresponding implementation provided by the framework. For example, Laravel provides a queue implementation with a variety of drivers, and a mailer implementation that is powered by [SwiftMailer](https://swiftmailer.symfony.com/).
+Каждый контракт имеет соответствующую реализацию, предусмотренную структурой. Например, Laravel предоставляет реализацию очереди с множеством драйверов и реализацию почтовой программы, которая работает на [SwiftMailer](https://swiftmailer.symfony.com/).
 
-All of the Laravel contracts live in [their own GitHub repository](https://github.com/illuminate/contracts). This provides a quick reference point for all available contracts, as well as a single, decoupled package that may be utilized by package developers.
+Все контракты Laravel находятся в [их собственном репозитории GitHub](https://github.com/illuminate/contracts). Это обеспечивает быструю справочную информацию по всем доступным контрактам, а также к единому независимому пакету, который может использоваться разработчиками пакетов.
 
 <a name="contracts-vs-facades"></a>
-### Contracts Vs. Facades
+### Контракты против Фасадов
 
-Laravel's [facades](/docs/{{version}}/facades) and helper functions provide a simple way of utilizing Laravel's services without needing to type-hint and resolve contracts out of the service container. In most cases, each facade has an equivalent contract.
+Laravel [фасады](/docs/{{version}}/facades) и вспомогательные функции предоставляют простой способ использования сервисов Laravel без необходимости вводить подсказки и разрешать контракты из контейнера сервиса. В большинстве случаев каждый фасад имеет эквивалентный контракт.
 
-Unlike facades, which do not require you to require them in your class' constructor, contracts allow you to define explicit dependencies for your classes. Some developers prefer to explicitly define their dependencies in this way and therefore prefer to use contracts, while other developers enjoy the convenience of facades.
+В отличие от фасадов, которые не обязательны, чтобы Вы требовали их в конструкторе Вашего класса, контракты позволяют Вам определять явные зависимости для Ваших классов. Некоторые разработчики предпочитают явно определять свои зависимости таким образом и поэтому предпочитают использовать контракты, в то время как другим разработчикам нравится удобство фасадов.
 
-> {tip} Most applications will be fine regardless of whether you prefer facades or contracts. However, if you are building a package, you should strongly consider using contracts since they will be easier to test in a package context.
+> {tip} Большинство приложений подойдут независимо от того, предпочитаете ли Вы фасады или контракты. Однако, если Вы создаете пакет, Вам следует настоятельно рассмотреть возможность использования контрактов, поскольку их будет легче протестировать в контексте пакета.
 
 <a name="when-to-use-contracts"></a>
-## When To Use Contracts
+## Когда использовать контракты
 
-As discussed elsewhere, much of the decision to use contracts or facades will come down to personal taste and the tastes of your development team. Both contracts and facades can be used to create robust, well-tested Laravel applications. As long as you are keeping your class' responsibilities focused, you will notice very few practical differences between using contracts and facades.
+Как обсуждалось в другом месте, большая часть решения об использовании контрактов или фасадов будет зависеть от личного вкуса и вкусов Вашей команды разработчиков. И контракты, и фасады можно использовать для создания надежных, хорошо протестированных приложений Laravel. Пока Вы сосредотачиваете обязанности своего класса, Вы заметите очень мало практических различий между использованием контрактов и фасадов.
 
-However, you may still have several questions regarding contracts. For example, why use interfaces at all? Isn't using interfaces more complicated? Let's distill the reasons for using interfaces to the following headings: loose coupling and simplicity.
+Однако у Вас может возникнуть несколько вопросов по контрактам. Например, зачем вообще использовать интерфейсы? Разве использование интерфейсов не сложнее? Давайте выделим причины использования интерфейсов в следующие заголовки: слабая связь и простота.
 
 <a name="loose-coupling"></a>
-### Loose Coupling
+### Слабая связь
 
-First, let's review some code that is tightly coupled to a cache implementation. Consider the following:
+Во-первых, давайте рассмотрим код, который тесно связан с реализацией кеша. Обратите внимание на следующее:
 
     <?php
 
@@ -50,7 +50,7 @@ First, let's review some code that is tightly coupled to a cache implementation.
         protected $cache;
 
         /**
-         * Create a new repository instance.
+         * Создать новый экземпляр репозитория.
          *
          * @param  \SomePackage\Cache\Memcached  $cache
          * @return void
@@ -61,7 +61,7 @@ First, let's review some code that is tightly coupled to a cache implementation.
         }
 
         /**
-         * Retrieve an Order by ID.
+         * Получить заказ по идентификатору.
          *
          * @param  int  $id
          * @return Order
@@ -74,11 +74,11 @@ First, let's review some code that is tightly coupled to a cache implementation.
         }
     }
 
-In this class, the code is tightly coupled to a given cache implementation. It is tightly coupled because we are depending on a concrete Cache class from a package vendor. If the API of that package changes our code must change as well.
+В этом классе код тесно связан с данной реализацией кеша. Он тесно связан, потому что мы зависим от конкретного класса кэша от поставщика пакета. Если API этого пакета изменится, наш код также должен измениться.
 
-Likewise, if we want to replace our underlying cache technology (Memcached) with another technology (Redis), we again will have to modify our repository. Our repository should not have so much knowledge regarding who is providing them data or how they are providing it.
+Точно так же, если мы хотим заменить нашу базовую технологию кеширования (Memcached) другой технологией (Redis), нам снова придется изменить наш репозиторий. В нашем репозитории не должно быть столько знаний о том, кто предоставляет им данные или как они их предоставляют.
 
-**Instead of this approach, we can improve our code by depending on a simple, vendor agnostic interface:**
+**Вместо этого подхода мы можем улучшить наш код, полагаясь на простой, независимый от производителя интерфейс:**
 
     <?php
 
@@ -89,12 +89,12 @@ Likewise, if we want to replace our underlying cache technology (Memcached) with
     class Repository
     {
         /**
-         * The cache instance.
+         * Экземпляр кеша.
          */
         protected $cache;
 
         /**
-         * Create a new repository instance.
+         * Создать новый экземпляр репозитория.
          *
          * @param  Cache  $cache
          * @return void
@@ -105,23 +105,23 @@ Likewise, if we want to replace our underlying cache technology (Memcached) with
         }
     }
 
-Now the code is not coupled to any specific vendor, or even Laravel. Since the contracts package contains no implementation and no dependencies, you may easily write an alternative implementation of any given contract, allowing you to replace your cache implementation without modifying any of your cache consuming code.
+Теперь код не привязан к какому-либо конкретному поставщику или даже Laravel. Поскольку пакет контрактов не содержит реализации и зависимостей, Вы можете легко написать альтернативную реализацию любого данного контракта, что позволит Вам заменить реализацию кеша без изменения какого-либо кода, потребляющего кеш.
 
 <a name="simplicity"></a>
-### Simplicity
+### Простота
 
-When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. **The contracts serve as succinct documentation to the framework's features.**
+Когда все сервисы Laravel четко определены в простых интерфейсах, очень легко определить функциональные возможности, предлагаемые данным сервисом. **Контракты служат краткой документацией по функциям фреймворка.**
 
-In addition, when you depend on simple interfaces, your code is easier to understand and maintain. Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface.
+Кроме того, когда Вы полагаетесь на простые интерфейсы, Ваш код легче понять и поддерживать. Вместо того, чтобы отслеживать, какие методы доступны Вам в большом сложном классе, Вы можете обратиться к простому и понятному интерфейсу.
 
 <a name="how-to-use-contracts"></a>
-## How To Use Contracts
+## Как использовать контракты
 
-So, how do you get an implementation of a contract? It's actually quite simple.
+Итак, как получить выполнение контракта? На самом деле это довольно просто.
 
-Many types of classes in Laravel are resolved through the [service container](/docs/{{version}}/container), including controllers, event listeners, middleware, queued jobs, and even route Closures. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved.
+Многие типы классов в Laravel разрешаются через [сервисный контейнер](/docs/{{version}}/container), включая контроллеры, прослушиватели событий, промежуточное ПО, задания в очереди и даже замыкания маршрутов. Итак, чтобы получить реализацию контракта, Вы можете просто «напечатать» интерфейс в конструкторе разрешаемого класса.
 
-For example, take a look at this event listener:
+Например, взгляните на этот прослушиватель событий:
 
     <?php
 
@@ -134,12 +134,12 @@ For example, take a look at this event listener:
     class CacheOrderInformation
     {
         /**
-         * The Redis factory implementation.
+         * Реализация фабрики Redis.
          */
         protected $redis;
 
         /**
-         * Create a new event handler instance.
+         * Создайте новый экземпляр обработчика событий.
          *
          * @param  Factory  $redis
          * @return void
@@ -150,7 +150,7 @@ For example, take a look at this event listener:
         }
 
         /**
-         * Handle the event.
+         * Обработать событие.
          *
          * @param  OrderWasPlaced  $event
          * @return void
@@ -161,14 +161,14 @@ For example, take a look at this event listener:
         }
     }
 
-When the event listener is resolved, the service container will read the type-hints on the constructor of the class, and inject the appropriate value. To learn more about registering things in the service container, check out [its documentation](/docs/{{version}}/container).
+Когда прослушиватель событий разрешен, сервис-контейнер будет читать подсказки типов в конструкторе класса и вводить соответствующее значение. Чтобы узнать больше о регистрации вещей в сервис-контейнере, ознакомьтесь с [его документацией](/docs/{{version}}/container).
 
 <a name="contract-reference"></a>
-## Contract Reference
+## Справочник контрактов
 
-This table provides a quick reference to all of the Laravel contracts and their equivalent facades:
+Эта таблица предоставляет быстрый справочник по всем контрактам Laravel и их эквивалентным фасадам:
 
-Contract  |  References Facade
+Контракт  |  Справочник Фасадов
 ------------- | -------------
 [Illuminate\Contracts\Auth\Access\Authorizable](https://github.com/illuminate/contracts/blob/{{version}}/Auth/Access/Authorizable.php) | &nbsp;
 [Illuminate\Contracts\Auth\Access\Gate](https://github.com/illuminate/contracts/blob/{{version}}/Auth/Access/Gate.php) | `Gate`
