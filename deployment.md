@@ -1,6 +1,7 @@
 # Развертывание
 
 - [Вступление](#introduction)
+- [Требования к серверу](#server-requirements)
 - [Конфигурация сервера](#server-configuration)
     - [Nginx](#nginx)
 - [Оптимизация](#optimization)
@@ -8,6 +9,7 @@
     - [Оптимизация загрузки конфигурации](#optimizing-configuration-loading)
     - [Оптимизация загрузки маршрута](#optimizing-route-loading)
     - [Оптимизация загрузки представления](#optimizing-view-loading)
+- [Режим отладки](#debug-mode)
 - [Деплой с помощью Forge / Vapor](#deploying-with-forge-or-vapor)
 
 <a name="introduction"></a>
@@ -15,13 +17,33 @@
 
 Когда Вы будете готовы развернуть приложение Laravel в продакшене, Вы можете сделать несколько важных вещей, чтобы убедиться, что Ваше приложение работает как можно более эффективно. В этом документе мы рассмотрим несколько отличных отправных точек, чтобы убедиться, что Ваше приложение Laravel развернуто правильно.
 
+<a name="server-requirements"></a>
+## Требования к серверу
+
+The Laravel framework has a few system requirements. You should ensure that your web server has the following minimum PHP version and extensions:
+
+<div class="content-list" markdown="1">
+- PHP >= 7.3
+- BCMath PHP Extension
+- Ctype PHP Extension
+- Fileinfo PHP Extension
+- JSON PHP Extension
+- Mbstring PHP Extension
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+</div>
+
 <a name="server-configuration"></a>
 ## Конфигурация сервера
 
 <a name="nginx"></a>
 ### Nginx
 
-Если Вы разворачиваете свое приложение на сервере, на котором работает Nginx, Вы можете использовать следующий файл конфигурации в качестве отправной точки для настройки Вашего веб-сервера. Скорее всего, этот файл нужно будет настроить в зависимости от конфигурации Вашего сервера. Если Вам нужна помощь в управлении Вашим сервером, рассмотрите возможность использования такого сервиса, как [Laravel Forge](https://forge.laravel.com):
+Если Вы развертываете свое приложение на сервере, на котором работает Nginx, Вы можете использовать следующий файл конфигурации в качестве отправной точки для настройки Вашего веб-сервера. Скорее всего, этот файл нужно будет настроить в зависимости от конфигурации Вашего сервера. **Если Вам нужна помощь в управлении Вашим сервером, рассмотрите возможность использования собственной службы управления и развертывания серверов Laravel, такой как [Laravel Forge](https://forge.laravel.com).**
+
+Убедитесь, что, как и в конфигурации ниже, ваш веб-сервер направляет все запросы в файл `public/index.php` вашего приложения. Вы никогда не должны пытаться переместить файл `index.php` в корень вашего проекта, так как обслуживание приложения из корня проекта откроет доступ ко многим конфиденциальным файлам конфигурации в общедоступный Интернет:
 
     server {
         listen 80;
@@ -97,10 +119,20 @@
 
 Эта команда предварительно компилирует все Ваши представления Blade, чтобы они не компилировались по запросу, повышая производительность каждого запроса, возвращающего представление.
 
+<a name="debug-mode"></a>
+## Режим отладки
+
+The debug option in your config/app.php configuration file determines how much information about an error is actually displayed to the user. By default, this option is set to respect the value of the APP_DEBUG environment variable, which is stored in your .env file.
+
+**In your production environment, this value should always be `false`. If the `APP_DEBUG` variable is set to `true` in production, you risk exposing sensitive configuration values to your application's end users.**
+
 <a name="deploying-with-forge-or-vapor"></a>
 ## Деплой с помощью Forge / Vapor
 
-Если Вы не совсем готовы управлять конфигурацией своего собственного сервера или Вам неудобно настраивать все различные службы, необходимые для запуска надежного приложения Laravel, [Laravel Forge](https://forge.laravel.com)- замечательный альтернатива.
+<a name="laravel-forge"></a>
+#### Laravel Forge
+
+Если Вы не совсем готовы управлять конфигурацией своего сервера или Вам неудобно настраивать все различные службы, необходимые для запуска надежного приложения Laravel, [Laravel Forge](https://forge.laravel.com) - замечательная альтернатива.
 
 Laravel Forge может создавать серверы у различных поставщиков инфраструктуры, таких как DigitalOcean, Linode, AWS и других. Кроме того, Forge устанавливает и управляет всеми инструментами, необходимыми для создания надежных приложений Laravel, таких как Nginx, MySQL, Redis, Memcached, Beanstalk и других.
 
