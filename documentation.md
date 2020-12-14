@@ -13,8 +13,8 @@
     - [Сервис Контейнер](/docs/{{version}}/container)
     - [Сервис Провайдер](/docs/{{version}}/providers)
     - [Фасады](/docs/{{version}}/facades)
-- ## The Basics
-    - [Routing](/docs/{{version}}/routing)
+- ## Основы
+    - [Маршрутизация](/docs/{{version}}/routing)
     - [Middleware](/docs/{{version}}/middleware)
     - [CSRF Protection](/docs/{{version}}/csrf)
     - [Controllers](/docs/{{version}}/controllers)
