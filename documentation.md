@@ -16,7 +16,7 @@
 - ## Основы
     - [Маршрутизация](/docs/{{version}}/routing)
     - [Мидлвары](/docs/{{version}}/middleware)
-    - [CSRF Protection](/docs/{{version}}/csrf)
+    - [CSRF защита](/docs/{{version}}/csrf)
     - [Controllers](/docs/{{version}}/controllers)
     - [Requests](/docs/{{version}}/requests)
     - [Responses](/docs/{{version}}/responses)
