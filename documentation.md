@@ -15,7 +15,7 @@
     - [Фасады](/docs/{{version}}/facades)
 - ## Основы
     - [Маршрутизация](/docs/{{version}}/routing)
-    - [Middleware](/docs/{{version}}/middleware)
+    - [Мидлвары](/docs/{{version}}/middleware)
     - [CSRF Protection](/docs/{{version}}/csrf)
     - [Controllers](/docs/{{version}}/controllers)
     - [Requests](/docs/{{version}}/requests)

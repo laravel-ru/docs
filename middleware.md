@@ -1,30 +1,30 @@
 # Middleware
 
-- [Introduction](#introduction)
-- [Defining Middleware](#defining-middleware)
-- [Registering Middleware](#registering-middleware)
-    - [Global Middleware](#global-middleware)
-    - [Assigning Middleware To Routes](#assigning-middleware-to-routes)
-    - [Middleware Groups](#middleware-groups)
-    - [Sorting Middleware](#sorting-middleware)
-- [Middleware Parameters](#middleware-parameters)
-- [Terminable Middleware](#terminable-middleware)
+- [Введение](#introduction)
+- [Определение мидлвара](#defining-middleware)
+- [Регистрация мидлвара](#registering-middleware)
+    - [Глобальный мидлвар](#global-middleware)
+    - [Назначение мидлвара маршрутам](#assigning-middleware-to-routes)
+    - [Группы мидлваров](#middleware-groups)
+    - [Сортировка мидлваров](#sorting-middleware)
+- [Параметры мидлвара](#middleware-parameters)
+- [Завершаемый мидлвар](#terminable-middleware)
 
 <a name="introduction"></a>
-## Introduction
+## Введение
 
-Middleware provide a convenient mechanism for inspecting and filtering HTTP requests entering your application. For example, Laravel includes a middleware that verifies the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to your application's login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application.
+Мидлвар обеспечивает удобный механизм для проверки и фильтрации HTTP-запросов, поступающих в Ваше приложение. Например, Laravel включает мидлвар, который проверяет, аутентифицирован ли пользователь Вашего приложения. Если пользователь не аутентифицирован, мидлвар перенаправит пользователя на экран входа в систему Вашего приложения. Однако, если пользователь аутентифицирован, мидлвар позволит запросу продвинуться дальше в приложение.
 
-Additional middleware can be written to perform a variety of tasks besides authentication. For example, a logging middleware might log all incoming requests to your application. There are several middleware included in the Laravel framework, including middleware for authentication and CSRF protection. All of these middleware are located in the `app/Http/Middleware` directory.
+Может быть написано дополнительное мидлвар для выполнения множества задач помимо аутентификации. Например, мидлвар для ведения журнала может регистрировать все входящие запросы к Вашему приложению. В структуру Laravel включено несколько мидлваров, включая мидлвар для аутентификации и защиты CSRF. Все это мидлвар находится в каталоге `app/Http/Middleware`.
 
 <a name="defining-middleware"></a>
-## Defining Middleware
+## Определение мидлвара
 
-To create a new middleware, use the `make:middleware` Artisan command:
+Чтобы создать новый мидлвар, используйте Artisan-команду `make:middleware`:
 
     php artisan make:middleware EnsureTokenIsValid
 
-This command will place a new `EnsureTokenIsValid` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `token` input matches a specified value. Otherwise, we will redirect the users back to the `home` URI:
+Эта команда поместит новый класс `EnsureTokenIsValid` в Ваш каталог `app/Http/Middleware`. В этом мидлваре мы будем разрешать доступ к маршруту только в том случае, если предоставленный вход `token` соответствует указанному значению. В противном случае мы перенаправим пользователей обратно на URI `home`:
 
     <?php
 
@@ -35,7 +35,7 @@ This command will place a new `EnsureTokenIsValid` class within your `app/Http/M
     class EnsureTokenIsValid
     {
         /**
-         * Handle an incoming request.
+         * Обработка входящего запроса.
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
@@ -51,17 +51,17 @@ This command will place a new `EnsureTokenIsValid` class within your `app/Http/M
         }
     }
 
-As you can see, if the given `token` does not match our secret token, the middleware will return an HTTP redirect to the client; otherwise, the request will be passed further into the application. To pass the request deeper into the application (allowing the middleware to "pass"), you should call the `$next` callback with the `$request`.
+Как видите, если данный токен не совпадает с нашим секретным токеном `token`, мидлвар вернет клиенту HTTP-перенаправление; в противном случае запрос будет передан в приложение. Чтобы передать запрос глубже в приложение (позволяя мидлвару «пройти»), Вы должны вызвать обратный вызов `$next` с помощью `$request`.
 
-It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
+Лучше всего представить себе мидлвар как серию "слоев" HTTP-запросов, которые должны пройти, прежде чем они попадут в Ваше приложение. Каждый уровень может изучить запрос и даже полностью его отклонить.
 
-> {tip} All middleware are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a middleware's constructor.
+> {tip} Все мидлвары разрешаются через [сервисный контейнер](/docs/{{version}}/container), поэтому Вы можете указать любые зависимости, которые Вам нужны, в конструкторе мидлвара.
 
 <a name="before-after-middleware"></a>
 <a name="middleware-and-responses"></a>
-#### Middleware & Responses
+#### Мидлвары и Ответы
 
-Of course, a middleware can perform tasks before or after passing the request deeper into the application. For example, the following middleware would perform some task **before** the request is handled by the application:
+Конечно, мидлвар может выполнять задачи до или после передачи запроса в приложение. Например, следующий мидлвар будет выполнять некоторую задачу **до** того, как запрос будет обработан приложением:
 
     <?php
 
@@ -73,7 +73,7 @@ Of course, a middleware can perform tasks before or after passing the request de
     {
         public function handle($request, Closure $next)
         {
-            // Perform action
+            // Выполнить действие
 
             return $next($request);
         }
@@ -93,26 +93,26 @@ However, this middleware would perform its task **after** the request is handled
         {
             $response = $next($request);
 
-            // Perform action
+            // Выполнить действие
 
             return $response;
         }
     }
 
 <a name="registering-middleware"></a>
-## Registering Middleware
+## Регистрация мидлвара
 
 <a name="global-middleware"></a>
-### Global Middleware
+### Глобальный мидлвар
 
-If you want a middleware to run during every HTTP request to your application, list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class.
+Если Вы хотите, чтобы мидлвар запускался во время каждого HTTP-запроса к Вашему приложению, укажите класс мидлвара в свойстве `$middleware` Вашего класса `app/Http/Kernel.php`.
 
 <a name="assigning-middleware-to-routes"></a>
-### Assigning Middleware To Routes
+### Назначение мидлвара маршрутам
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a key in your application's `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. You may add your own middleware to this list and assign it a key of your choosing:
+Если Вы хотите назначить мидлвар для определенных маршрутов, Вы должны сначала назначить мидлвару ключ в файле `app/Http/Kernel.php` Вашего приложения. По умолчанию свойство `$routeMiddleware` этого класса содержит записи для мидлвара, включенного в Laravel. Вы можете добавить свое собственное промежуточное ПО в этот список и назначить ему ключ по Вашему выбору:
 
-    // Within App\Http\Kernel class...
+    // Внутри класса App\Http\Kernel...
 
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
@@ -126,19 +126,19 @@ If you would like to assign middleware to specific routes, you should first assi
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 
-Once the middleware has been defined in the HTTP kernel, you may use the `middleware` method to assign middleware to a route:
+После того как мидлвар определен в ядре HTTP, Вы можете использовать метод `middleware` для назначения мидлвара для маршрута:
 
     Route::get('/profile', function () {
         //
     })->middleware('auth');
 
-You may assign multiple middleware to the route by passing an array of middleware names to the `middleware` method:
+Вы можете назначить несколько мидлваров для маршрута, передав массив имен мидлваров методу `middleware`:
 
     Route::get('/', function () {
         //
     })->middleware(['first', 'second']);
 
-When assigning middleware, you may also pass the fully qualified class name:
+При назначении мидлвара Вы также можете передать полное имя класса:
 
     use App\Http\Middleware\EnsureTokenIsValid;
 
@@ -146,7 +146,7 @@ When assigning middleware, you may also pass the fully qualified class name:
         //
     })->middleware(EnsureTokenIsValid::class);
 
-When assigning middleware to a group of routes, you may occasionally need to prevent the middleware from being applied to an individual route within the group. You may accomplish this using the `withoutMiddleware` method:
+При назначении мидлвара группе маршрутов иногда может потребоваться запретить применение мидлвара к отдельному маршруту в группе. Вы можете сделать это с помощью метода `withoutMiddleware`:
 
     use App\Http\Middleware\EnsureTokenIsValid;
 
@@ -160,17 +160,17 @@ When assigning middleware to a group of routes, you may occasionally need to pre
         })->withoutMiddleware([EnsureTokenIsValid::class]);
     });
 
-The `withoutMiddleware` method can only remove route middleware and does not apply to [global middleware](#global-middleware).
+Метод `withoutMiddleware` может удалить только мидлвар маршрутизации и не применяется к [глобальному мидлвару](#global-middleware).
 
 <a name="middleware-groups"></a>
-### Middleware Groups
+### Группы мидлваров
 
-Sometimes you may want to group several middleware under a single key to make them easier to assign to routes. You may accomplish this using the `$middlewareGroups` property of your HTTP kernel.
+Иногда Вам может потребоваться сгруппировать несколько мидлваров под одним ключом, чтобы упростить их назначение маршрутам. Вы можете сделать это, используя свойство `$middlewareGroups` Вашего HTTP-ядра.
 
-Out of the box, Laravel comes with `web` and `api` middleware groups that contain common middleware you may want to apply to your web and API routes. Remember, these middleware group are automatically applied by your application's `App\Providers\RouteServiceProvider` service provider to routes within your corresponding `web` and `api` route files:
+По умолчанию Laravel поставляется с группами мидлваров `web` и `api`, которые содержат общий мидлвар, который Вы, возможно, захотите применить к своей сети и маршрутам API. Помните, что эта группа мидлваров автоматически применяется сервис провайдером Вашего приложения `App\Providers\RouteServiceProvider` для маршрутов в Ваших соответствующих файлах маршрутов `web` и `api`:
 
     /**
-     * The application's route middleware groups.
+     * Группы мидлваров маршрута приложения.
      *
      * @var array
      */
@@ -191,7 +191,7 @@ Out of the box, Laravel comes with `web` and `api` middleware groups that contai
         ],
     ];
 
-Middleware groups may be assigned to routes and controller actions using the same syntax as individual middleware. Again, middleware groups make it more convenient to assign many middleware to a route at once:
+Группы мидлваров могут быть назначены маршрутам и экшенам контроллера с использованием того же синтаксиса, что и индивидуальный мидлвар. Опять же, группы мидлваров делают более удобным назначать несколько мидлваров для маршрута одновременно:
 
     Route::get('/', function () {
         //
@@ -201,17 +201,17 @@ Middleware groups may be assigned to routes and controller actions using the sam
         //
     });
 
-> {tip} Out of the box, the `web` and `api` middleware groups are automatically applied to your application's corresponding `routes/web.php` and `routes/api.php` files by the `App\Providers\RouteServiceProvider`.
+> {tip} Изначально группы мидлваров `web` и `api` автоматически применяются к соответствующим файлам Вашего приложения `routes/web.php` и `routes/api.php` с помощью `App\Providers\RouteServiceProvider`.
 
 <a name="sorting-middleware"></a>
-### Sorting Middleware
+### Сортировка мидлваров
 
-Rarely, you may need your middleware to execute in a specific order but not have control over their order when they are assigned to the route. In this case, you may specify your middleware priority using the `$middlewarePriority` property of your `app/Http/Kernel.php` file. This property may not exist in your HTTP kernel by default. If it does not exist, you may copy its default definition below:
+В редких случаях Вам может потребоваться, чтобы Ваш мидлвар выполнялся в определенном порядке, но Вы не можете контролировать их порядок, когда они назначаются для маршрута. В этом случае Вы можете указать приоритет Вашего мидлвара, используя свойство `$middlewarePriority` Вашего файла `app/Http/Kernel.php`. Это свойство может отсутствовать в Вашем HTTP-ядре по умолчанию. Если он не существует, Вы можете скопировать его определение по умолчанию ниже:
 
     /**
-     * The priority-sorted list of middleware.
+     * Список мидлваров с сортировкой по приоритету.
      *
-     * This forces non-global middleware to always be in the given order.
+     * Это заставляет не глобальный мидлвар всегда находиться в заданном порядке.
      *
      * @var array
      */
@@ -227,11 +227,11 @@ Rarely, you may need your middleware to execute in a specific order but not have
     ];
 
 <a name="middleware-parameters"></a>
-## Middleware Parameters
+## Параметры мидлвара
 
-Middleware can also receive additional parameters. For example, if your application needs to verify that the authenticated user has a given "role" before performing a given action, you could create a `EnsureUserHasRole` middleware that receives a role name as an additional argument.
+Мидлвар также может получать дополнительные параметры. Например, если Вашему приложению необходимо проверить, что аутентифицированный пользователь имеет заданную «роль» перед выполнением заданного действия, Вы можете создать мидлвар `EnsureUserHasRole`, который получает имя роли в качестве дополнительного аргумента.
 
-Additional middleware parameters will be passed to the middleware after the `$next` argument:
+Дополнительные параметры мидлвара будут переданы мидлвару после аргумента `$next`:
 
     <?php
 
@@ -242,7 +242,7 @@ Additional middleware parameters will be passed to the middleware after the `$ne
     class EnsureUserHasRole
     {
         /**
-         * Handle the incoming request.
+         * Обработать входящий запрос.
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
@@ -260,16 +260,16 @@ Additional middleware parameters will be passed to the middleware after the `$ne
 
     }
 
-Middleware parameters may be specified when defining the route by separating the middleware name and parameters with a `:`. Multiple parameters should be delimited by commas:
+Параметры мидлвара можно указать при определении маршрута, разделив имя мидлвара и параметры символом `:`. Несколько параметров следует разделять запятыми:
 
     Route::put('/post/{id}', function ($id) {
         //
     })->middleware('role:editor');
 
 <a name="terminable-middleware"></a>
-## Terminable Middleware
+## Завершаемый мидлвар
 
-Sometimes a middleware may need to do some work after the HTTP response has been sent to the browser. If you define a `terminate` method on your middleware and your web server is using FastCGI, the `terminate` method will automatically be called after the response is sent to the browser:
+Иногда мидлвару может потребоваться выполнить некоторую работу после того, как HTTP-ответ был отправлен в браузер. Если Вы определяете метод `terminate` в мидлваре, а Ваш веб-сервер использует FastCGI, метод `terminate` будет автоматически вызываться после отправки ответа в браузер:
 
     <?php
 
@@ -280,7 +280,7 @@ Sometimes a middleware may need to do some work after the HTTP response has been
     class TerminatingMiddleware
     {
         /**
-         * Handle an incoming request.
+         * Обработка входящего запроса.
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
@@ -292,7 +292,7 @@ Sometimes a middleware may need to do some work after the HTTP response has been
         }
 
         /**
-         * Handle tasks after the response has been sent to the browser.
+         * Обработка задач после отправки ответа в браузер.
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Illuminate\Http\Response  $response
@@ -304,14 +304,14 @@ Sometimes a middleware may need to do some work after the HTTP response has been
         }
     }
 
-The `terminate` method should receive both the request and the response. Once you have defined a terminable middleware, you should add it to the list of route or global middleware in the `app/Http/Kernel.php` file.
+Метод `terminate` должен получать и запрос, и ответ. После того, как Вы определили завершаемый мидлвар, Вы должны добавить его в список маршрутов или глобальный мидлвар в файле `app/Http/Kernel.php`.
 
-When calling the `terminate` method on your middleware, Laravel will resolve a fresh instance of the middleware from the [service container](/docs/{{version}}/container). If you would like to use the same middleware instance when the `handle` and `terminate` methods are called, register the middleware with the container using the container's `singleton` method. Typically this should be done in the `register` method of your `AppServiceProvider`:
+При вызове метода `terminate` в Вашем мидлваре Laravel разрешит новый экземпляр мидлвара из [сервис контейнера](/docs/{{version}}/container). Если Вы хотите использовать один и тот же экземпляр мидлвара при вызове методов `handle` и `terminate`, зарегистрируйте мидлвар в контейнере, используя метод контейнера `singleton`. Обычно это должно быть сделано в методе `register` Вашего `AppServiceProvider`:
 
     use App\Http\Middleware\TerminatingMiddleware;
 
     /**
-     * Register any application services.
+     * Зарегистрируйте любые сервисы приложения.
      *
      * @return void
      */
