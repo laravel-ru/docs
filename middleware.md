@@ -1,4 +1,4 @@
-# Middleware
+# Посредники
 
 - [Введение](#introduction)
 - [Определение мидлвара](#defining-middleware)

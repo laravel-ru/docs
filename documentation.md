@@ -18,7 +18,7 @@
     - [Мидлвары](/docs/{{version}}/middleware)
     - [CSRF защита](/docs/{{version}}/csrf)
     - [Контроллеры](/docs/{{version}}/controllers)
-    - [Requests](/docs/{{version}}/requests)
+    - [Запросы](/docs/{{version}}/requests)
     - [Responses](/docs/{{version}}/responses)
     - [Views](/docs/{{version}}/views)
     - [Blade Templates](/docs/{{version}}/blade)
