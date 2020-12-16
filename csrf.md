@@ -1,13 +1,13 @@
 # CSRF защита
 
-- [Вступление](#csrf-introduction)
+- [Введение](#csrf-introduction)
 - [Предотвращение запросов CSRF](#preventing-csrf-requests)
     - [Исключение URI](#csrf-excluding-uris)
 - [X-CSRF-Токен](#csrf-x-csrf-token)
 - [X-XSRF-Токен](#csrf-x-xsrf-token)
 
 <a name="csrf-introduction"></a>
-## Вступление
+## Введение
 
 Подделка межсайтовых запросов - это разновидность вредоносного эксплойта, при котором неавторизованные команды выполняются от имени аутентифицированного пользователя. К счастью, Laravel позволяет легко защитить Ваше приложение от атак [подделки межсайтовых запросов](https://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF).
 
