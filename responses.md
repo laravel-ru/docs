@@ -1,47 +1,47 @@
-# HTTP Responses
+# HTTP-ответы
 
-- [Creating Responses](#creating-responses)
-    - [Attaching Headers To Responses](#attaching-headers-to-responses)
-    - [Attaching Cookies To Responses](#attaching-cookies-to-responses)
-    - [Cookies & Encryption](#cookies-and-encryption)
-- [Redirects](#redirects)
-    - [Redirecting To Named Routes](#redirecting-named-routes)
-    - [Redirecting To Controller Actions](#redirecting-controller-actions)
-    - [Redirecting To External Domains](#redirecting-external-domains)
-    - [Redirecting With Flashed Session Data](#redirecting-with-flashed-session-data)
-- [Other Response Types](#other-response-types)
-    - [View Responses](#view-responses)
-    - [JSON Responses](#json-responses)
-    - [File Downloads](#file-downloads)
-    - [File Responses](#file-responses)
-- [Response Macros](#response-macros)
+- [Создание ответов](#creating-responses)
+    - [Прикрепление заголовков к ответам](#attaching-headers-to-responses)
+    - [Прикрепление файлов cookie к ответам](#attaching-cookies-to-responses)
+    - [Файлы cookie и шифрование](#cookies-and-encryption)
+- [Редиректы](#redirects)
+    - [Перенаправление на именованные маршруты](#redirecting-named-routes)
+    - [Перенаправление к действиям контроллера](#redirecting-controller-actions)
+    - [Перенаправление на внешние домены](#redirecting-external-domains)
+    - [Перенаправление с флеш данными сессии](#redirecting-with-flashed-session-data)
+- [Другие типы ответов](#other-response-types)
+    - [Ответы представлений](#view-responses)
+    - [Ответы JSON](#json-responses)
+    - [Загрузки файлов](#file-downloads)
+    - [Файловые ответы](#file-responses)
+- [Макросы ответа](#response-macros)
 
 <a name="creating-responses"></a>
-## Creating Responses
+## Создание ответов
 
 <a name="strings-arrays"></a>
-#### Strings & Arrays
+#### Строки и массивы
 
-All routes and controllers should return a response to be sent back to the user's browser. Laravel provides several different ways to return responses. The most basic response is returning a string from a route or controller. The framework will automatically convert the string into a full HTTP response:
+Все маршруты и контроллеры должны возвращать ответ, который будет отправлен обратно в браузер пользователя. Laravel предоставляет несколько разных способов вернуть ответы. Самый простой ответ - это возврат строки от маршрута или контроллера. Фреймворк автоматически преобразует строку в полный HTTP-ответ:
 
     Route::get('/', function () {
         return 'Hello World';
     });
 
-In addition to returning strings from your routes and controllers, you may also return arrays. The framework will automatically convert the array into a JSON response:
+Помимо возврата строк из Ваших маршрутов и контроллеров, Вы также можете возвращать массивы. Фреймворк автоматически преобразует массив в ответ JSON:
 
     Route::get('/', function () {
         return [1, 2, 3];
     });
 
-> {tip} Did you know you can also return [Eloquent collections](/docs/{{version}}/eloquent-collections) from your routes or controllers? They will automatically be converted to JSON. Give it a shot!
+> {tip} Знаете ли Вы, что Вы также можете возвращать [коллекции Eloquent](/docs/{{version}}/eloquent-collections) с Ваших маршрутов или контроллеров? Они будут автоматически преобразованы в JSON. Дать ему шанс!
 
 <a name="response-objects"></a>
-#### Response Objects
+#### Объекты ответа
 
-Typically, you won't just be returning simple strings or arrays from your route actions. Instead, you will be returning full `Illuminate\Http\Response` instances or [views](/docs/{{version}}/views).
+Как правило, Вы не будете просто возвращать простые строки или массивы из действий маршрута. Вместо этого Вы вернете полные экземпляры `Illuminate\Http\Response` или [представления](/docs/{{version}}/views).
 
-Returning a full `Response` instance allows you to customize the response's HTTP status code and headers. A `Response` instance inherits from the `Symfony\Component\HttpFoundation\Response` class, which provides a variety of methods for building HTTP responses:
+Возврат полного экземпляра `Response` позволяет Вам настроить код состояния HTTP и заголовки ответа. Экземпляр `Response` наследуется от класса `Symfony\Component\HttpFoundation\Response`, который предоставляет множество методов для построения HTTP-ответов:
 
     Route::get('/home', function () {
         return response('Hello World', 200)
@@ -49,9 +49,9 @@ Returning a full `Response` instance allows you to customize the response's HTTP
     });
 
 <a name="eloquent-models-and-collections"></a>
-#### Eloquent Models & Collections
+#### Eloquent модели и коллекции
 
-You may also return [Eloquent ORM](/docs/{{version}}/eloquent) models and collections directly from your routes and controllers. When you do, Laravel will automatically convert the models and collections to JSON responses while respecting the model's [hidden attributes](/docs/{{version}}/eloquent-serialization#hiding-attributes-from-json):
+Вы также можете вернуть модели и коллекции [Eloquent ORM](/docs/{{version}}/eloquent) прямо из Ваших маршрутов и контроллеров. Когда Вы это сделаете, Laravel автоматически преобразует модели и коллекции в Ответы JSON, соблюдая [скрытые атрибуты](/docs/{{version}}/eloquent-serialization#hiding-attributes-from-json) модели:
 
     use App\Models\User;
 
@@ -60,16 +60,16 @@ You may also return [Eloquent ORM](/docs/{{version}}/eloquent) models and collec
     });
 
 <a name="attaching-headers-to-responses"></a>
-### Attaching Headers To Responses
+### Прикрепление заголовков к ответам
 
-Keep in mind that most response methods are chainable, allowing for the fluent construction of response instances. For example, you may use the `header` method to add a series of headers to the response before sending it back to the user:
+Имейте в виду, что большинство методов ответа объединяются в цепочку, что позволяет плавно создавать экземпляры ответа. Например, Вы можете использовать метод `header` для добавления серии заголовков к ответу перед его отправкой обратно пользователю:
 
     return response($content)
                 ->header('Content-Type', $type)
                 ->header('X-Header-One', 'Header Value')
                 ->header('X-Header-Two', 'Header Value');
 
-Or, you may use the `withHeaders` method to specify an array of headers to be added to the response:
+Или Вы можете использовать метод `withHeaders`, чтобы указать массив заголовков, который будет добавлен к ответу:
 
     return response($content)
                 ->withHeaders([
@@ -79,9 +79,9 @@ Or, you may use the `withHeaders` method to specify an array of headers to be ad
                 ]);
 
 <a name="cache-control-middleware"></a>
-#### Cache Control Middleware
+#### Мидлвар управления кешем
 
-Laravel includes a `cache.headers` middleware, which may be used to quickly set the `Cache-Control` header for a group of routes. If `etag` is specified in the list of directives, an MD5 hash of the response content will automatically be set as the ETag identifier:
+Laravel включает в себя мидлвар `cache.headers`, которое можно использовать для быстрой установки заголовка `Cache-Control` для группы маршрутов. Если в списке директив указан `etag`, хэш MD5 содержимого ответа будет автоматически установлен как идентификатор ETag:
 
     Route::middleware('cache.headers:public;max_age=2628000;etag')->group(function () {
         Route::get('/privacy', function () {
@@ -94,53 +94,53 @@ Laravel includes a `cache.headers` middleware, which may be used to quickly set 
     });
 
 <a name="attaching-cookies-to-responses"></a>
-### Attaching Cookies To Responses
+### Прикрепление файлов cookie к ответам
 
-You may attach a cookie to an outgoing `Illuminate\Http\Response` instance using the `cookie` method. You should pass the name, value, and number of minutes the cookie should be considered valid to this method:
+Вы можете прикрепить cookie к исходящему экземпляру `Illuminate\Http\Response`, используя метод `cookie`. Вы должны передать этому методу имя, значение и количество минут, в течение которых файл cookie должен считаться действительным:
 
     return response('Hello World')->cookie(
         'name', 'value', $minutes
     );
 
-The `cookie` method also accepts a few more arguments which are used less frequently. Generally, these arguments have the same purpose and meaning as the arguments that would be given to PHP's native [setcookie](https://secure.php.net/manual/en/function.setcookie.php) method:
+Метод `cookie` также принимает еще несколько аргументов, которые используются реже. Как правило, эти аргументы имеют то же назначение и значение, что и аргументы, передаваемые встроенному в PHP методу [setcookie](https://secure.php.net/manual/en/function.setcookie.php) method:
 
     return response('Hello World')->cookie(
         'name', 'value', $minutes, $path, $domain, $secure, $httpOnly
     );
 
-If you would like to ensure that a cookie is sent with the outgoing response but you do not yet have an instance of that response, you can use the `Cookie` facade to "queue" cookies for attachment to the response when it is sent. The `queue` method accepts the arguments needed to create a cookie instance. These cookies will be attached to the outgoing response before it is sent to the browser:
+Если Вы хотите, чтобы cookie отправлялся вместе с исходящим ответом, но у Вас еще нет экземпляра этого ответа, Вы можете использовать фасад `Cookie`, чтобы «поставить в очередь» файлы cookie для прикрепления к ответу при его отправке. Метод `queue` принимает аргументы, необходимые для создания экземпляра cookie. Эти файлы cookie будут прикреплены к исходящему ответу перед его отправкой в браузер:
 
     use Illuminate\Support\Facades\Cookie;
 
     Cookie::queue('name', 'value', $minutes);
 
 <a name="generating-cookie-instances"></a>
-#### Generating Cookie Instances
+#### Создание экземпляров файлов cookie
 
-If you would like to generate a `Symfony\Component\HttpFoundation\Cookie` instance that can be attached to a response instance at a later time, you may use the global `cookie` helper. This cookie will not be sent back to the client unless it is attached to a response instance:
+Если Вы хотите сгенерировать экземпляр `Symfony\Component\HttpFoundation\Cookie`, который может быть присоединен к экземпляру ответа позже, Вы можете использовать глобальный помощник `cookie`. Этот файл cookie не будет отправлен обратно клиенту, если он не прикреплен к экземпляру ответа:
 
     $cookie = cookie('name', 'value', $minutes);
 
     return response('Hello World')->cookie($cookie);
 
 <a name="expiring-cookies-early"></a>
-#### Expiring Cookies Early
+#### Срок действия файлов cookie истекает раньше
 
-You may remove a cookie by expiring it via the `withoutCookie` method of an outgoing response:
+Вы можете удалить куки-файл, истек в его срок действия с помощью метода исходящего ответа `withoutCookie`:
 
     return response('Hello World')->withoutCookie('name');
 
-If you do not yet have an instance of the outgoing response, you may use the `Cookie` facade's `queue` method to expire a cookie:
+Если у Вас еще нет экземпляра исходящего ответа, Вы можете использовать метод `queue` фасада `Cookie` для истечения срока действия cookie:
 
     Cookie::queue(Cookie::forget('name'));
 
 <a name="cookies-and-encryption"></a>
-### Cookies & Encryption
+### Файлы cookie и шифрование
 
-By default, all cookies generated by Laravel are encrypted and signed so that they can't be modified or read by the client. If you would like to disable encryption for a subset of cookies generated by your application, you may use the `$except` property of the `App\Http\Middleware\EncryptCookies` middleware, which is located in the `app/Http/Middleware` directory:
+По умолчанию все файлы cookie, сгенерированные Laravel, зашифрованы и подписаны, поэтому клиент не может их изменить или прочитать. Если Вы хотите отключить шифрование для подмножества файлов cookie, созданных Вашим приложением, Вы можете использовать свойство `$except` мидлвара `App\Http\Middleware\EncryptCookies`, которое находится в `app/Http/Middleware` каталог:
 
     /**
-     * The names of the cookies that should not be encrypted.
+     * Имена файлов cookie, которые не следует шифровать.
      *
      * @var array
      */
@@ -149,15 +149,15 @@ By default, all cookies generated by Laravel are encrypted and signed so that th
     ];
 
 <a name="redirects"></a>
-## Redirects
+## Редиректы
 
-Redirect responses are instances of the `Illuminate\Http\RedirectResponse` class, and contain the proper headers needed to redirect the user to another URL. There are several ways to generate a `RedirectResponse` instance. The simplest method is to use the global `redirect` helper:
+Ответы на перенаправление являются экземплярами класса `Illuminate\Http\RedirectResponse` и содержат правильные заголовки, необходимые для перенаправления пользователя на другой URL. Есть несколько способов сгенерировать экземпляр `RedirectResponse`. Самый простой способ - использовать глобальный помощник `redirect`:
 
     Route::get('/dashboard', function () {
         return redirect('home/dashboard');
     });
 
-Sometimes you may wish to redirect the user to their previous location, such as when a submitted form is invalid. You may do so by using the global `back` helper function. Since this feature utilizes the [session](/docs/{{version}}/session), make sure the route calling the `back` function is using the `web` middleware group:
+Иногда Вы можете захотеть перенаправить пользователя в его предыдущее местоположение, например, когда отправленная форма недействительна. Вы можете сделать это с помощью глобальной вспомогательной функции `back`. Поскольку эта функция использует [сессии](/docs/{{version}}/session), убедитесь, что маршрут, вызывающий функцию `back`, использует группу мидлваров `web`:
 
     Route::post('/user/profile', function () {
         // Validate the request...
@@ -166,31 +166,31 @@ Sometimes you may wish to redirect the user to their previous location, such as 
     });
 
 <a name="redirecting-named-routes"></a>
-### Redirecting To Named Routes
+### Перенаправление на именованные маршруты
 
-When you call the `redirect` helper with no parameters, an instance of `Illuminate\Routing\Redirector` is returned, allowing you to call any method on the `Redirector` instance. For example, to generate a `RedirectResponse` to a named route, you may use the `route` method:
+Когда Вы вызываете помощник `redirect` без параметров, возвращается экземпляр `Illuminate\Routing\Redirector`, что позволяет Вам вызывать любой метод экземпляра `Redirector`. Например, чтобы сгенерировать `RedirectResponse` на именованный маршрут, Вы можете использовать метод `route`:
 
     return redirect()->route('login');
 
-If your route has parameters, you may pass them as the second argument to the `route` method:
+Если у Вашего маршрута есть параметры, Вы можете передать их как второй аргумент методу `route`:
 
-    // For a route with the following URI: /profile/{id}
+    // Для маршрута со следующим URI: /profile/{id}
 
     return redirect()->route('profile', ['id' => 1]);
 
 <a name="populating-parameters-via-eloquent-models"></a>
-#### Populating Parameters Via Eloquent Models
+#### Заполнение параметров с помощью Eloquent моделей
 
-If you are redirecting to a route with an "ID" parameter that is being populated from an Eloquent model, you may pass the model itself. The ID will be extracted automatically:
+Если Вы перенаправляете на маршрут с параметром «ID», который заполняется из модели Eloquent, Вы можете передать саму модель. ID будет извлечен автоматически:
 
-    // For a route with the following URI: /profile/{id}
+    // Для маршрута со следующим URI: /profile/{id}
 
     return redirect()->route('profile', [$user]);
 
-If you would like to customize the value that is placed in the route parameter, you can specify the column in the route parameter definition (`/profile/{id:slug}`) or you can override the `getRouteKey` method on your Eloquent model:
+Если Вы хотите настроить значение, которое помещается в параметр маршрута, Вы можете указать столбец в определении параметра маршрута (`/profile/{id:slug}`) или Вы можете переопределить метод `getRouteKey` в Вашем Eloquent модель:
 
     /**
-     * Get the value of the model's route key.
+     * Получить значение ключа маршрута модели.
      *
      * @return mixed
      */
@@ -200,31 +200,31 @@ If you would like to customize the value that is placed in the route parameter, 
     }
 
 <a name="redirecting-controller-actions"></a>
-### Redirecting To Controller Actions
+### Перенаправление к действиям контроллера
 
-You may also generate redirects to [controller actions](/docs/{{version}}/controllers). To do so, pass the controller and action name to the `action` method:
+Вы также можете генерировать перенаправления на [действия контроллера](/docs/{{version}}/controllers). Для этого передайте имя контроллера и действия методу `action`:
 
     use App\Http\Controllers\UserController;
 
     return redirect()->action([UserController::class, 'index']);
 
-If your controller route requires parameters, you may pass them as the second argument to the `action` method:
+Если Ваш маршрут контроллера требует параметров, Вы можете передать их в качестве второго аргумента методу `action`:
 
     return redirect()->action(
         [UserController::class, 'profile'], ['id' => 1]
     );
 
 <a name="redirecting-external-domains"></a>
-### Redirecting To External Domains
+### Перенаправление на внешние домены
 
-Sometimes you may need to redirect to a domain outside of your application. You may do so by calling the `away` method, which creates a `RedirectResponse` without any additional URL encoding, validation, or verification:
+Иногда может потребоваться перенаправление на домен за пределами Вашего приложения. Вы можете сделать это, вызвав метод `away`, который создает `RedirectResponse` без какой-либо дополнительной кодировки URL, проверки или проверки:
 
     return redirect()->away('https://www.google.com');
 
 <a name="redirecting-with-flashed-session-data"></a>
-### Redirecting With Flashed Session Data
+### Перенаправление с флеш данными сессии
 
-Redirecting to a new URL and [flashing data to the session](/docs/{{version}}/session#flash-data) are usually done at the same time. Typically, this is done after successfully performing an action when you flash a success message to the session. For convenience, you may create a `RedirectResponse` instance and flash data to the session in a single, fluent method chain:
+Перенаправление на новый URL-адрес и [проброс данных в сессию](/docs/{{version}}/session#flash-data) обычно выполняются одновременно. Обычно это делается после успешного выполнения действия, когда Вы отправляете сообщение об успешном завершении сеанса. Для удобства Вы можете создать экземпляр `RedirectResponse` и передать данные в сеанс в единой плавной цепочке методов:
 
     Route::post('/user/profile', function () {
         // ...
@@ -232,7 +232,7 @@ Redirecting to a new URL and [flashing data to the session](/docs/{{version}}/se
         return redirect('dashboard')->with('status', 'Profile updated!');
     });
 
-After the user is redirected, you may display the flashed message from the [session](/docs/{{version}}/session). For example, using [Blade syntax](/docs/{{version}}/blade):
+После перенаправления пользователя Вы можете отобразить проброшенное сообщение из [сессии](/docs/{{version}}/session). Например, используя [синтаксис Blade](/docs/{{version}}/blade):
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -241,59 +241,59 @@ After the user is redirected, you may display the flashed message from the [sess
     @endif
 
 <a name="redirecting-with-input"></a>
-#### Redirecting With Input
+#### Перенаправление с вводом
 
-You may use the `withInput` method provided by the `RedirectResponse` instance to flash the current request's input data to the session before redirecting the user to a new location. This is typically done if the user has encountered a validation error. Once the input has been flashed to the session, you may easily [retrieve it](/docs/{{version}}/requests#retrieving-old-input) during the next request to repopulate the form:
+Вы можете использовать метод `withInput`, предоставляемый экземпляром `RedirectResponse`, для передачи входных данных текущего запроса в сеанс перед перенаправлением пользователя в новое место. Обычно это делается, если пользователь обнаружил ошибку проверки. После того, как ввод был передан в сеанс, Вы можете легко [получить его](/docs/{{version}}/requests#retrieving-old-input) во время следующего запроса на повторное заполнение формы:
 
     return back()->withInput();
 
 <a name="other-response-types"></a>
-## Other Response Types
+## Другие типы ответов
 
-The `response` helper may be used to generate other types of response instances. When the `response` helper is called without arguments, an implementation of the `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) is returned. This contract provides several helpful methods for generating responses.
+Помощник `response` может использоваться для генерации других типов экземпляров ответа. Когда помощник `response` вызывается без аргументов, возвращается реализация `Illuminate\Contracts\Routing\ResponseFactory` [контракт](/docs/{{version}}/contracts). Этот контракт предоставляет несколько полезных методов для генерации ответов.
 
 <a name="view-responses"></a>
-### View Responses
+### Ответы представлений
 
-If you need control over the response's status and headers but also need to return a [view](/docs/{{version}}/views) as the response's content, you should use the `view` method:
+Если Вам нужен контроль над статусом и заголовками ответа, но также необходимо вернуть [представление](/docs/{{version}}/views) в качестве содержимого ответа, Вам следует использовать метод `view`:
 
     return response()
                 ->view('hello', $data, 200)
                 ->header('Content-Type', $type);
 
-Of course, if you do not need to pass a custom HTTP status code or custom headers, you may use the global `view` helper function.
+Конечно, если Вам не нужно передавать пользовательский код состояния HTTP или пользовательские заголовки, Вы можете использовать глобальную вспомогательную функцию `view`.
 
 <a name="json-responses"></a>
-### JSON Responses
+### Ответы JSON
 
-The `json` method will automatically set the `Content-Type` header to `application/json`, as well as convert the given array to JSON using the `json_encode` PHP function:
+Метод `json` автоматически установит заголовок `Content-Type` в `application/json`, а также преобразует данный массив в JSON с помощью PHP-функции `json_encode`:
 
     return response()->json([
         'name' => 'Abigail',
         'state' => 'CA',
     ]);
 
-If you would like to create a JSONP response, you may use the `json` method in combination with the `withCallback` method:
+Если Вы хотите создать ответ JSONP, Вы можете использовать метод `json` в сочетании с методом `withCallback`:
 
     return response()
                 ->json(['name' => 'Abigail', 'state' => 'CA'])
                 ->withCallback($request->input('callback'));
 
 <a name="file-downloads"></a>
-### File Downloads
+### Загрузки файлов
 
-The `download` method may be used to generate a response that forces the user's browser to download the file at the given path. The `download` method accepts a filename as the second argument to the method, which will determine the filename that is seen by the user downloading the file. Finally, you may pass an array of HTTP headers as the third argument to the method:
+Метод `download` может использоваться для генерации ответа, который заставляет браузер пользователя загружать файл по заданному пути. Метод `download` принимает имя файла в качестве второго аргумента метода, который будет определять имя файла, которое видит пользователь, загружающий файл. Наконец, Вы можете передать массив заголовков HTTP в качестве третьего аргумента метода:
 
     return response()->download($pathToFile);
 
     return response()->download($pathToFile, $name, $headers);
 
-> {note} Symfony HttpFoundation, which manages file downloads, requires the file being downloaded to have an ASCII filename.
+> {note} Symfony HttpFoundation, который управляет загрузкой файлов, требует, чтобы загружаемый файл имел имя файла ASCII.
 
 <a name="streamed-downloads"></a>
-#### Streamed Downloads
+#### Потоковые загрузки
 
-Sometimes you may wish to turn the string response of a given operation into a downloadable response without having to write the contents of the operation to disk. You may use the `streamDownload` method in this scenario. This method accepts a callback, filename, and an optional array of headers as its arguments:
+Иногда Вы можете захотеть превратить строковый ответ данной операции в загружаемый ответ без необходимости записывать содержимое операции на диск. В этом сценарии Вы можете использовать метод `streamDownload`. Этот метод принимает в качестве аргументов обратный вызов, имя файла и необязательный массив заголовков:
 
     use App\Services\GitHub;
 
@@ -304,18 +304,18 @@ Sometimes you may wish to turn the string response of a given operation into a d
     }, 'laravel-readme.md');
 
 <a name="file-responses"></a>
-### File Responses
+### Файловые ответы
 
-The `file` method may be used to display a file, such as an image or PDF, directly in the user's browser instead of initiating a download. This method accepts the path to the file as its first argument and an array of headers as its second argument:
+Метод `file` может использоваться для отображения файла, такого как изображение или PDF, непосредственно в браузере пользователя вместо того, чтобы инициировать загрузку. Этот метод принимает путь к файлу в качестве первого аргумента и массив заголовков в качестве второго аргумента:
 
     return response()->file($pathToFile);
 
     return response()->file($pathToFile, $headers);
 
 <a name="response-macros"></a>
-## Response Macros
+## Макросы ответа
 
-If you would like to define a custom response that you can re-use in a variety of your routes and controllers, you may use the `macro` method on the `Response` facade. Typically, you should call this method from the `boot` method of one of your application's [service providers](/docs/{{version}}/providers), such as the `App\Providers\AppProvider` service provider:
+Если Вы хотите определить собственный ответ, который Вы можете повторно использовать в различных Ваших маршрутах и контроллерах, Вы можете использовать метод `macro` на фасаде `Response`. Обычно Вы должны вызывать этот метод из метода `boot` одного из [сервис провайдеров]](/docs/{{version}}/providers) Вашего приложения, например сервис провайдера `App\Providers\AppProvider`:
 
     <?php
 
@@ -327,7 +327,7 @@ If you would like to define a custom response that you can re-use in a variety o
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Bootstrap any application services.
+         * Загрузка любых сервисов приложения.
          *
          * @return void
          */
@@ -339,6 +339,6 @@ If you would like to define a custom response that you can re-use in a variety o
         }
     }
 
-The `macro` function accepts a name as its first argument and a closure as its second argument. The macro's closure will be executed when calling the macro name from a `ResponseFactory` implementation or the `response` helper:
+Функция `macro` принимает имя в качестве первого аргумента и замыкание в качестве второго аргумента. Замыкание макроса будет выполнено при вызове имени макроса из реализации `ResponseFactory` или вспомогательной функции `response`:
 
     return response()->caps('foo');

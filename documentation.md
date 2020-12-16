@@ -19,7 +19,7 @@
     - [CSRF защита](/docs/{{version}}/csrf)
     - [Контроллеры](/docs/{{version}}/controllers)
     - [Запросы](/docs/{{version}}/requests)
-    - [Responses](/docs/{{version}}/responses)
+    - [Ответы](/docs/{{version}}/responses)
     - [Views](/docs/{{version}}/views)
     - [Blade Templates](/docs/{{version}}/blade)
     - [URL Generation](/docs/{{version}}/urls)
