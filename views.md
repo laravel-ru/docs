@@ -1,80 +1,80 @@
-# Views
+# Представления
 
-- [Introduction](#introduction)
-- [Creating & Rendering Views](#creating-and-rendering-views)
-    - [Nested View Directories](#nested-view-directories)
-    - [Creating The First Available View](#creating-the-first-available-view)
-    - [Determining If A View Exists](#determining-if-a-view-exists)
-- [Passing Data To Views](#passing-data-to-views)
-    - [Sharing Data With All Views](#sharing-data-with-all-views)
-- [View Composers](#view-composers)
-    - [View Creators](#view-creators)
-- [Optimizing Views](#optimizing-views)
+- [Введение](#introduction)
+- [Создание и рендеринг представлений](#creating-and-rendering-views)
+    - [Вложенные каталоги представлений](#nested-view-directories)
+    - [Создание первого доступного представления](#creating-the-first-available-view)
+    - [Определение наличия представления](#determining-if-a-view-exists)
+- [Передача данных в представления](#passing-data-to-views)
+    - [Совместное использование данных со всеми представлениями](#sharing-data-with-all-views)
+- [Композеры представлений](#view-composers)
+    - [Создатели представлений](#view-creators)
+- [Оптимизация представлений](#optimizing-views)
 
 <a name="introduction"></a>
-## Introduction
+## Введение
 
-Of course, it's not practical to return entire HTML documents strings directly from your routes and controllers. Thankfully, views provide a convenient way to place all of our HTML in separate files. Views separate your controller / application logic from your presentation logic and are stored in the `resources/views` directory. A simple view might look something like this:
+Конечно, нецелесообразно возвращать целые строки HTML-документов непосредственно из Ваших маршрутов и контроллеров. К счастью, представления предоставляют удобный способ разместить весь наш HTML в отдельных файлах. Представления отделяют логику контроллера / приложения от логики представления и хранятся в каталоге `resources/views`. Простой вид может выглядеть примерно так:
 
 ```html
-<!-- View stored in resources/views/greeting.blade.php -->
+<!-- Представления хранятся в файлах resources/views/greeting.blade.php -->
 
 <html>
     <body>
-        <h1>Hello, {{ $name }}</h1>
+        <h1>Привет, {{ $name }}</h1>
     </body>
 </html>
 ```
 
-Since this view is stored at `resources/views/greeting.blade.php`, we may return it using the global `view` helper like so:
+Поскольку это представление хранится в файле `resources/views/greeting.blade.php`, мы можем вернуть его, используя глобальный помощник `view`, например:
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'James']);
     });
 
-> {tip} Looking for more information on how to write Blade templates? Check out the full [Blade documentation](/docs/{{version}}/blade) to get started.
+> {tip} Ищете дополнительную информацию о том, как писать шаблоны Blade? Ознакомьтесь с полной [документацией по Blade](/docs/{{version}}/blade), чтобы начать работу.
 
 <a name="creating-and-rendering-views"></a>
-## Creating & Rendering Views
+## Создание и рендеринг представлений
 
-You may create a view by placing a file with the `.blade.php` extension in your application's `resources/views` directory. The `.blade.php` extension informs the framework that the file contains a [Blade template](/docs/{{version}}/blade). Blade templates contain HTML as well as Blade directives that allow you to easily echo values, create "if" statements, iterate over data, and more.
+Вы можете создать представление, поместив файл с расширением `.blade.php` в каталог `resources/views` Вашего приложения. Расширение `.blade.php` сообщает платформе, что файл содержит [шаблон Blade](/docs/{{version}}/blade). Шаблоны Blade содержат HTML, а также директивы Blade, которые позволяют легко отображать значения, создавать операторы «если», выполнять итерацию по данным и многое другое.
 
-Once you have created a view, you may return it from one of your application's routes or controllers using the global `view` helper:
+После того, как Вы создали представление, Вы можете вернуть его из одного из маршрутов или контроллеров Вашего приложения, используя глобальный помощник `view`:
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'James']);
     });
 
-Views may also be returned using the `View` facade:
+Представления также могут быть возвращены с помощью фасада `View`:
 
     use Illuminate\Support\Facades\View;
 
     return View::make('greeting', ['name' => 'James']);
 
-As you can see, the first argument passed to the `view` helper corresponds to the name of the view file in the `resources/views` directory. The second argument is an array of data that should be made available to the view. In this case, we are passing the `name` variable, which is displayed in the view using [Blade syntax](/docs/{{version}}/blade).
+Как видите, первый аргумент, переданный помощнику `view`, соответствует имени файла представления в каталоге `resources/views`. Второй аргумент - это массив данных, которые должны быть доступны для представления. В этом случае мы передаем переменную `name`, которая отображается в представлении с использованием [синтаксиса Blade](/docs/{{version}}/blade).
 
 <a name="nested-view-directories"></a>
-### Nested View Directories
+### Вложенные каталоги представлений
 
-Views may also be nested within subdirectories of the `resources/views` directory. "Dot" notation may be used to reference nested views. For example, if your view is stored at `resources/views/admin/profile.blade.php`, you may return it from one of your application's routes / controllers like so:
+Представления также могут быть вложены в подкаталоги каталога `resources/views`. Обозначение «точка» может использоваться для ссылки на вложенные представления. Например, если Ваше представление хранится в `resources/views/admin/profile.blade.php`, Вы можете вернуть его из одного из маршрутов / контроллеров Вашего приложения следующим образом:
 
     return view('admin.profile', $data);
 
-> {note} View directory names should not contain the `.` character.
+> {note} Имена каталогов просмотра не должны содержать символа `.`.
 
 <a name="creating-the-first-available-view"></a>
-### Creating The First Available View
+### Создание первого доступного представления
 
-Using the `View` facade's `first` method, you may create the first view that exists in a given array of views. This may be useful if your application or package allows views to be customized or overwritten:
+Используя метод `first` фасада `View`, Вы можете создать первое представление, которое существует в данном массиве представлений. Это может быть полезно, если Ваше приложение или пакет позволяет настраивать или перезаписывать представления:
 
     use Illuminate\Support\Facades\View;
 
     return View::first(['custom.admin', 'admin'], $data);
 
 <a name="determining-if-a-view-exists"></a>
-### Determining If A View Exists
+### Определение наличия представления
 
-If you need to determine if a view exists, you may use the `View` facade. The `exists` method will return `true` if the view exists:
+Если Вам нужно определить, существует ли представление, Вы можете использовать фасад `View`. Метод `exists` вернет `true`, если представление существует:
 
     use Illuminate\Support\Facades\View;
 
@@ -83,24 +83,24 @@ If you need to determine if a view exists, you may use the `View` facade. The `e
     }
 
 <a name="passing-data-to-views"></a>
-## Passing Data To Views
+## Передача данных в представления
 
-As you saw in the previous examples, you may pass an array of data to views to make that data available to the view:
+Как Вы видели в предыдущих примерах, Вы можете передать массив данных представлениям, чтобы сделать эти данные доступными для представления:
 
     return view('greetings', ['name' => 'Victoria']);
 
-When passing information in this manner, the data should be an array with key / value pairs. After providing data to a view, you can then access each value within your view using the data's keys, such as `<?php echo $name; ?>`.
+При передаче информации таким образом данные должны быть массивом с парами ключ / значение. После предоставления данных в представление Вы можете получить доступ к каждому значению в Вашем представлении, используя ключи данных, такие как `<?php echo $name; ?>`.
 
-As an alternative to passing a complete array of data to the `view` helper function, you may use the `with` method to add individual pieces of data to the view. The `with` method returns an instance of the view object so that you can continue chaining methods before returning the view:
+В качестве альтернативы передаче полного массива данных вспомогательной функции `view` Вы можете использовать метод `with` для добавления отдельных частей данных в представление. Метод `with` возвращает экземпляр объекта представления, так что Вы можете продолжить связывание методов перед возвратом представления:
 
     return view('greeting')
                 ->with('name', 'Victoria')
                 ->with('occupation', 'Astronaut');
 
 <a name="sharing-data-with-all-views"></a>
-### Sharing Data With All Views
+### Совместное использование данных со всеми представлениями
 
-Occasionally, you may need to share data with all views that are rendered by your application. You may do so using the `View` facade's `share` method. Typically, you should place calls to the `share` method within a service provider's `boot` method. You are free to add them to the `App\Providers\AppServiceProvider` class or generate a separate service provider to house them:
+Иногда Вам может потребоваться поделиться данными со всеми представлениями, отображаемыми Вашим приложением. Вы можете сделать это, используя метод `share` фасада `View`. Как правило, Вы должны размещать вызовы метода `share` внутри метода `boot` сервис контейнера. Вы можете добавить их в класс `App\Providers\AppServiceProvider` или создать отдельного поставщика услуг для их размещения:
 
     <?php
 
@@ -111,7 +111,7 @@ Occasionally, you may need to share data with all views that are rendered by you
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Register any application services.
+         * Зарегистрируйте любые сервисы приложения.
          *
          * @return void
          */
@@ -121,7 +121,7 @@ Occasionally, you may need to share data with all views that are rendered by you
         }
 
         /**
-         * Bootstrap any application services.
+         * Загрузите любые сервисы приложений.
          *
          * @return void
          */
@@ -132,13 +132,13 @@ Occasionally, you may need to share data with all views that are rendered by you
     }
 
 <a name="view-composers"></a>
-## View Composers
+## Композеры представлений
 
-View composers are callbacks or class methods that are called when a view is rendered. If you have data that you want to be bound to a view each time that view is rendered, a view composer can help you organize that logic into a single location. View composers may prove particularly useful if the same view is returned by multiple routes or controllers within your application and always needs a particular piece of data.
+Композеры представлений - это обратные вызовы или методы класса, которые вызываются при визуализации представления. Если у Вас есть данные, которые Вы хотите привязать к представлению каждый раз при его визуализации, составитель представления может помочь Вам организовать эту логику в одном месте. Композеры представлений могут оказаться особенно полезными, если одно и то же представление возвращается несколькими маршрутами или контроллерами в Вашем приложении и всегда требует определенного фрагмента данных.
 
-Typically, view composers will be registered within one of your application's [service providers](/docs/{{version}}/providers). In this example, we'll assume that we have created a new `App\Providers\ViewServiceProvider` to house this logic.
+Как правило, композеры представлений будут зарегистрированы в одном из [сервис провайдеров](/docs/{{version}}/providers) Вашего приложения. В этом примере мы предположим, что мы создали новый `App\Providers\ViewServiceProvider` для размещения этой логики.
 
-We'll use the `View` facade's `composer` method to register the view composer. Laravel does not include a default directory for class based view composers, so you are free to organize them however you wish. For example, you could create an `app/Http/View/Composers` directory to house all of your application's view composers:
+Мы будем использовать метод `composer` фасада `View`, чтобы зарегистрировать композер представления. Laravel не включает каталог по умолчанию для композеров представлений на основе классов, поэтому Вы можете организовать их, как хотите. Например, Вы можете создать каталог `app/Http/View/Composers` для размещения всех композеров представлений Вашего приложения:
 
     <?php
 
@@ -151,7 +151,7 @@ We'll use the `View` facade's `composer` method to register the view composer. L
     class ViewServiceProvider extends ServiceProvider
     {
         /**
-         * Register any application services.
+         * Зарегистрируйте любые сервисы приложения.
          *
          * @return void
          */
@@ -161,7 +161,7 @@ We'll use the `View` facade's `composer` method to register the view composer. L
         }
 
         /**
-         * Bootstrap any application services.
+         * Загрузите любые сервисы приложений.
          *
          * @return void
          */
@@ -177,9 +177,9 @@ We'll use the `View` facade's `composer` method to register the view composer. L
         }
     }
 
-> {note} Remember, if you create a new service provider to contain your view composer registrations, you will need to add the service provider to the `providers` array in the `config/app.php` configuration file.
+> {note} Помните, что если вы создаете нового сервис провайдера, который будет содержать регистрации Вашего композера представления, Вам нужно будет добавить сервис провайдера в массив провайдеров `providers` в файле конфигурации `config/app.php`.
 
-Now that we have registered the composer, the `compose` method of the `App\Http\View\Composers\ProfileComposer` class will be executed each time the `profile` view is being rendered. Let's take a look at an example of the composer class:
+Теперь, когда мы зарегистрировали композер, метод `compose` класса `App\Http\View\Composers\ProfileComposer` будет выполняться каждый раз, когда визуализируется представление профиля `profile`. Давайте посмотрим на пример класса композера:
 
     <?php
 
@@ -191,14 +191,14 @@ Now that we have registered the composer, the `compose` method of the `App\Http\
     class ProfileComposer
     {
         /**
-         * The user repository implementation.
+         * Реализация пользовательского репозитория.
          *
          * @var \App\Repositories\UserRepository
          */
         protected $users;
 
         /**
-         * Create a new profile composer.
+         * Создать новый профиль композитора.
          *
          * @param  \App\Repositories\UserRepository  $users
          * @return void
@@ -210,7 +210,7 @@ Now that we have registered the composer, the `compose` method of the `App\Http\
         }
 
         /**
-         * Bind data to the view.
+         * Привязать данные к представлению.
          *
          * @param  \Illuminate\View\View  $view
          * @return void
@@ -221,12 +221,12 @@ Now that we have registered the composer, the `compose` method of the `App\Http\
         }
     }
 
-As you can see, all view composers are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a composer's constructor.
+Как видите, все композеры представлений разрешаются через [сервисный контейнер](/docs/{{version}}/container), поэтому Вы можете указать любые зависимости, которые Вам нужны, в конструкторе композера.
 
 <a name="attaching-a-composer-to-multiple-views"></a>
-#### Attaching A Composer To Multiple Views
+#### Прикрепление композера к нескольким представлениям
 
-You may attach a view composer to multiple views at once by passing an array of views as the first argument to the `composer` method:
+Вы можете присоединить композер представлений к нескольким представлениям одновременно, передав массив представлений в качестве первого аргумента методу `composer`:
 
     use App\Http\Views\Composers\MultiComposer;
 
@@ -235,16 +235,16 @@ You may attach a view composer to multiple views at once by passing an array of 
         MultiComposer::class
     );
 
-The `composer` method also accepts the `*` character as a wildcard, allowing you to attach a composer to all views:
+Метод `composer` также принимает символ `*` в качестве подстановочного знака, позволяя Вам прикрепить композер ко всем представлениям:
 
     View::composer('*', function ($view) {
         //
     });
 
 <a name="view-creators"></a>
-### View Creators
+### Создатели представлений
 
-View "creators" are very similar to view composers; however, they are executed immediately after the view is instantiated instead of waiting until the view is about to render. To register a view creator, use the `creator` method:
+Представления «Создатели» очень похожи на композеры представления; однако они выполняются сразу после создания экземпляра представления, вместо того, чтобы ждать, пока представление будет отображено. Чтобы зарегистрировать создателя представления, используйте метод `creator`:
 
     use App\Http\View\Creators\ProfileCreator;
     use Illuminate\Support\Facades\View;
@@ -252,14 +252,14 @@ View "creators" are very similar to view composers; however, they are executed i
     View::creator('profile', ProfileCreator::class);
 
 <a name="optimizing-views"></a>
-## Optimizing Views
+## Оптимизация представлений
 
-By default, Blade template views are compiled on demand. When a request is executed that renders a view, Laravel will determine if a compiled version of the view exists. If the file exists, Laravel will then determine if the uncompiled view has been modified more recently than the compiled view. If the compiled view either does not exist, or the uncompiled view has been modified, Laravel will recompile the view.
+По умолчанию представления шаблонов Blade компилируются по запросу. Когда выполняется запрос, который отображает представление, Laravel определит, существует ли скомпилированная версия представления. Если файл существует, Laravel затем определит, было ли некомпилированное представление изменено позже, чем скомпилированное представление. Если скомпилированное представление либо не существует, либо некомпилированное представление было изменено, Laravel перекомпилирует представление.
 
-Compiling views during the request may have a small negative impact on performance, so Laravel provides the `view:cache` Artisan command to precompile all of the views utilized by your application. For increased performance, you may wish to run this command as part of your deployment process:
+Компиляция представлений во время запроса может иметь небольшое негативное влияние на производительность, поэтому Laravel предоставляет Artisan-команду `view:cache` для предварительной компиляции всех представлений, используемых Вашим приложением. Для повышения производительности Вы можете выполнить эту команду как часть процесса развертывания:
 
     php artisan view:cache
 
-You may use the `view:clear` command to clear the view cache:
+Вы можете использовать команду `view:clear` для очистки кеша представлений:
 
     php artisan view:clear
