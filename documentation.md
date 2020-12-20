@@ -21,7 +21,7 @@
     - [Запросы](/docs/{{version}}/requests)
     - [Ответы](/docs/{{version}}/responses)
     - [Представления](/docs/{{version}}/views)
-    - [Blade Templates](/docs/{{version}}/blade)
+    - [Шаблоны Blade](/docs/{{version}}/blade)
     - [URL Generation](/docs/{{version}}/urls)
     - [Session](/docs/{{version}}/session)
     - [Validation](/docs/{{version}}/validation)
