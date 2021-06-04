@@ -142,15 +142,15 @@ cd example-app
 > {tip} Чтобы узнать больше о Laravel Sail, просмотрите его [полную документацию](/docs/{{version}}/sail).
 
 <a name="choosing-your-sail-services"></a>
-### Choosing Your Sail Services
+### Выбор сервиса Sail
 
-When creating a new Laravel application via Sail, you may use the `with` query string variable to choose which services should be configured in your new application's `docker-compose.yml` file. Available services include `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `meilisearch`, `selenium`, and `mailhog`:
+При создании нового приложения Laravel через Sail вы можете использовать строковую переменную запроса `with`, чтобы выбрать, какие службы должны быть настроены в файле `docker-compose.yml`. Доступные службы включают `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `meilisearch`, `selenium` и `mailhog`:
 
 ```nothing
 curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
 ```
 
-If you do not specify which services you would like configured, a default stack of `mysql`, `redis`, `meilisearch`, `mailhog`, and `selenium` will be configured.
+Если вы не укажете, какие службы вы хотите настроить, будет настроен стек по умолчанию из `mysql`, `redis`, `meilisearch`, `mailhog` и `selenium`.
 
 <a name="installation-via-composer"></a>
 ### Установка через Composer
@@ -186,31 +186,31 @@ php artisan serve
 - GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin` or `$HOME/.composer/vendor/bin`
 </div>
 
-For convenience, the Laravel installer can also create a Git repository for your new project. To indicate that you want a Git repository to be created, pass the `--git` flag when creating a new project:
+Для удобства установщик Laravel также может создать репозиторий Git для вашего нового проекта. Чтобы указать, что вы хотите создать репозиторий Git, передайте флаг `--git` при создании нового проекта:
 
 ```bash
 laravel new example-app --git
 ```
 
-This command will initialize a new Git repository for your project and automatically commit the base Laravel skeleton. The `git` flag assumes you have properly installed and configured Git. You can also use the `--branch` flag to set the initial branch name:
+Эта команда инициализирует новый репозиторий Git для вашего проекта и автоматически зафиксирует базовый скелет Laravel. Флаг `git` предполагает, что вы правильно установили и настроили Git. Вы также можете использовать флаг `--branch`, чтобы установить начальное имя ветки:
 
 ```bash
 laravel new example-app --git --branch="main"
 ```
 
-Instead of using the `--git` flag, you may also use the `--github` flag to create a Git repository and also create a corresponding private repository on GitHub:
+Вместо использования флага `--git` вы также можете использовать флаг `--github` для создания репозитория Git, а также создать соответствующий частный репозиторий на GitHub:
 
 ```bash
 laravel new example-app --github
 ```
 
-The created repository will then be available at `https://github.com/<your-account>/my-app.com`. The `github` flag assumes you have properly installed the [`gh` CLI tool](https://cli.github.com) and are authenticated with GitHub. Additionally, you should have `git` installed and properly configured. If needed, you can pass additional flags that supported by the GitHub CLI:
+Созданный репозиторий будет доступен по адресу `https://github.com/<your-account>/my-app.com`. Флаг `github` предполагает, что вы правильно установили [CLI инструмент `gh`](https://cli.github.com) и прошли аутентификацию с помощью GitHub. Кроме того, у вас должен быть установлен и правильно настроен `git`. При необходимости вы можете передать дополнительные флаги, поддерживаемые GitHub CLI:
 
 ```bash
 laravel new example-app --github="--public"
 ```
 
-You may use the `--organization` flag to create the repository under a specific GitHub organization:
+Вы можете использовать флаг `--organization` для создания репозитория в определенной организации GitHub:
 
 ```bash
 laravel new example-app --github="--public" --organization="laravel"

@@ -133,7 +133,7 @@ The debug option in your config/app.php configuration file determines how much i
 
 Если Вы не совсем готовы управлять конфигурацией своего сервера или Вам неудобно настраивать все различные службы, необходимые для запуска надежного приложения Laravel, [Laravel Forge](https://forge.laravel.com) - замечательная альтернатива.
 
-Laravel Forge может создавать серверы у различных поставщиков инфраструктуры, таких как DigitalOcean, Linode, AWS и других. Кроме того, Forge устанавливает и управляет всеми инструментами, необходимыми для создания надежных приложений Laravel, таких как Nginx, MySQL, Redis, Memcached, Beanstalk и других.
+Laravel Forge может создавать серверы у различных провайдеров инфраструктуры, таких как DigitalOcean, Linode, AWS и других. Кроме того, Forge устанавливает и управляет всеми инструментами, необходимыми для создания надежных приложений Laravel, таких как Nginx, MySQL, Redis, Memcached, Beanstalk и других.
 
 <a name="laravel-vapor"></a>
 #### Laravel Vapor

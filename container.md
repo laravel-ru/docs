@@ -225,7 +225,7 @@ First, if you write a class that implements an interface and you wish to type-hi
         ->needs('$reports')
         ->giveTagged('reports');
 
-If you need to inject a value from one of your application's configuration files, you may use the `giveConfig` method:
+Если вам нужно ввести значение из одного из файлов конфигурации вашего приложения, вы можете использовать метод `giveConfig`:
 
     $this->app->when(ReportAggregator::class)
         ->needs('$timezone')

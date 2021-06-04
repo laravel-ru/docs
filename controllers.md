@@ -166,9 +166,9 @@ PUT/PATCH | `/photos/{photo}`      | update       | photos.update
 DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
 <a name="customizing-missing-model-behavior"></a>
-#### Customizing Missing Model Behavior
+#### Настройка поведения отсутствующей модели
 
-Typically, a 404 HTTP response will be generated if an implicitly bound resource model is not found. However, you may customize this behavior by calling the `missing` method when defining your resource route. The `missing` method accepts a closure that will be invoked if an implicitly bound model can not be found for any of the resource's routes:
+Обычно ответ HTTP 404 генерируется, если не найдена неявно привязанная модель ресурсов. Однако вы можете настроить это поведение, вызвав метод `missing` при определении маршрута к вашему ресурсу. Метод `missing` принимает закрытие, которое будет вызываться, если неявно связанная модель не может быть найдена ни для одного из маршрутов ресурса:
 
     use App\Http\Controllers\PhotoController;
     use Illuminate\Http\Request;

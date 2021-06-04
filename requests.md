@@ -131,7 +131,7 @@
 
     $urlWithQueryString = $request->fullUrl();
 
-If you would like to append query string data to the current URL, you may call the `fullUrlWithQuery` method. This method merges the given array of query string variables with the current query string:
+Если вы хотите добавить данные строки запроса к текущему URL-адресу, вы можете вызвать метод `fullUrlWithQuery`. Этот метод объединяет данный массив переменных строки запроса с текущей строкой запроса:
 
     $request->fullUrlWithQuery(['type' => 'phone']);
 
@@ -515,13 +515,13 @@ Laravel также предоставляет глобального помощ�
     protected $proxies = '*';
 
 <a name="configuring-trusted-hosts"></a>
-## Configuring Trusted Hosts
+## Настройка доверенных хостов
 
-By default, Laravel will respond to all requests it receives regardless of the content of the HTTP request's `Host` header. In addition, the `Host` header's value will be used when generating absolute URLs to your application during a web request.
+По умолчанию Laravel будет отвечать на все запросы, которые он получает, независимо от содержимого заголовка HTTP-запроса `Host`. Кроме того, значение заголовка `Host` будет использоваться при генерации абсолютных URL-адресов вашего приложения во время веб-запроса.
 
-Typically, you should configure your web server, such as Nginx or Apache, to only send requests to your application that match a given host name. However, if you do not have the ability to customize your web server directly and need to instruct Laravel to only respond to certain host names, you may do so by enabling the `App\Http\Middleware\TrustHosts` middleware for your application.
+Как правило, вам следует настроить свой веб-сервер, такой как Nginx или Apache, так, чтобы он отправлял вашему приложению только запросы, соответствующие заданному имени хоста. Однако, если у вас нет возможности напрямую настроить свой веб-сервер и вам нужно указать Laravel отвечать только на определенные имена хостов, вы можете сделать это, включив мидлвар `App\Http\Middleware\TrustHosts` для вашего приложения.
 
-The `TrustHosts` middleware is already included in the `$middleware` stack of your application; however, you should uncomment it so that it becomes active. Within this middleware's `hosts` method, you may specify the host names that your application should respond to. Incoming requests with other `Host` value headers will be rejected:
+Мидлвар `TrustHosts` уже включен в стек вашего приложения `$middleware`; однако вы должны раскомментировать его, чтобы он стал активным. В методе этого мидлвара `hosts` вы можете указать имена хостов, на которые ваше приложение должно отвечать. Входящие запросы с другими заголовками значений `Host` будут отклонены:
 
     /**
      * Get the host patterns that should be trusted.
@@ -536,4 +536,4 @@ The `TrustHosts` middleware is already included in the `$middleware` stack of yo
         ];
     }
 
-The `allSubdomainsOfApplicationUrl` helper method will return a regular expression matching all subdomains of your application's `app.url` configuration value. This helper method provides a convenient way to allow all of your application's subdomains when building an application that utilizes wildcard subdomains.
+Вспомогательный метод `allSubdomainsOfApplicationUrl` вернет регулярное выражение, соответствующее всем поддоменам значения конфигурации вашего приложения `app.url`. Этот вспомогательный метод предоставляет удобный способ разрешить все поддомены вашего приложения при создании приложения, которое использует поддомены с подстановочными знаками.

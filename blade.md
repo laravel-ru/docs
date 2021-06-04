@@ -597,15 +597,15 @@ Blade автоматически обнаружит класс, связанны
     <x-alert alert-type="danger" />
 
 <a name="escaping-attribute-rendering"></a>
-#### Escaping Attribute Rendering
+#### Экранирование рендеринга атрибутов
 
-Since some JavaScript frameworks such as Alpine.js also use colon-prefixed attributes, you may use a double colon (`::`) prefix to inform Blade that the attribute is not a PHP expression. For example, given the following component:
+Поскольку некоторые фреймворки JavaScript, такие как Alpine.js, также используют атрибуты с префиксом двоеточия, вы можете использовать префикс с двойным двоеточием (`::`), чтобы сообщить Blade, что атрибут не является выражением PHP. Например, учитывая следующий компонент:
 
     <x-button ::class="{ danger: isDeleting }">
         Submit
     </x-button>
 
-The following HTML will be rendered by Blade:
+Blade отобразит следующий HTML-код:
 
     <button :class="{ danger: isDeleting }">
         Submit
@@ -681,9 +681,9 @@ The following HTML will be rendered by Blade:
     }
 
 <a name="hiding-attributes-and-methods"></a>
-#### Hiding Attributes / Methods
+#### Скрытие атрибутов / методов
 
-If you would like to prevent some public methods or properties from being exposed as variables to your component template, you may add them to an `$except` array property on your component:
+Если вы хотите, чтобы некоторые общедоступные методы или свойства не отображались как переменные в шаблоне компонента, вы можете добавить их в свойство массива `$except` в вашем компоненте:
 
     <?php
 

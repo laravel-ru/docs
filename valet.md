@@ -168,9 +168,9 @@ Valet позволяет переключать версии PHP с помощь
     valet unsecure laravel
 
 <a name="serving-a-default-site"></a>
-### Serving A Default Site
+### Обслуживание сайта по умолчанию
 
-Sometimes, you may wish to configure Valet to serve a "default" site instead of a `404` when visiting an unknown `test` domain. To accomplish this, you may add a `default` option to your `~/.config/valet/config.json` configuration file containing the path to the site that should serve as your default site:
+Иногда вам может потребоваться настроить Valet для обслуживания сайта «по умолчанию» вместо `404` при посещении неизвестного `test` домена. Для этого вы можете добавить параметр `default` в файл конфигурации `~/.config/valet/config.json`, содержащий путь к сайту, который должен служить вашим сайтом по умолчанию:
 
     "default": "/Users/Sally/Sites/foo",
 

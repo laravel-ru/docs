@@ -161,9 +161,9 @@
 <a name="the-event-service-provider-class"></a>
 #### The `EventServiceProvider` Class
 
-**Likelihood Of Impact: Low**
+**Вероятность воздействия: Низкая**
 
-If your `App\Providers\EventServiceProvider` class contains a `register` function, you should ensure that you call `parent::register` at the beginning of this method. Otherwise, your application's events will not be registered.
+Если ваш класс `App\Providers\EventServiceProvider` содержит функцию `register`, вы должны убедиться, что вы вызываете `parent::register` в начале этого метода. В противном случае события вашего приложения не будут зарегистрированы.
 
 <a name="the-dispatcher-contract"></a>
 #### Контракт `Dispatcher`
