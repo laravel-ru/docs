@@ -29,7 +29,7 @@
 
 Laravel Scout provides a simple, driver based solution for adding full-text search to your [Eloquent models](/docs/{{version}}/eloquent). Using model observers, Scout will automatically keep your search indexes in sync with your Eloquent records.
 
-Currently, Scout ships with an [Algolia](https://www.algolia.com/) driver; however, writing custom drivers is simple and you are free to extend Scout with your own search implementations.
+Currently, Scout ships with [Algolia](https://www.algolia.com/) and [MeiliSearch](https://www.meilisearch.com) drivers; however, writing custom drivers is simple and you are free to extend Scout with your own search implementations.
 
 <a name="installation"></a>
 ## Installation
@@ -65,6 +65,23 @@ Finally, add the `Laravel\Scout\Searchable` trait to the model you would like to
 When using the Algolia driver, you should configure your Algolia `id` and `secret` credentials in your `config/scout.php` configuration file. Once your credentials have been configured, you will also need to install the Algolia PHP SDK via the Composer package manager:
 
     composer require algolia/algoliasearch-client-php
+
+<a name="meilisearch"></a>
+#### MeiliSearch
+
+When using the MeiliSearch driver you will need to install the MeiliSearch PHP SDK via the Composer package manager:
+
+    composer require meilisearch/meilisearch-php http-interop/http-factory-guzzle
+
+Then, set the `SCOUT_DRIVER` environment variable as well as your MeiliSearch `host` and `key` credentials within your application's `.env` file:
+
+    SCOUT_DRIVER=meilisearch
+    MEILISEARCH_HOST=http://127.0.0.1:7700
+    MEILISEARCH_KEY=masterKey
+
+For more information regarding MeiliSearch, please consult the [MeiliSearch documentation](https://docs.meilisearch.com/learn/getting_started/quick_start.html).
+
+> {tip} If you aren't sure how to install MeiliSearch on your local machine, you may use [Laravel Sail](/docs/{{version}}/sail#meilisearch), Laravel's officially supported Docker development environment.
 
 <a name="queueing"></a>
 ### Queueing
@@ -495,7 +512,7 @@ If you would like to define a custom Scout search builder method, you may use th
     public function boot()
     {
         Builder::macro('count', function () {
-            return $this->engine->getTotalCount(
+            return $this->engine()->getTotalCount(
                 $this->engine()->search($this)
             );
         });

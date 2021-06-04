@@ -16,6 +16,7 @@
     - [Customizing The Mailer](#customizing-the-mailer)
     - [Customizing The Templates](#customizing-the-templates)
     - [Attachments](#mail-attachments)
+    - [Using Mailables](#using-mailables)
     - [Previewing Mail Notifications](#previewing-mail-notifications)
 - [Markdown Mail Notifications](#markdown-mail-notifications)
     - [Generating The Message](#generating-the-message)
@@ -189,6 +190,30 @@ If you would like to specify a specific queue that should be used for each notif
         ];
     }
 
+<a name="queued-notifications-and-database-transactions"></a>
+#### Queued Notifications & Database Transactions
+
+When queued notifications are dispatched within database transactions, they may be processed by the queue before the database transaction has committed. When this happens, any updates you have made to models or database records during the database transaction may not yet be reflected in the database. In addition, any models or database records created within the transaction may not exist in the database. If your notification depends on these models, unexpected errors can occur when the job that sends the queued notification is processed.
+
+If your queue connection's `after_commit` configuration option is set to `false`, you may still indicate that a particular queued notification should be dispatched after all open database transactions have been committed by defining an `$afterCommit` property on the notification class:
+
+    <?php
+
+    namespace App\Notifications;
+
+    use Illuminate\Bus\Queueable;
+    use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Notifications\Notification;
+
+    class InvoicePaid extends Notification implements ShouldQueue
+    {
+        use Queueable;
+
+        public $afterCommit = true;
+    }
+
+> {tip} To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
+
 <a name="on-demand-notifications"></a>
 ### On-Demand Notifications
 
@@ -268,22 +293,6 @@ You may specify a plain-text view for the mail message by passing the view name 
         );
     }
 
-In addition, you may return a full [mailable object](/docs/{{version}}/mail) from the `toMail` method:
-
-    use App\Mail\InvoicePaid as InvoicePaidMailable;
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return Mailable
-     */
-    public function toMail($notifiable)
-    {
-        return (new InvoicePaidMailable($this->invoice))
-                    ->to($notifiable->email);
-    }
-
 <a name="error-messages"></a>
 #### Error Messages
 
@@ -356,7 +365,7 @@ When sending notifications via the `mail` channel, the notification system will 
 <a name="customizing-the-subject"></a>
 ### Customizing The Subject
 
-By default, the email's subject is the class name of the notification formatted to "Title Case". So, if your notification class is named `InvoicePaid`, the email's subject will be `Invoice Paid`. If you would like to specify an different subject for the message, you may call the `subject` method when building your message:
+By default, the email's subject is the class name of the notification formatted to "Title Case". So, if your notification class is named `InvoicePaid`, the email's subject will be `Invoice Paid`. If you would like to specify a different subject for the message, you may call the `subject` method when building your message:
 
     /**
      * Get the mail representation of the notification.
@@ -467,6 +476,49 @@ The `attachData` method may be used to attach a raw string of bytes as an attach
                     ->attachData($this->pdf, 'name.pdf', [
                         'mime' => 'application/pdf',
                     ]);
+    }
+
+<a name="using-mailables"></a>
+### Using Mailables
+
+If needed, you may return a full [mailable object](/docs/{{version}}/mail) from your notification's `toMail` method. When returning a `Mailable` instead of a `MailMessage`, you will need to specify the message recipient using the mailable object's `to` method:
+
+    use App\Mail\InvoicePaid as InvoicePaidMailable;
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return Mailable
+     */
+    public function toMail($notifiable)
+    {
+        return (new InvoicePaidMailable($this->invoice))
+                    ->to($notifiable->email);
+    }
+
+<a name="mailables-and-on-demand-notifications"></a>
+#### Mailables & On-Demand Notifications
+
+If you are sending an [on-demand notification](#on-demand-notifications), the `$notifiable` instance given to the `toMail` method will be an instance of `Illuminate\Notifications\AnonymousNotifiable`, which offers a `routeNotificationFor` method that may be used to retrieve the email address the on-demand notification should be sent to:
+
+    use App\Mail\InvoicePaid as InvoicePaidMailable;
+    use Illuminate\Notifications\AnonymousNotifiable;
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return Mailable
+     */
+    public function toMail($notifiable)
+    {
+        $address = $notifiable instanceof AnonymousNotifiable
+                ? $notifiable->routeNotificationFor('mail')
+                : $notifiable->email;
+
+        return (new InvoicePaidMailable($this->invoice))
+                    ->to($address);
     }
 
 <a name="previewing-mail-notifications"></a>
@@ -842,7 +894,7 @@ Laravel also supports sending shortcode notifications, which are pre-defined mes
             'type' => 'alert',
             'custom' => [
                 'code' => 'ABC123',
-            ];
+            ],
         ];
     }
 
@@ -915,7 +967,7 @@ If a notification supports being sent as a Slack message, you should define a `t
      * Get the Slack representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Message\SlackMessage
+     * @return \Illuminate\Notifications\Messages\SlackMessage
      */
     public function toSlack($notifiable)
     {

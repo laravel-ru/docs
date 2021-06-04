@@ -5,6 +5,7 @@
     - [The Local Driver](#the-local-driver)
     - [The Public Disk](#the-public-disk)
     - [Driver Prerequisites](#driver-prerequisites)
+    - [Amazon S3 Compatible Filesystems](#amazon-s3-compatible-filesystems)
     - [Caching](#caching)
 - [Obtaining Disk Instances](#obtaining-disk-instances)
 - [Retrieving Files](#retrieving-files)
@@ -26,7 +27,7 @@ Laravel provides a powerful filesystem abstraction thanks to the wonderful [Flys
 <a name="configuration"></a>
 ## Configuration
 
-Laravel's filesystem configuration file is located at `config/filesystems.php`. Within this file you may configure all of your filesystem "disks". Each disk represents a particular storage driver and storage location. Example configurations for each supported driver are included in the configuration file so you can modify the configuration to reflect your storage preferences and credentials.
+Laravel's filesystem configuration file is located at `config/filesystems.php`. Within this file, you may configure all of your filesystem "disks". Each disk represents a particular storage driver and storage location. Example configurations for each supported driver are included in the configuration file so you can modify the configuration to reflect your storage preferences and credentials.
 
 The `local` driver interacts with files stored locally on the server running the Laravel application while the `s3` driver is used to write to Amazon's S3 cloud storage service.
 
@@ -71,12 +72,12 @@ You may configure additional symbolic links in your `filesystems` configuration 
 
 Before using the S3 or SFTP drivers, you will need to install the appropriate package via the Composer package manager:
 
-- Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
-- SFTP: `league/flysystem-sftp ~1.0`
+- Amazon S3: `composer require league/flysystem-aws-s3-v3 "~1.0"`
+- SFTP: `composer require league/flysystem-sftp "~1.0"`
 
 In addition, you may choose to install a cached adapter for increased performance:
 
-- CachedAdapter: `league/flysystem-cached-adapter ~1.0`
+- CachedAdapter: `composer require league/flysystem-cached-adapter "~1.0"`
 
 <a name="s3-driver-configuration"></a>
 #### S3 Driver Configuration
@@ -86,7 +87,7 @@ The S3 driver configuration information is located in your `config/filesystems.p
 <a name="ftp-driver-configuration"></a>
 #### FTP Driver Configuration
 
-Laravel's Flysystem integrations works great with FTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a FTP filesystem, you may use the configuration example below:
+Laravel's Flysystem integrations work great with FTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure an FTP filesystem, you may use the configuration example below:
 
     'ftp' => [
         'driver' => 'ftp',
@@ -105,7 +106,7 @@ Laravel's Flysystem integrations works great with FTP; however, a sample configu
 <a name="sftp-driver-configuration"></a>
 #### SFTP Driver Configuration
 
-Laravel's Flysystem integrations works great with SFTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a SFTP filesystem, you may use the configuration example below:
+Laravel's Flysystem integrations work great with SFTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure an SFTP filesystem, you may use the configuration example below:
 
     'sftp' => [
         'driver' => 'sftp',
@@ -122,6 +123,15 @@ Laravel's Flysystem integrations works great with SFTP; however, a sample config
         // 'root' => '',
         // 'timeout' => 30,
     ],
+
+<a name="amazon-s3-compatible-filesystems"></a>
+### Amazon S3 Compatible Filesystems
+
+By default, your application's `filesystems` configuration file contains a disk configuration for the `s3` disk. In addition to using this disk to interact with Amazon S3, you may use it to interact with any S3 compatible file storage service such as [MinIO](https://github.com/minio/minio) or [DigitalOcean Spaces](https://www.digitalocean.com/products/spaces/).
+
+Typically, after updating the disk's credentials to match the credentials of the service you are planning to use, you only need to update the value of the `url` configuration option. This option's value is typically defined via the `AWS_ENDPOINT` environment variable:
+
+    'endpoint' => env('AWS_ENDPOINT', 'https://minio:9000'),
 
 <a name="caching"></a>
 ### Caching
@@ -370,7 +380,7 @@ If you are using the `storeAs` method, you may pass the disk name as the third a
 <a name="other-uploaded-file-information"></a>
 #### Other Uploaded File Information
 
-If you would like to get original name of the uploaded file, you may do so using the `getClientOriginalName` method:
+If you would like to get the original name of the uploaded file, you may do so using the `getClientOriginalName` method:
 
     $name = $request->file('avatar')->getClientOriginalName();
 

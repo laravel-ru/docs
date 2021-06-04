@@ -288,7 +288,7 @@ The command watcher records the arguments, options, exit code, and output whenev
 <a name="dump-watcher"></a>
 ### Dump Watcher
 
-The dump watcher records and displays your variable dumps in Telescope. When using Laravel, variables may be dumped using the global `dump` function. The dump watcher tab must be open in a browser for the dump to be recorded, otherwise the dumps will be ignored by the watcher.
+The dump watcher records and displays your variable dumps in Telescope. When using Laravel, variables may be dumped using the global `dump` function. The dump watcher tab must be open in a browser for the dump to be recorded, otherwise, the dumps will be ignored by the watcher.
 
 <a name="event-watcher"></a>
 ### Event Watcher
@@ -337,6 +337,17 @@ The model watcher records model changes whenever an Eloquent [model event](/docs
         Watchers\ModelWatcher::class => [
             'enabled' => env('TELESCOPE_MODEL_WATCHER', true),
             'events' => ['eloquent.created*', 'eloquent.updated*'],
+        ],
+        ...
+    ],
+
+If you would like to record the number of models hydrated during a given request, enable the `hydrations` option:
+
+    'watchers' => [
+        Watchers\ModelWatcher::class => [
+            'enabled' => env('TELESCOPE_MODEL_WATCHER', true),
+            'events' => ['eloquent.created*', 'eloquent.updated*'],
+            'hydrations' => true,
         ],
         ...
     ],

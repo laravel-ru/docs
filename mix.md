@@ -59,7 +59,7 @@ The only remaining step is to install Laravel Mix. Within a fresh installation o
 <a name="running-mix"></a>
 ## Running Mix
 
-Mix is a configuration layer on top of [webpack](https://webpack.js.org), so to run your Mix tasks you only need to execute one of the NPM scripts that is included in the default Laravel `package.json` file. When you run the `dev` or `production` scripts, all of your application's CSS and JavaScript assets will be compiled and placed in your application's `public` directory:
+Mix is a configuration layer on top of [webpack](https://webpack.js.org), so to run your Mix tasks you only need to execute one of the NPM scripts that are included in the default Laravel `package.json` file. When you run the `dev` or `production` scripts, all of your application's CSS and JavaScript assets will be compiled and placed in your application's `public` directory:
 
     // Run all Mix tasks...
     npm run dev
@@ -88,7 +88,9 @@ Your application's `webpack.mix.js` file is your entry point for all asset compi
 
 [Tailwind CSS](https://tailwindcss.com) is a modern, utility-first framework for building amazing sites without ever leaving your HTML. Let's dig into how to start using it in a Laravel project with Laravel Mix. First, we should install Tailwind using NPM and generate our Tailwind configuration file:
 
-    npm install tailwindcss@compat
+    npm install
+
+    npm install -D tailwindcss
 
     npx tailwindcss init
 
@@ -116,7 +118,6 @@ Once you have configured Tailwind's layers, you are ready to update your applica
 ```js
 mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
-        require('postcss-import'),
         require('tailwindcss'),
     ]);
 ```
@@ -153,7 +154,7 @@ The `sass` method allows you to compile [Sass](https://sass-lang.com/) into CSS 
 
     mix.sass('resources/sass/app.scss', 'public/css');
 
-Y may compile multiple Sass files into their own respective CSS files and even customize the output directory of the resulting CSS by calling the `sass` method multiple times:
+You may compile multiple Sass files into their own respective CSS files and even customize the output directory of the resulting CSS by calling the `sass` method multiple times:
 
     mix.sass('resources/sass/app.sass', 'public/css')
         .sass('resources/sass/admin.sass', 'public/css/admin');
@@ -175,7 +176,7 @@ By default, Laravel Mix and webpack will find `example.png`, copy it to your `pu
         background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
     }
 
-As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
+As useful as this feature may be, your existing folder structure may already be configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
 
     mix.sass('resources/sass/app.scss', 'public/css').options({
         processCssUrls: false
@@ -208,14 +209,14 @@ Webpack offers a variety of [source mapping styles](https://webpack.js.org/confi
 <a name="working-with-scripts"></a>
 ## Working With JavaScript
 
-Mix provides several features to help you work with your JavaScript files, such as compiling ECMAScript 2015, module bundling, minification, and concatenating plain JavaScript files. Even better, this all works seamlessly, without requiring an ounce of custom configuration:
+Mix provides several features to help you work with your JavaScript files, such as compiling modern ECMAScript, module bundling, minification, and concatenating plain JavaScript files. Even better, this all works seamlessly, without requiring an ounce of custom configuration:
 
     mix.js('resources/js/app.js', 'public/js');
 
 With this single line of code, you may now take advantage of:
 
 <div class="content-list" markdown="1">
-- ES2015 syntax.
+- The latest EcmaScript syntax.
 - Modules
 - Minification for production environments.
 </div>
@@ -223,9 +224,10 @@ With this single line of code, you may now take advantage of:
 <a name="vue"></a>
 ### Vue
 
-Mix will automatically install the Babel plugins necessary for Vue single-file component compilation support when using the `js` method. No further configuration is required:
+Mix will automatically install the Babel plugins necessary for Vue single-file component compilation support when using the `vue` method. No further configuration is required:
 
-    mix.js('resources/js/app.js', 'public/js');
+    mix.js('resources/js/app.js', 'public/js')
+       .vue();
 
 Once your JavaScript has been compiled, you can reference it in your application:
 
@@ -240,9 +242,10 @@ Once your JavaScript has been compiled, you can reference it in your application
 <a name="react"></a>
 ### React
 
-Mix can automatically install the Babel plugins necessary for React support. To get started, replace your call to Mix's `js` method with a call to the `react` method:
+Mix can automatically install the Babel plugins necessary for React support. To get started, add a call to the `react` method:
 
-    mix.react('resources/js/app.jsx', 'public/js');
+    mix.js('resources/js/app.jsx', 'public/js')
+       .react();
 
 Behind the scenes, Mix will download and include the appropriate `babel-preset-react` Babel plugin. Once your JavaScript has been compiled, you can reference it in your application:
 
@@ -281,12 +284,9 @@ To avoid JavaScript errors, be sure to load these files in the proper order:
 <a name="custom-webpack-configuration"></a>
 ### Custom Webpack Configuration
 
-Behind the scenes, Laravel Mix references a pre-configured `webpack.config.js` file to get you up and running as quickly as possible. Occasionally, you may need to manually modify this file. For example, you might have a special loader or plugin that needs to be referenced. In such instances, you have two choices:
+Occasionally, you may need to manually modify the underlying Webpack configuration. For example, you might have a special loader or plugin that needs to be referenced.
 
-<a name="merging-custom-configuration"></a>
-#### Merging Custom Configuration
-
-Mix provides a useful `webpackConfig` method that allows you to merge any short Webpack configuration overrides. This is a particularly appealing choice, as it doesn't require you to copy and maintain your own copy of the `webpack.config.js` file. The `webpackConfig` method accepts an object, which should contain any [Webpack-specific configuration](https://webpack.js.org/configuration/) that you wish to apply.
+Mix provides a useful `webpackConfig` method that allows you to merge any short Webpack configuration overrides. This is particularly appealing, as it doesn't require you to copy and maintain your own copy of the `webpack.config.js` file. The `webpackConfig` method accepts an object, which should contain any [Webpack-specific configuration](https://webpack.js.org/configuration/) that you wish to apply.
 
     mix.webpackConfig({
         resolve: {
@@ -295,11 +295,6 @@ Mix provides a useful `webpackConfig` method that allows you to merge any short 
             ]
         }
     });
-
-<a name="custom-configuration-files"></a>
-#### Custom Configuration Files
-
-If you would like to completely customize your Webpack configuration, copy the `node_modules/laravel-mix/setup/webpack.config.js` file to your project's root directory. Next, point all of the `--config` references in your `package.json` file to the newly copied configuration file. If you choose to take this approach to customization, any future upstream updates to Mix's `webpack.config.js` must be manually merged into your customized file.
 
 <a name="versioning-and-cache-busting"></a>
 ## Versioning / Cache Busting

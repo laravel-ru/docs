@@ -31,12 +31,13 @@ When mocking an object that is going to be injected into your application via La
 
     use App\Service;
     use Mockery;
+    use Mockery\MockInterface;
 
     public function test_something_can_be_mocked()
     {
-         $this->instance(
+        $this->instance(
             Service::class,
-            Mockery::mock(Service::class, function ($mock) {
+            Mockery::mock(Service::class, function (MockInterface $mock) {
                 $mock->shouldReceive('process')->once();
             })
         );
@@ -45,16 +46,18 @@ When mocking an object that is going to be injected into your application via La
 In order to make this more convenient, you may use the `mock` method that is provided by Laravel's base test case class. For example, the following example is equivalent to the example above:
 
     use App\Service;
+    use Mockery\MockInterface;
 
-    $mock = $this->mock(Service::class, function ($mock) {
+    $mock = $this->mock(Service::class, function (MockInterface $mock) {
         $mock->shouldReceive('process')->once();
     });
 
 You may use the `partialMock` method when you only need to mock a few methods of an object. The methods that are not mocked will be executed normally when called:
 
     use App\Service;
+    use Mockery\MockInterface;
 
-    $mock = $this->partialMock(Service::class, function ($mock) {
+    $mock = $this->partialMock(Service::class, function (MockInterface $mock) {
         $mock->shouldReceive('process')->once();
     });
 
@@ -66,7 +69,7 @@ Similarly, if you want to [spy](http://docs.mockery.io/en/latest/reference/spies
 
     // ...
 
-    $spy->shouldHaveReceived('process')
+    $spy->shouldHaveReceived('process');
 
 <a name="mocking-facades"></a>
 ## Mocking Facades
@@ -219,7 +222,7 @@ The `Bus` facade's `assertBatched` method may be used to assert that a [batch of
 <a name="event-fake"></a>
 ## Event Fake
 
-When testing code that dispatches events, you may wish to instruct Laravel to not actually execute the event's listeners. Using the `Event` facade's `fake` method, you may prevent listeners from executing, execute the code under test, and then assert which events were dispatched by your application using the `assertDispatched` and `assertNotDispatched` methods:
+When testing code that dispatches events, you may wish to instruct Laravel to not actually execute the event's listeners. Using the `Event` facade's `fake` method, you may prevent listeners from executing, execute the code under test, and then assert which events were dispatched by your application using the `assertDispatched`, `assertNotDispatched`, and `assertNothingDispatched` methods:
 
     <?php
 
@@ -251,6 +254,9 @@ When testing code that dispatches events, you may wish to instruct Laravel to no
 
             // Assert an event was not dispatched...
             Event::assertNotDispatched(OrderFailedToShip::class);
+
+            // Assert that no events were dispatched...
+            Event::assertNothingDispatched();
         }
     }
 
@@ -259,6 +265,13 @@ You may pass a closure to the `assertDispatched` or `assertNotDispatched` method
     Event::assertDispatched(function (OrderShipped $event) use ($order) {
         return $event->order->id === $order->id;
     });
+
+If you would simply like to assert that an event listener is listening to a given event, you may use the `assertListening` method:
+
+    Event::assertListening(
+        OrderShipped::class,
+        SendShipmentNotification::class
+    );
 
 > {note} After calling `Event::fake()`, no event listeners will be executed. So, if your tests use model factories that rely on events, such as creating a UUID during a model's `creating` event, you should call `Event::fake()` **after** using your factories.
 
@@ -369,6 +382,8 @@ If you are queueing mailables for delivery in the background, you should use the
     Mail::assertQueued(OrderShipped::class);
 
     Mail::assertNotQueued(OrderShipped::class);
+
+    Mail::assertNothingQueued();
 
 You may pass a closure to the `assertSent` or `assertNotSent` methods in order to assert that a mailable was sent that passes a given "truth test". If at least one mailable was sent that passes the given truth test then the assertion will be successful:
 

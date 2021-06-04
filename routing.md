@@ -309,7 +309,7 @@
 <a name="route-group-middleware"></a>
 ### Мидлвары
 
-Чтобы назначить [мидлвары](/docs/{{version}}/middleware) всем маршрутам в группе, Вы можете использовать метод `middleware` перед определением группы. Промежуточное ПО выполняется в том порядке, в котором они перечислены в массиве:
+Чтобы назначить [мидлвары](/docs/{{version}}/middleware) всем маршрутам в группе, Вы можете использовать метод `middleware` перед определением группы. Мидлвар выполняется в том порядке, в котором они перечислены в массиве:
 
     Route::middleware(['first', 'second'])->group(function () {
         Route::get('/', function () {
@@ -425,6 +425,21 @@ Laravel автоматически разрешает модели Eloquent, о�
     });
 
 При использовании настраиваемой неявной привязки с ключом в качестве параметра вложенного маршрута Laravel автоматически задает область запроса для получения вложенной модели своим родителем, используя соглашения, чтобы угадать имя отношения на родительском элементе. В этом случае предполагается, что модель `User` имеет отношение с именем `posts` (форма множественного числа имени параметра маршрута), которое можно использовать для получения модели `Post`.
+
+<a name="customizing-missing-model-behavior"></a>
+#### Customizing Missing Model Behavior
+
+Typically, a 404 HTTP response will be generated if an implicitly bound model is not found. However, you may customize this behavior by calling the `missing` method when defining your route. The `missing` method accepts a closure that will be invoked if an implicitly bound model can not be found:
+
+    use App\Http\Controllers\LocationsController;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Redirect;
+
+    Route::get('/locations/{location:slug}', [LocationsController::class, 'show'])
+            ->name('locations.view')
+            ->missing(function (Request $request) {
+                return Redirect::route('locations.index');
+            });
 
 <a name="explicit-binding"></a>
 ### Явная привязка
@@ -572,6 +587,14 @@ Laravel включает мощные и настраиваемые службы
                     : Limit::perMinute(100)->by($request->ip());
     });
 
+To illustrate this feature using another example, we can limit access to the route to 100 times per minute per authenticated user ID or 10 times per minute per IP address for guests:
+
+    RateLimiter::for('uploads', function (Request $request) {
+        return $request->user()
+                    ? Limit::perMinute(100)->by($request->user()->id)
+                    : Limit::perMinute(10)->by($request->ip());
+    });
+
 <a name="multiple-rate-limits"></a>
 #### Множественные ограничения скорости
 
@@ -609,7 +632,7 @@ Laravel включает мощные и настраиваемые службы
 <a name="form-method-spoofing"></a>
 ## Способ подмены формы
 
-HTML-формы не поддерживают действия `PUT`, `PATCH` или `DELETE`. Таким образом, при определении маршрутов `PUT`, `PATCH` или `DELETE` , которые вызываются из HTML-формы, Вам нужно будет добавить в форму скрытое поле `_method`. Значение, отправленное с полем `_method`, будет использоваться как метод HTTP-запроса::
+HTML-формы не поддерживают действия `PUT`, `PATCH` или `DELETE`. Итак, при определении маршрутов `PUT`, `PATCH` или `DELETE`, которые вызываются из HTML-формы, вам нужно будет добавить в форму скрытое поле `_method`. Значение, отправленное с полем `_method`, будет использоваться как метод HTTP-запроса:
 
     <form action="/example" method="POST">
         <input type="hidden" name="_method" value="PUT">

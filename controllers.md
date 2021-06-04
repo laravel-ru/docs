@@ -78,7 +78,6 @@
         /**
          * Подготовьте новый веб-сервер.
          *
-         * @param  int  $id
          * @return \Illuminate\Http\Response
          */
         public function __invoke()
@@ -97,7 +96,7 @@
 
     php artisan make:controller ProvisionServer --invokable
 
-> {tip} Заглушки контроллера можно настроить с помощью [публикация заглушки](/docs/{{version}}/artisan#stub-customization)
+> {tip} Заглушки контроллера можно настроить с помощью [публикация заглушки](/docs/{{version}}/artisan#stub-customization).
 
 <a name="controller-middleware"></a>
 ## Мидлвар в контроллере
@@ -144,7 +143,7 @@
 
     Route::resource('photos', PhotoController::class);
 
-Это единственное объявление маршрута создает несколько маршрутов для обработки множества действий с ресурсом. Сгенерированный контроллер уже будет иметь заглушки для каждого из этих действий. Помните, Вы всегда можете получить быстрый обзор своего приложения, выполнив Artisan-команду `route:list`.
+Это объявление единого маршрута создает несколько маршрутов для обработки множества действий с ресурсом. Сгенерированный контроллер уже будет иметь заглушки для каждого из этих действий. Помните, что вы всегда можете получить быстрый обзор маршрутов вашего приложения, выполнив Artisan-команду `route:list`.
 
 Вы даже можете зарегистрировать сразу несколько контроллеров ресурсов, передав массив методу `resources`:
 
@@ -165,6 +164,20 @@ GET       | `/photos/{photo}`      | show         | photos.show
 GET       | `/photos/{photo}/edit` | edit         | photos.edit
 PUT/PATCH | `/photos/{photo}`      | update       | photos.update
 DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
+
+<a name="customizing-missing-model-behavior"></a>
+#### Customizing Missing Model Behavior
+
+Typically, a 404 HTTP response will be generated if an implicitly bound resource model is not found. However, you may customize this behavior by calling the `missing` method when defining your resource route. The `missing` method accepts a closure that will be invoked if an implicitly bound model can not be found for any of the resource's routes:
+
+    use App\Http\Controllers\PhotoController;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Redirect;
+
+    Route::resource('photos', PhotoController::class)
+            ->missing(function (Request $request) {
+                return Redirect::route('photos.index');
+            });
 
 <a name="specifying-the-resource-model"></a>
 #### Определение модели ресурсов
@@ -209,7 +222,7 @@ DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
 Чтобы быстро сгенерировать контроллер ресурсов API, который не включает методы `create` или `edit`, используйте переключатель `--api` при выполнении команды `make:controller`:
 
-    php artisan make:controller API/PhotoController --api
+    php artisan make:controller PhotoController --api
 
 <a name="restful-nested-resources"></a>
 ### Вложенные ресурсы
@@ -380,8 +393,8 @@ Laravel [сервисный контейнер](/docs/{{version}}/container) и�
         /**
          * Сохранить нового пользователя.
          *
-         * @param  Request  $request
-         * @return Response
+         * @param  \Illuminate\Http\Request  $request
+         * @return \Illuminate\Http\Response
          */
         public function store(Request $request)
         {

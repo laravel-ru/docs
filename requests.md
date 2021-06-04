@@ -18,11 +18,12 @@
     - [Получение загруженных файлов](#retrieving-uploaded-files)
     - [Сохранение загруженных файлов](#storing-uploaded-files)
 - [Настройка доверенных прокси](#configuring-trusted-proxies)
+- [Настройка доверенных хостов](#configuring-trusted-hosts)
 
 <a name="introduction"></a>
 ## Введение
 
-Класс Laravel `Illuminate\Http\Request` обеспечивает объектно-ориентированный способ взаимодействия с текущим HTTP-запросом, обрабатываемым Вашим приложением, а также извлечение входных данных, файлов cookie и файлов, которые были отправлены с запросом.
+Класс Laravel `Illuminate\Http\Request` обеспечивает объектно-ориентированный способ взаимодействия с текущим HTTP-запросом, обрабатываемым вашим приложением, а также для получения входных данных, файлов cookie и файлов, которые были отправлены с запросом.
 
 <a name="interacting-with-the-request"></a>
 ## Взаимодействие с запросом
@@ -130,6 +131,10 @@
 
     $urlWithQueryString = $request->fullUrl();
 
+If you would like to append query string data to the current URL, you may call the `fullUrlWithQuery` method. This method merges the given array of query string variables with the current query string:
+
+    $request->fullUrlWithQuery(['type' => 'phone']);
+
 <a name="retrieving-the-request-method"></a>
 #### Получение метода запроса
 
@@ -156,7 +161,7 @@
         //
     }
 
-Для удобства `bearerToken` может использоваться для токена носителя из заголовка `Authorization`. Если такого заголовка нет, будет возвращена пустая строка:
+Для удобства метод `bearerToken` может использоваться для извлечения токена носителя из заголовка `Authorization`. Если такого заголовка нет, будет возвращена пустая строка:
 
     $token = $request->bearerToken();
 
@@ -492,7 +497,7 @@ Laravel также предоставляет глобального помощ�
          *
          * @var int
          */
-        protected $headers = Request::HEADER_X_FORWARDED_ALL;
+        protected $headers = Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO;
     }
 
 > {tip} Если Вы используете AWS Elastic Load Balancing, значение `$headers` должно быть `Request::HEADER_X_FORWARDED_AWS_ELB`. Для получения дополнительной информации о константах, которые могут использоваться в свойстве `$headers`, ознакомьтесь с документацией Symfony о [доверенных прокси-серверах](https://symfony.com/doc/current/deployment/proxies.html).
@@ -508,3 +513,27 @@ Laravel также предоставляет глобального помощ�
      * @var string|array
      */
     protected $proxies = '*';
+
+<a name="configuring-trusted-hosts"></a>
+## Configuring Trusted Hosts
+
+By default, Laravel will respond to all requests it receives regardless of the content of the HTTP request's `Host` header. In addition, the `Host` header's value will be used when generating absolute URLs to your application during a web request.
+
+Typically, you should configure your web server, such as Nginx or Apache, to only send requests to your application that match a given host name. However, if you do not have the ability to customize your web server directly and need to instruct Laravel to only respond to certain host names, you may do so by enabling the `App\Http\Middleware\TrustHosts` middleware for your application.
+
+The `TrustHosts` middleware is already included in the `$middleware` stack of your application; however, you should uncomment it so that it becomes active. Within this middleware's `hosts` method, you may specify the host names that your application should respond to. Incoming requests with other `Host` value headers will be rejected:
+
+    /**
+     * Get the host patterns that should be trusted.
+     *
+     * @return array
+     */
+    public function hosts()
+    {
+        return [
+            'laravel.test',
+            $this->allSubdomainsOfApplicationUrl(),
+        ];
+    }
+
+The `allSubdomainsOfApplicationUrl` helper method will return a regular expression matching all subdomains of your application's `app.url` configuration value. This helper method provides a convenient way to allow all of your application's subdomains when building an application that utilizes wildcard subdomains.

@@ -116,7 +116,7 @@ First, if you write a class that implements an interface and you wish to type-hi
 
 Почти все Ваши привязки сервис контейнеров будут зарегистрированы в [сервис провайдерах](/docs/{{version}}/providers), поэтому в большинстве этих примеров будет продемонстрировано использование контейнера в этом контексте.
 
-Внутри поставщика услуг у Вас всегда есть доступ к контейнеру через свойство `$this->app`. Мы можем зарегистрировать привязку, используя метод `bind`, передав имя класса или интерфейса, которые мы хотим зарегистрировать, вместе с замыканием, которое возвращает экземпляр класса:
+Внутри сервис провайдер у Вас всегда есть доступ к контейнеру через свойство `$this->app`. Мы можем зарегистрировать привязку, используя метод `bind`, передав имя класса или интерфейса, которые мы хотим зарегистрировать, вместе с замыканием, которое возвращает экземпляр класса:
 
     use App\Services\Transistor;
     use App\Services\PodcastParser;
@@ -127,7 +127,7 @@ First, if you write a class that implements an interface and you wish to type-hi
 
 Обратите внимание, что мы получаем сам контейнер в качестве аргумента для распознавателя. Затем мы можем использовать контейнер для разрешения подчиненных зависимостей объекта, который мы создаем.
 
-Как уже упоминалось, Вы обычно будете взаимодействовать с контейнером внутри поставщиков услуг; однако, если Вы хотите взаимодействовать с контейнером вне сервис провайдера, Вы можете сделать это через `App` [фасад](/docs/{{version}}/facades):
+Как уже упоминалось, Вы обычно будете взаимодействовать с контейнером внутри сервис провайдеров; однако, если Вы хотите взаимодействовать с контейнером вне сервис провайдера, Вы можете сделать это через `App` [фасад](/docs/{{version}}/facades):
 
     use App\Services\Transistor;
     use Illuminate\Support\Facades\App;
@@ -167,7 +167,7 @@ First, if you write a class that implements an interface and you wish to type-hi
 
 Очень мощная функция контейнера служб - это его способность связывать интерфейс с заданной реализацией. Например, предположим, что у нас есть интерфейс `EventPusher` и реализация `RedisEventPusher`. После того, как мы закодировали нашу реализацию этого интерфейса `RedisEventPusher`, мы можем зарегистрировать его в сервисном контейнере следующим образом:
 
-    use App\Contrats\EventPusher;
+    use App\Contracts\EventPusher;
     use App\Services\RedisEventPusher;
 
     $this->app->bind(EventPusher::class, RedisEventPusher::class);
@@ -225,10 +225,16 @@ First, if you write a class that implements an interface and you wish to type-hi
         ->needs('$reports')
         ->giveTagged('reports');
 
+If you need to inject a value from one of your application's configuration files, you may use the `giveConfig` method:
+
+    $this->app->when(ReportAggregator::class)
+        ->needs('$timezone')
+        ->giveConfig('app.timezone');
+
 <a name="binding-typed-variadics"></a>
 ### Привязка типизированных переменных
 
-Иногда у Вас может быть класс, который получает массив типизированных объектов с использованием аргумента вариативного конструктора:
+Иногда у вас может быть класс, который получает массив типизированных объектов с использованием аргумента конструктора с переменным числом аргументов:
 
     <?php
 
@@ -336,20 +342,20 @@ First, if you write a class that implements an interface and you wish to type-hi
 
     use App\Services\Transistor;
 
-    $api = $this->app->make(Transistor::class);
+    $transistor = $this->app->make(Transistor::class);
 
-Если некоторые зависимости Вашего класса не могут быть разрешены через контейнер, Вы можете внедрить их, передав их как ассоциативный массив в метод `makeWith`. Например, мы можем вручную передать аргумент конструктора `$id`, требуемый службой `HelpSpot\API`:
+Если некоторые зависимости вашего класса не разрешаются через контейнер, вы можете внедрить их, передав их как ассоциативный массив в метод `makeWith`. Например, мы можем вручную передать аргумент конструктора `$id` требуемый сервисом `Transistor`:
 
     use App\Services\Transistor;
 
-    $api = $this->app->makeWith(Transistor::class, ['id' => 1]);
+    $transistor = $this->app->makeWith(Transistor::class, ['id' => 1]);
 
-Если Вы находитесь за пределами поставщика услуг в месте расположения Вашего кода, которое не имеет доступа к переменной `$app`, Вы можете использовать `App` [фасад](/docs/{{version}}/facades) чтобы разрешить экземпляр класса из контейнера:
+Если Вы находитесь за пределами сервис провайдера в месте расположения Вашего кода, которое не имеет доступа к переменной `$app`, Вы можете использовать `App` [фасад](/docs/{{version}}/facades) чтобы разрешить экземпляр класса из контейнера:
 
     use App\Services\Transistor;
     use Illuminate\Support\Facades\App;
 
-    $api = App::make(Transistor::class);
+    $transistor = App::make(Transistor::class);
 
 Если Вы хотите, чтобы сам экземпляр контейнера Laravel был внедрен в класс, который разрешается контейнером, Вы можете указать класс `Illuminate\Container\Container` в конструкторе Вашего класса:
 
@@ -358,7 +364,7 @@ First, if you write a class that implements an interface and you wish to type-hi
     /**
      * Create a new class instance.
      *
-     * @param  \Illuminate\Container\Container
+     * @param  \Illuminate\Container\Container  $container
      * @return void
      */
     public function __construct(Container $container)
@@ -418,8 +424,8 @@ First, if you write a class that implements an interface and you wish to type-hi
 
     use App\Services\Transistor;
 
-    $this->app->resolving(Transistor::class, function ($api, $app) {
-        // Вызывается, когда контейнер разрешает объекты типа "HelpSpot\API"...
+    $this->app->resolving(Transistor::class, function ($transistor, $app) {
+        // Вызывается, когда контейнер разрешает объекты типа "Transistor"...
     });
 
     $this->app->resolving(function ($object, $app) {

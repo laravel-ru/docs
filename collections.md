@@ -66,7 +66,7 @@ If necessary, you may define macros that accept additional arguments:
 
     Collection::macro('toLocale', function ($locale) {
         return $this->map(function ($value) use ($locale) {
-            return Lang::get($value, $locale);
+            return Lang::get($value, [], $locale);
         });
     });
 
@@ -175,6 +175,7 @@ For the majority of the remaining collection documentation, we'll discuss each m
 [skipUntil](#method-skipuntil)
 [skipWhile](#method-skipwhile)
 [slice](#method-slice)
+[sole](#method-sole)
 [some](#method-some)
 [sort](#method-sort)
 [sortBy](#method-sortby)
@@ -321,19 +322,6 @@ The `collapse` method collapses a collection of arrays into a single, flat colle
 
     // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-<a name="method-combine"></a>
-#### `combine()` {#collection-method}
-
-The `combine` method combines the values of the collection, as keys, with the values of another array or collection:
-
-    $collection = collect(['name', 'age']);
-
-    $combined = $collection->combine(['George', 29]);
-
-    $combined->all();
-
-    // ['name' => 'George', 'age' => 29]
-
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
 
@@ -367,6 +355,19 @@ The `collect` method is primarily useful for converting [lazy collections](#lazy
 
 > {tip} The `collect` method is especially useful when you have an instance of `Enumerable` and need a non-lazy collection instance. Since `collect()` is part of the `Enumerable` contract, you can safely use it to get a `Collection` instance.
 
+<a name="method-combine"></a>
+#### `combine()` {#collection-method}
+
+The `combine` method combines the values of the collection, as keys, with the values of another array or collection:
+
+    $collection = collect(['name', 'age']);
+
+    $combined = $collection->combine(['George', 29]);
+
+    $combined->all();
+
+    // ['name' => 'George', 'age' => 29]
+
 <a name="method-concat"></a>
 #### `concat()` {#collection-method}
 
@@ -383,7 +384,7 @@ The `concat` method appends the given `array` or collection's values onto the en
 <a name="method-contains"></a>
 #### `contains()` {#collection-method}
 
-You may also pass a closure to the `contains` to determine if an element exists in the collection matching a given truth test:
+The `contains` method determines whether the collection contains a given item. You may pass a closure to the `contains` method to determine if an element exists in the collection matching a given truth test:
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1404,6 +1405,10 @@ The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(s
 
     // [1]
 
+    $mode = collect([1, 1, 2, 2])->mode();
+
+    // [1, 2]
+
 <a name="method-nth"></a>
 #### `nth()` {#collection-method}
 
@@ -1467,11 +1472,11 @@ To pad to the left, you should specify a negative size. No padding will take pla
 <a name="method-partition"></a>
 #### `partition()` {#collection-method}
 
-The `partition` method may be combined with the `list` PHP function to separate elements that pass a given truth test from those that do not:
+The `partition` method may be combined with PHP array destructuring to separate elements that pass a given truth test from those that do not:
 
     $collection = collect([1, 2, 3, 4, 5, 6]);
 
-    list($underThree, $equalOrAboveThree) = $collection->partition(function ($i) {
+    [$underThree, $equalOrAboveThree] = $collection->partition(function ($i) {
         return $i < 3;
     });
 
@@ -1511,7 +1516,7 @@ The `pipeInto` method creates a new instance of the given class and passes the c
         /**
          * Create a new ResourceCollection instance.
          *
-         * @param  Collection  $resource
+         * @param  Collection  $collection
          * @return void
          */
         public function __construct(Collection $collection)
@@ -1704,6 +1709,26 @@ The value for `$carry` on the first iteration is `null`; however, you may specif
     }, 4);
 
     // 10
+
+The `reduce` method also passes array keys in associative collections to the given callback:
+
+    $collection = collect([
+        'usd' => 1400,
+        'gbp' => 1200,
+        'eur' => 1000,
+    ]);
+
+    $ratio = [
+        'usd' => 1,
+        'gbp' => 1.37,
+        'eur' => 1.22,
+    ];
+
+    $collection->reduce(function ($carry, $value, $key) use ($ratio) {
+        return $carry + ($value * $ratio[$key]);
+    });
+
+    // 4264
 
 <a name="method-reject"></a>
 #### `reject()` {#collection-method}
@@ -1912,6 +1937,40 @@ If you would like to limit the size of the returned slice, pass the desired size
     // [5, 6]
 
 The returned slice will preserve keys by default. If you do not wish to preserve the original keys, you can use the [`values`](#method-values) method to reindex them.
+
+<a name="method-sole"></a>
+#### `sole()` {#collection-method}
+
+The `sole` method returns the first element in the collection that passes a given truth test, but only if the truth test matches exactly one element:
+
+    collect([1, 2, 3, 4])->sole(function ($value, $key) {
+        return $value === 2;
+    });
+
+    // 2
+
+You may also pass a key / value pair to the `sole` method, which will return the first element in the collection that matches the given pair, but only if it exactly one element matches:
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Chair', 'price' => 100],
+    ]);
+    
+    $collection->sole('product', 'Chair');
+    
+    // ['product' => 'Chair', 'price' => 100]
+
+Alternatively, you may also call the `sole` method with no argument to get the first element in the collection if there is only one element:
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+    ]);
+
+    $collection->sole();
+    
+    // ['product' => 'Desk', 'price' => 200]
+
+If there are no elements in the collection that should be returned by the `sole` method, an `\Illuminate\Collections\ItemNotFoundException` exception will be thrown. If there is more than one element that should be returned, an `\Illuminate\Collections\MultipleItemsFoundException` will be thrown. 
 
 <a name="method-some"></a>
 #### `some()` {#collection-method}
@@ -2349,7 +2408,7 @@ The `union` method adds the given array to the collection. If the given array co
 
     $collection = collect([1 => ['a'], 2 => ['b']]);
 
-    $union = $collection->union([3 => ['c'], 1 => ['b']]);
+    $union = $collection->union([3 => ['c'], 1 => ['d']]);
 
     $union->all();
 
@@ -2770,7 +2829,7 @@ This method has the same signature as the [`whereNotIn`](#method-wherenotin) met
 <a name="method-wherenotnull"></a>
 #### `whereNotNull()` {#collection-method}
 
-The `whereNotNull` method removes items from the collection where the given key is not `null`:
+The `whereNotNull` method returns items from the collection where the given key is not `null`:
 
     $collection = collect([
         ['name' => 'Desk'],
@@ -2792,7 +2851,7 @@ The `whereNotNull` method removes items from the collection where the given key 
 <a name="method-wherenull"></a>
 #### `whereNull()` {#collection-method}
 
-The `whereNull` method removes items from the collection where the given key is `null`:
+The `whereNull` method returns items from the collection where the given key is `null`:
 
     $collection = collect([
         ['name' => 'Desk'],

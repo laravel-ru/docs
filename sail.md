@@ -13,6 +13,8 @@
 - [Interacting With Databases](#interacting-with-sail-databases)
     - [MySQL](#mysql)
     - [Redis](#redis)
+    - [MeiliSearch](#meilisearch)
+- [File Storage](#file-storage)
 - [Running Tests](#running-tests)
     - [Laravel Dusk](#laravel-dusk)
 - [Previewing Emails](#previewing-emails)
@@ -33,7 +35,7 @@ Laravel Sail is supported on macOS, Linux, and Windows (via WSL2).
 <a name="installation"></a>
 ## Installation & Setup
 
-Laravel Sail is automatically installed with all new Laravel applications so you may start using it immediately. To learn how to create a new Laravel application, please consult Laravel's [installation documentation](/docs/{{version}}/installation) for your operating system.
+Laravel Sail is automatically installed with all new Laravel applications so you may start using it immediately. To learn how to create a new Laravel application, please consult Laravel's [installation documentation](/docs/{{version}}/installation) for your operating system. During installation, you will be asked to choose which Sail supported services your application will be interacting with.
 
 <a name="installing-sail-into-existing-applications"></a>
 ### Installing Sail Into Existing Applications
@@ -140,10 +142,11 @@ You may install the application's dependencies by navigating to the application'
 
 ```nothing
 docker run --rm \
+    -u "$(id -u):$(id -g)" \
     -v $(pwd):/opt \
     -w /opt \
     laravelsail/php80-composer:latest \
-    composer install
+    composer install --ignore-platform-reqs
 ```
 
 <a name="executing-artisan-commands"></a>
@@ -185,6 +188,30 @@ Your application's `docker-compose.yml` file also contains an entry for a [Redis
 
 To connect to your application's Redis database from your local machine, you may use a graphical database management application such as [TablePlus](https://tableplus.com). By default, the Redis database is accessible at `localhost` port 6379.
 
+<a name="meilisearch"></a>
+### MeiliSearch
+
+If you chose to install the [MeiliSearch](https://www.meilisearch.com) service when installing Sail, your application's `docker-compose.yml` file will contain an entry for this powerful search-engine that is [compatible](https://github.com/meilisearch/meilisearch-laravel-scout) with [Laravel Scout](/docs/{{version}}/scout). Once you have started your containers, you may connect to the MeiliSearch instance within your application by setting your `MEILISEARCH_HOST` environment variable to `http://meilisearch:7700`.
+
+From your local machine, you may access MeiliSearch's web based administration panel by navigating to `http://localhost:7700` in your web browser.
+
+<a name="file-storage"></a>
+## File Storage
+
+If you plan to use Amazon S3 to store files while running your application in its production environment, you may wish to install the [MinIO](https://min.io) service when installing Sail. MinIO provides an S3 compatible API that you may use to develop locally using Laravel's `s3` file storage driver without creating "test" storage buckets in your production S3 environment. If you choose to install MinIO while installing Sail, a MinIO configuration section will be added to your application's `docker-compose.yml` file.
+
+By default, your application's `filesystems` configuration file already contains a disk configuration for the `s3` disk. In addition to using this disk to interact with Amazon S3, you may use it to interact with any S3 compatible file storage service such as MinIO by simply modifying the associated environment variables that control its configuration. For example, when using MinIO, your filesystem environment variable configuration should be defined as follows:
+
+```ini
+FILESYSTEM_DRIVER=s3
+AWS_ACCESS_KEY_ID=sail
+AWS_SECRET_ACCESS_KEY=password
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=local
+AWS_ENDPOINT=http://minio:9000
+AWS_USE_PATH_STYLE_ENDPOINT=true
+```
+
 <a name="running-tests"></a>
 ## Running Tests
 
@@ -203,19 +230,23 @@ The Sail `test` command is equivalent to running the `test` Artisan command:
 
 [Laravel Dusk](/docs/{{version}}/dusk) provides an expressive, easy-to-use browser automation and testing API. Thanks to Sail, you may run these tests without ever installing Selenium or other tools on your local computer. To get started, uncomment the Selenium service in your application's `docker-compose.yml` file:
 
-    selenium:
-        image: 'selenium/standalone-chrome'
-        volumes:
-            - '/dev/shm:/dev/shm'
-        networks:
-            - sail
+```yaml
+selenium:
+    image: 'selenium/standalone-chrome'
+    volumes:
+        - '/dev/shm:/dev/shm'
+    networks:
+        - sail
+```
 
 Next, ensure that the `laravel.test` service in your application's `docker-compose.yml` file has a `depends_on` entry for `selenium`:
 
-        depends_on:
-            - mysql
-            - redis
-            - selenium
+```yaml
+depends_on:
+    - mysql
+    - redis
+    - selenium
+```
 
 Finally, you may run your Dusk test suite by starting Sail and running the `dusk` command:
 
@@ -224,9 +255,10 @@ Finally, you may run your Dusk test suite by starting Sail and running the `dusk
 <a name="previewing-emails"></a>
 ## Previewing Emails
 
-Laravel Sail's default `docker-compose.yml` file contains a service entry for [MailHog](https://github.com/mailhog/MailHog). MailHog intercepts emails sent by your application during local development and provides a convenient web interface so that you can preview your email messages in your browser. MailHog's default SMTP port is `1025`:
+Laravel Sail's default `docker-compose.yml` file contains a service entry for [MailHog](https://github.com/mailhog/MailHog). MailHog intercepts emails sent by your application during local development and provides a convenient web interface so that you can preview your email messages in your browser. When using Sail, MailHog's default host is `mailhog` and is available via port 1025:
 
 ```bash
+MAIL_HOST=mailhog
 MAIL_PORT=1025
 ```
 
@@ -239,6 +271,8 @@ Sometimes you may wish to start a Bash session within your application's contain
 
 ```nothing
 sail shell
+
+sail root-shell
 ```
 
 To start a new [Laravel Tinker](https://github.com/laravel/tinker) session, you may execute the `tinker` command:
@@ -278,6 +312,15 @@ After updating your application's `docker-compose.yml` file, you should rebuild 
 Sometimes you may need to share your site publicly in order to preview your site for a colleague or to test webhook integrations with your application. To share your site, you may use the `share` command. After executing this command, you will be issued a random `laravel-sail.site` URL that you may use to access your application:
 
     sail share
+
+When sharing your site via the `share` command, you should configure your application's trusted proxies within the `TrustProxies` middleware. Otherwise, URL generation helpers such as `url` and `route` will be unable to determine the correct HTTP host that should be used during URL generation:
+
+    /**
+     * The trusted proxies for this application.
+     *
+     * @var array|string|null
+     */
+    protected $proxies = '*';
 
 If you would like to choose the subdomain for your shared site, you may provide the `subdomain` option when executing the `share` command:
 

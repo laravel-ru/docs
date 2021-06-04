@@ -57,8 +57,7 @@ Homestead работает в любой системе Windows, macOS или Li
 </style>
 
 <div id="software-list" markdown="1">
-- Ubuntu 18.04 (`master` ветка)
-- Ubuntu 20.04 (`20.04` ветка)
+- Ubuntu 20.04
 - Git
 - PHP 8.0
 - PHP 7.4
@@ -68,10 +67,10 @@ Homestead работает в любой системе Windows, macOS или Li
 - PHP 7.0
 - PHP 5.6
 - Nginx
-- MySQL
+- MySQL (8.0)
 - lmm
 - Sqlite3
-- PostgreSQL (9.6, 10, 11, 12)
+- PostgreSQL (9.6, 10, 11, 12, 13)
 - Composer
 - Node (С Yarn, Bower, Grunt и Gulp)
 - Redis
@@ -105,21 +104,26 @@ Homestead работает в любой системе Windows, macOS или Li
 - Crystal & Lucky Framework
 - Docker
 - Elasticsearch
+- EventStoreDB
 - Gearman
 - Go
 - Grafana
 - InfluxDB
 - MariaDB
+- Meilisearch
 - MinIO
 - MongoDB
-- MySQL 8
 - Neo4j
 - Oh My Zsh
 - Open Resty
 - PM2
 - Python
+- R
 - RabbitMQ
+- RVM (Ruby Version Manager)
 - Solr
+- TimescaleDB
+- Trader <small>(PHP extension)</small>
 - Webdriver & Laravel Dusk Utilities
 </div>
 
@@ -132,33 +136,16 @@ Homestead работает в любой системе Windows, macOS или Li
 Перед запуском среды Homestead Вы должны установить [Vagrant](https://www.vagrantup.com/downloads.html), а также одного из следующих поддерживаемых поставщиков:
 
 - [VirtualBox 6.1.x](https://www.virtualbox.org/wiki/Downloads)
-- [VMWare](https://www.vmware.com)
 - [Parallels](https://www.parallels.com/products/desktop/)
-- [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
 
 Все эти программные пакеты предоставляют простые в использовании визуальные установщики для всех популярных операционных систем.
 
-Чтобы использовать поставщика VMware, Вам необходимо приобрести как VMware Fusion / Workstation, так и [плагин VMware Vagrant](https://www.vagrantup.com/vmware). Хотя это не бесплатно, VMware может обеспечить более быструю работу общих папок из коробки.
-
 Чтобы использовать поставщика Parallels, вам необходимо установить [плагин Parallels Vagrant](https://github.com/Parallels/vagrant-parallels). Это бесплатно.
-
-Из-за [ограничений Vagrant](https://www.vagrantup.com/docs/hyperv/limitations.html) провайдер Hyper-V игнорирует все сетевые настройки.
-
-<a name="installing-the-homestead-vagrant-box"></a>
-#### Установка Homestead Vagrant Box
-
-После установки VirtualBox / VMware и Vagrant Вы должны добавить поле `laravel/homestead` в Вашу установку Vagrant, выполнив следующую команду в Вашем терминале. Загрузка коробки займет несколько минут, в зависимости от скорости Вашего интернет-соединения:
-
-    vagrant box add laravel/homestead
-
-Если эта команда не работает, убедитесь, что Ваша установка Vagrant обновлена.
-
-> {note} Homestead периодически выдает для тестирования блоки "alpha" / "beta", которые могут мешать команде `vagrant box add`. Если у Вас возникли проблемы с запуском `vagrant box add`, вы можете запустить команду `vagrant up`, и правильный ящик будет загружен, когда Vagrant попытается запустить виртуальную машину.
 
 <a name="installing-homestead"></a>
 #### Установка Homestead
 
-Вы можете установить Homestead, клонировав репозиторий Homstead на свой хост-компьютер. Рассмотрите возможность клонирования репозитория в папку `Homestead` в Вашем «домашнем» каталоге, поскольку виртуальная машина Homestead будет служить хостом для всех Ваших приложений Laravel. В этой документации мы будем называть этот каталог Вашим «каталогом Homestead»:
+Вы можете установить Homestead, клонировав репозиторий Homestead на свой хост-компьютер. Рассмотрите возможность клонирования репозитория в папку `Homestead` в вашем «домашнем» каталоге, поскольку виртуальная машина Homestead будет служить хостом для всех ваших приложений Laravel. В этой документации мы будем называть этот каталог вашим «каталогом Homestead»:
 
 ```bash
 git clone https://github.com/laravel/homestead.git ~/Homestead
@@ -184,7 +171,7 @@ git clone https://github.com/laravel/homestead.git ~/Homestead
 <a name="setting-your-provider"></a>
 #### Настройка вашего провайдера
 
-Ключ `provider` в Вашем файле `Homestead.yaml` указывает, какой Vagrant-провайдер следует использовать: `virtualbox`, `vmware_fusion`, `vmware_workstation`, `parallels` или `hyperv`:
+Ключ `provider` в вашем файле `Homestead.yaml` указывает, какой провайдер Vagrant следует использовать: `virtualbox` или `parallels`:
 
     provider: virtualbox
 
@@ -235,7 +222,7 @@ folders:
 <a name="configuring-nginx-sites"></a>
 ### Настройка сайтов Nginx
 
-Не знаком с Nginx? Нет проблем. Свойство `Homstead.yaml` Вашего файла `sites` позволяет Вам легко сопоставить «домен» с папкой в Вашей среде Homestead. Пример конфигурации сайта включен в файл `Homestead.yaml`. Опять же, Вы можете добавить в среду Homestead столько сайтов, сколько необходимо. Homestead может служить удобной виртуализированной средой для каждого приложения Laravel, над которым Вы работаете:
+Не знаком с Nginx? Без проблем. Свойство `sites` вашего файла `Homestead.yaml` позволяет вам легко сопоставить "домен" с папкой в вашей среде Homestead. Пример конфигурации сайта включен в файл `Homestead.yaml`. Опять же, вы можете добавить столько сайтов в среду Homestead, сколько необходимо. Homestead может служить удобной виртуализированной средой для каждого приложения Laravel, над которым вы работаете:
 
     sites:
         - map: homestead.test
@@ -287,7 +274,7 @@ services:
 
 Вместо того, чтобы устанавливать Homestead глобально и использовать одну и ту же виртуальную машину Homestead для всех Ваших проектов, Вы можете вместо этого настроить экземпляр Homestead для каждого проекта, которым Вы управляете. Установка Homestead для каждого проекта может быть полезной, если Вы хотите отправить файл `Vagrantfile` вместе с Вашим проектом, позволяя другим работающим над проектом `vagrant up` сразу после клонирования репозитория проекта.
 
-Вы можете установить Homestead в свой проект с помощью менеджера пакетов Composer:
+Вы можете установить Homestead в свой проект с помощью диспетчера пакетов Composer:
 
 ```bash
 composer require laravel/homestead --dev
@@ -321,21 +308,27 @@ composer require laravel/homestead --dev
         - docker: true
         - elasticsearch:
             version: 7.9.0
+        - eventstore: true
+            version: 21.2.0
         - gearman: true
         - golang: true
         - grafana: true
         - influxdb: true
         - mariadb: true
+        - meilisearch: true
         - minio: true
         - mongodb: true
-        - mysql8: true
         - neo4j: true
         - ohmyzsh: true
         - openresty: true
         - pm2: true
         - python: true
+        - r-base: true
         - rabbitmq: true
+        - rvm: true
         - solr: true
+        - timescaledb: true
+        - trader: true
         - webdriver: true
 
 <a name="elasticsearch"></a>
@@ -385,7 +378,7 @@ composer require laravel/homestead --dev
 
 Эти команды извлекают последний код Homestead из репозитория GitHub, извлекают последние теги, а затем проверяют последний выпуск с тегами. Вы можете найти последнюю стабильную версию выпуска на [странице выпусков GitHub](https://github.com/laravel/homestead/releases) Homestead.
 
-Если Вы установили Homestead через файл `composer.json` Вашего проекта, Вы должны убедиться, что Ваш файл `composer.json` содержит `"laravel/homestead": "^11"`, и обновите Ваши зависимости:
+Если вы установили Homestead через файл `composer.json` вашего проекта, вы должны убедиться, что ваш файл `composer.json` содержит `"laravel/homestead": "^12"` и обновите ваши зависимости:
 
     composer update
 
@@ -504,7 +497,7 @@ sites:
 <a name="php-versions"></a>
 ### Версии PHP
 
-В Homestead 6 появилась поддержка запуска нескольких версий PHP на одной виртуальной машине. Вы можете указать, какую версию PHP использовать для данного сайта в файле `Homestead.yaml`. Доступные версии PHP: «5.6», «7.0», «7.1», «7.2», «7.3» и «7.4» (по умолчанию):
+В Homestead 6 появилась поддержка запуска нескольких версий PHP на одной виртуальной машине. Вы можете указать, какую версию PHP использовать для данного сайта в файле `Homestead.yaml`. Доступные версии PHP: "5.6", "7.0", "7.1", "7.2", "7.3", "7.4" и "8.0" (по умолчанию):
 
     sites:
         - map: homestead.test
@@ -519,6 +512,7 @@ sites:
     php7.2 artisan list
     php7.3 artisan list
     php7.4 artisan list
+    php8.0 artisan list
 
 Вы можете изменить версию PHP по умолчанию, используемую CLI, выполнив следующие команды на своей виртуальной машине Homestead:
 
@@ -528,6 +522,7 @@ sites:
     php72
     php73
     php74
+    php80
 
 <a name="connecting-to-databases"></a>
 ### Подключение к базам данных
@@ -599,7 +594,7 @@ sites:
 
 По умолчанию Minio доступен через порт 9600. Вы можете получить доступ к панели управления Minio, посетив `http://localhost:9600`. Ключ доступа по умолчанию - `homestead`, а секретный ключ по умолчанию - `secretkey`. При доступе к Minio Вы всегда должны использовать регион `us-east-1`.
 
-Чтобы использовать Minio, Вам необходимо настроить конфигурацию диска S3 в файле конфигурации Вашего приложения `config/filesystems.php`. Вам нужно будет добавить параметр `use_path_style_endpoint` в конфигурацию диска, а также изменить ключ `url` на `endpoint`:
+Чтобы использовать Minio, вам нужно будет настроить конфигурацию диска S3 в файле конфигурации вашего приложения `config/filesystems.php`. Вам нужно будет добавить параметр `use_path_style_endpoint` в конфигурацию диска, а также изменить ключ `url` на `endpoint`:
 
     's3' => [
         'driver' => 's3',
