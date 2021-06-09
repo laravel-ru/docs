@@ -1,64 +1,64 @@
-# Validation
+# Валидация
 
-- [Introduction](#introduction)
-- [Validation Quickstart](#validation-quickstart)
-    - [Defining The Routes](#quick-defining-the-routes)
-    - [Creating The Controller](#quick-creating-the-controller)
-    - [Writing The Validation Logic](#quick-writing-the-validation-logic)
-    - [Displaying The Validation Errors](#quick-displaying-the-validation-errors)
-    - [Repopulating Forms](#repopulating-forms)
-    - [A Note On Optional Fields](#a-note-on-optional-fields)
-- [Form Request Validation](#form-request-validation)
-    - [Creating Form Requests](#creating-form-requests)
-    - [Authorizing Form Requests](#authorizing-form-requests)
-    - [Customizing The Error Messages](#customizing-the-error-messages)
-    - [Preparing Input For Validation](#preparing-input-for-validation)
-- [Manually Creating Validators](#manually-creating-validators)
-    - [Automatic Redirection](#automatic-redirection)
-    - [Named Error Bags](#named-error-bags)
-    - [Customizing The Error Messages](#manual-customizing-the-error-messages)
-    - [After Validation Hook](#after-validation-hook)
-- [Working With Error Messages](#working-with-error-messages)
-    - [Specifying Custom Messages In Language Files](#specifying-custom-messages-in-language-files)
-    - [Specifying Attributes In Language Files](#specifying-attribute-in-language-files)
-    - [Specifying Values In Language Files](#specifying-values-in-language-files)
-- [Available Validation Rules](#available-validation-rules)
-- [Conditionally Adding Rules](#conditionally-adding-rules)
-- [Validating Arrays](#validating-arrays)
-- [Validating Passwords](#validating-passwords)
-- [Custom Validation Rules](#custom-validation-rules)
-    - [Using Rule Objects](#using-rule-objects)
-    - [Using Closures](#using-closures)
-    - [Implicit Rules](#implicit-rules)
+- [Введение](#introduction)
+- [Быстрый старт валидации](#validation-quickstart)
+    - [Определение маршрутов](#quick-defining-the-routes)
+    - [Создание контроллера](#quick-creating-the-controller)
+    - [Написание логики валидации](#quick-writing-the-validation-logic)
+    - [Отображение ошибок валидации](#quick-displaying-the-validation-errors)
+    - [Перезаполнение форм](#repopulating-forms)
+    - [Примечание о необязательных полях](#a-note-on-optional-fields)
+- [Валидация запроса формы](#form-request-validation)
+    - [Создание запросов формы](#creating-form-requests)
+    - [Авторизация запросов формы](#authorizing-form-requests)
+    - [Настройка сообщений об ошибках](#customizing-the-error-messages)
+    - [Подготовка ввода для валидации](#preparing-input-for-validation)
+- [Создание валидаторов вручную](#manually-creating-validators)
+    - [Автоматическое перенаправление](#automatic-redirection)
+    - [Именованные пакеты ошибки](#named-error-bags)
+    - [Настройка сообщений об ошибках](#manual-customizing-the-error-messages)
+    - [После проверки](#after-validation-hook)
+- [Работа с сообщениями об ошибке](#working-with-error-messages)
+    - [Указание пользовательских сообщений в языковых файлах](#specifying-custom-messages-in-language-files)
+    - [Указание атрибутов в языковых файлах](#specifying-attribute-in-language-files)
+    - [Указание значений в языковых файлах](#specifying-values-in-language-files)
+- [Доступные правила валидации](#available-validation-rules)
+- [Условное добавление правил](#conditionally-adding-rules)
+- [Валидация массивов](#validating-arrays)
+- [Валидация паролей](#validating-passwords)
+- [Пользовательские правила проверки](#custom-validation-rules)
+    - [Использование объектов правила](#using-rule-objects)
+    - [Использование замыканий](#using-closures)
+    - [Неявные правила](#implicit-rules)
 
 <a name="introduction"></a>
-## Introduction
+## Введение
 
-Laravel provides several different approaches to validate your application's incoming data. It is most common to use the `validate` method available on all incoming HTTP requests. However, we will discuss other approaches to validation as well.
+Laravel предоставляет несколько различных подходов для проверки входящих данных вашего приложения. Чаще всего используется метод `validate`, доступный для всех входящих HTTP-запросов. Однако мы обсудим и другие подходы к валидации.
 
-Laravel includes a wide variety of convenient validation rules that you may apply to data, even providing the ability to validate if values are unique in a given database table. We'll cover each of these validation rules in detail so that you are familiar with all of Laravel's validation features.
+Laravel включает в себя широкий спектр удобных правил проверки, которые вы можете применять к данным, даже предоставляя возможность проверять, являются ли значения уникальными в данной таблице базы данных. Мы подробно рассмотрим каждое из этих правил проверки, чтобы вы были знакомы со всеми функциями проверки Laravel.
 
 <a name="validation-quickstart"></a>
-## Validation Quickstart
+## Быстрый старт валидации
 
-To learn about Laravel's powerful validation features, let's look at a complete example of validating a form and displaying the error messages back to the user. By reading this high-level overview, you'll be able to gain a good general understanding of how to validate incoming request data using Laravel:
+Чтобы узнать о мощных функциях проверки Laravel, давайте рассмотрим полный пример проверки формы и отображения сообщений об ошибках обратно пользователю. Прочитав этот общий обзор, вы сможете получить хорошее общее представление о том, как проверять данные входящего запроса с помощью Laravel:
 
 <a name="quick-defining-the-routes"></a>
-### Defining The Routes
+### Определение маршрутов
 
-First, let's assume we have the following routes defined in our `routes/web.php` file:
+Во-первых, предположим, что в нашем файле `routes/web.php` определены следующие маршруты:
 
     use App\Http\Controllers\PostController;
 
     Route::get('/post/create', [PostController::class, 'create']);
     Route::post('/post', [PostController::class, 'store']);
 
-The `GET` route will display a form for the user to create a new blog post, while the `POST` route will store the new blog post in the database.
+Маршрут `GET` отобразит форму для пользователя для создания нового сообщения в блоге, а маршрут `POST` сохранит новое сообщение в базе данных.
 
 <a name="quick-creating-the-controller"></a>
-### Creating The Controller
+### Создание контроллера
 
-Next, let's take a look at a simple controller that handles incoming requests to these routes. We'll leave the `store` method empty for now:
+Далее давайте посмотрим на простой контроллер, который обрабатывает входящие запросы на эти маршруты. Пока оставим метод `store` пустым:
 
     <?php
 
@@ -92,13 +92,13 @@ Next, let's take a look at a simple controller that handles incoming requests to
     }
 
 <a name="quick-writing-the-validation-logic"></a>
-### Writing The Validation Logic
+### Написание логики валидации
 
-Now we are ready to fill in our `store` method with the logic to validate the new blog post. To do this, we will use the `validate` method provided by the `Illuminate\Http\Request` object. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user.
+Теперь мы готовы заполнить наш метод `store` логикой для проверки нового сообщения в блоге. Для этого мы будем использовать метод `validate`, предоставляемый объектом `Illuminate\Http\Request`. Если правила проверки пройдут, ваш код продолжит нормально выполняться; однако, если проверка завершится неудачно, будет сгенерировано исключение, и правильный ответ об ошибке будет автоматически отправлен обратно пользователю.
 
-If validation fails during a traditional HTTP request, a redirect response to the previous URL will be generated. If the incoming request is an XHR request, a JSON response containing the validation error messages will be returned.
+Если проверка не выполняется во время традиционного HTTP-запроса, будет сгенерирован ответ перенаправления на предыдущий URL-адрес. Если входящий запрос является запросом XHR, будет возвращен ответ JSON, содержащий сообщения об ошибках проверки.
 
-To get a better understanding of the `validate` method, let's jump back into the `store` method:
+Чтобы лучше понять метод `validate`, давайте вернемся к методу `store`:
 
     /**
      * Store a new blog post.
@@ -116,16 +116,16 @@ To get a better understanding of the `validate` method, let's jump back into the
         // The blog post is valid...
     }
 
-As you can see, the validation rules are passed into the `validate` method. Don't worry - all available validation rules are [documented](#available-validation-rules). Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
+Как видите, правила проверки передаются в метод `validate`. Не волнуйтесь - все доступные правила проверки [задокументированы](#available-validation-rules). Опять же, если проверка не удалась, автоматически будет сгенерирован правильный ответ. Если проверка пройдет успешно, наш контроллер продолжит работу в обычном режиме.
 
-Alternatively, validation rules may be specified as arrays of rules instead of a single `|` delimited string:
+В качестве альтернативы, правила проверки могут быть указаны как массивы правил вместо одной строки с разделителями `|`:
 
     $validatedData = $request->validate([
         'title' => ['required', 'unique:posts', 'max:255'],
         'body' => ['required'],
     ]);
 
-In addition, you may use the `validateWithBag` method to validate a request and store any error messages within a [named error bag](#named-error-bags):
+Кроме того, вы можете использовать метод `validateWithBag` для проверки запроса и сохранения любых сообщений об ошибках в [именованном пакете ошибок](#named-error-bags):
 
     $validatedData = $request->validateWithBag('post', [
         'title' => ['required', 'unique:posts', 'max:255'],
@@ -133,21 +133,21 @@ In addition, you may use the `validateWithBag` method to validate a request and 
     ]);
 
 <a name="stopping-on-first-validation-failure"></a>
-#### Stopping On First Validation Failure
+#### Остановка при первой ошибке проверки
 
-Sometimes you may wish to stop running validation rules on an attribute after the first validation failure. To do so, assign the `bail` rule to the attribute:
+Иногда может потребоваться прекратить выполнение правил проверки для атрибута после первого сбоя проверки. Для этого присвойте атрибуту правило `bail`:
 
     $request->validate([
         'title' => 'bail|required|unique:posts|max:255',
         'body' => 'required',
     ]);
 
-In this example, if the `unique` rule on the `title` attribute fails, the `max` rule will not be checked. Rules will be validated in the order they are assigned.
+В этом примере, если правило `unique` для атрибута `title` не выполняется, правило `max` не проверяется. Правила будут проверяться в порядке их назначения.
 
 <a name="a-note-on-nested-attributes"></a>
-#### A Note On Nested Attributes
+#### Замечание о вложенных атрибутах
 
-If the incoming HTTP request contains "nested" field data, you may specify these fields in your validation rules using "dot" syntax:
+Если входящий HTTP-запрос содержит данные «вложенных» полей, вы можете указать эти поля в своих правилах проверки, используя синтаксис «точка»:
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -155,7 +155,7 @@ If the incoming HTTP request contains "nested" field data, you may specify these
         'author.description' => 'required',
     ]);
 
-On the other hand, if your field name contains a literal period, you can explicitly prevent this from being interpreted as "dot" syntax by escaping the period with a backslash:
+С другой стороны, если ваше имя поля содержит буквальную точку, вы можете явно запретить ее интерпретацию как синтаксис «точка», экранировав точку с помощью обратной косой черты:
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -163,13 +163,13 @@ On the other hand, if your field name contains a literal period, you can explici
     ]);
 
 <a name="quick-displaying-the-validation-errors"></a>
-### Displaying The Validation Errors
+### Отображение ошибок валидации
 
-So, what if the incoming request fields do not pass the given validation rules? As mentioned previously, Laravel will automatically redirect the user back to their previous location. In addition, all of the validation errors and [request input](/docs/{{version}}/requests#retrieving-old-input) will automatically be [flashed to the session](/docs/{{version}}/session#flash-data).
+Итак, что, если поля входящего запроса не проходят заданные правила проверки? Как упоминалось ранее, Laravel автоматически перенаправит пользователя обратно в его предыдущее местоположение. Кроме того, все ошибки проверки и [запрос ввода](/docs/{{version}}/requests#retrieving-old-input) будут автоматически [перенесены в сеанс](/docs/{{version}}/session#flash-data).
 
-An `$errors` variable is shared with all of your application's views by the `Illuminate\View\Middleware\ShareErrorsFromSession` middleware, which is provided by the `web` middleware group. When this middleware is applied an `$errors` variable will always be available in your views, allowing you to conveniently assume the `$errors` variable is always defined and can be safely used. The `$errors` variable will be an instance of `Illuminate\Support\MessageBag`. For more information on working with this object, [check out its documentation](#working-with-error-messages).
+Переменная `$errors` используется для всех представлений вашего приложения мидлвар `Illuminate\View\Middleware\ShareErrorsFromSession`, который предоставляется группой мидлваров `web`. Когда применяется этот мидлвар, в ваших представлениях всегда будет доступна переменная `$errors`, что позволяет вам удобно предполагать, что переменная `$errors` всегда определена и может безопасно использоваться. Переменная `$errors` будет экземпляром `Illuminate\Support\MessageBag`. Для получения дополнительной информации о работе с этим объектом [ознакомьтесь с его документацией](#working-with-error-messages).
 
-So, in our example, the user will be redirected to our controller's `create` method when validation fails, allowing us to display the error messages in the view:
+Итак, в нашем примере пользователь будет перенаправлен на метод нашего контроллера `create`, когда проверка завершится неудачно, что позволит нам отображать сообщения об ошибках в представлении:
 
 ```html
 <!-- /resources/views/post/create.blade.php -->
@@ -190,21 +190,21 @@ So, in our example, the user will be redirected to our controller's `create` met
 ```
 
 <a name="quick-customizing-the-error-messages"></a>
-#### Customizing The Error Messages
+#### Настройка сообщений об ошибках
 
-Laravel's built-in validation rules each has an error message that is located in your application's `resources/lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Каждое из встроенных правил проверки Laravel содержит сообщение об ошибке, которое находится в файле `resources/lang/en/validation.php` вашего приложения. В этом файле вы найдете запись перевода для каждого правила проверки. Вы можете изменять или модифицировать эти сообщения в зависимости от потребностей вашего приложения.
 
-In addition, you may copy this file to another translation language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
+Кроме того, вы можете скопировать этот файл в каталог другого языка перевода, чтобы переводить сообщения на язык вашего приложения. Чтобы узнать больше о локализации Laravel, ознакомьтесь с полной [документацией по локализации](/docs/{{version}}/localization).
 
 <a name="quick-xhr-requests-and-validation"></a>
-#### XHR Requests & Validation
+#### XHR запросы и валидация
 
-In this example, we used a traditional form to send data to the application. However, many applications receive XHR requests from a JavaScript powered frontend. When using the `validate` method during an XHR request, Laravel will not generate a redirect response. Instead, Laravel generates a JSON response containing all of the validation errors. This JSON response will be sent with a 422 HTTP status code.
+В этом примере мы использовали традиционную форму для отправки данных в приложение. Однако многие приложения получают запросы XHR от внешнего интерфейса на базе JavaScript. При использовании метода `validate` во время запроса XHR Laravel не генерирует ответ перенаправления. Вместо этого Laravel генерирует ответ JSON, содержащий все ошибки проверки. Этот ответ JSON будет отправлен с кодом состояния 422 HTTP.
 
 <a name="the-at-error-directive"></a>
-#### The `@error` Directive
+#### Директива `@error`
 
-You may use the `@error` [Blade](/docs/{{version}}/blade) directive to quickly determine if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+Вы можете использовать директиву `@error` [Blade](/docs/{{version}}/blade), чтобы быстро определить, существуют ли сообщения об ошибках проверки для данного атрибута. В директиве `@error` вы можете повторить переменную `$message`, чтобы отобразить сообщение об ошибке:
 
 ```html
 <!-- /resources/views/post/create.blade.php -->
@@ -219,22 +219,22 @@ You may use the `@error` [Blade](/docs/{{version}}/blade) directive to quickly d
 ```
 
 <a name="repopulating-forms"></a>
-### Repopulating Forms
+### Перезаполнение форм
 
-When Laravel generates a redirect response due to a validation error, the framework will automatically [flash all of the request's input to the session](/docs/{{version}}/session#flash-data). This is done so that you may conveniently access the input during the next request and repopulate the form that the user attempted to submit.
+Когда Laravel генерирует ответ перенаправления из-за ошибки проверки, фреймворк автоматически [все флеш входные данные запроса в сессию](/docs/{{version}}/session#flash-data). Это сделано для того, чтобы вы могли удобно получить доступ к вводу во время следующего запроса и повторно заполнить форму, которую пользователь пытался отправить.
 
-To retrieve flashed input from the previous request, invoke the `old` method on an instance of `Illuminate\Http\Request`. The `old` method will pull the previously flashed input data from the [session](/docs/{{version}}/session):
+Чтобы получить флэш-ввод из предыдущего запроса, вызовите метод `old` для экземпляра `Illuminate\Http\Request`. Метод `old` извлечет ранее записанные входные данные из [сессии](/docs/{{version}}/session):
 
     $title = $request->old('title');
 
-Laravel also provides a global `old` helper. If you are displaying old input within a [Blade template](/docs/{{version}}/blade), it is more convenient to use the `old` helper to repopulate the form. If no old input exists for the given field, `null` will be returned:
+Laravel также предоставляет глобального помощника `old`. Если вы показываете старый ввод в [шаблоне Blade](/docs/{{version}}/blade), удобнее использовать помощник `old` для повторного заполнения формы. Если для данного поля нет старого ввода, будет возвращен `null`:
 
     <input type="text" name="title" value="{{ old('title') }}">
 
 <a name="a-note-on-optional-fields"></a>
-### A Note On Optional Fields
+### Примечание о необязательных полях
 
-By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. Because of this, you will often need to mark your "optional" request fields as `nullable` if you do not want the validator to consider `null` values as invalid. For example:
+По умолчанию Laravel включает мидлвары `TrimStrings` и `ConvertEmptyStringsToNull` в глобальный стек мидлваров вашего приложения. Эти мидлвары перечислены в стеке классом `App\Http\Kernel`. Из-за этого вам часто нужно будет помечать ваши «необязательные» поля запроса как `nullable` если вы не хотите, чтобы валидатор считал значения `null` недействительными. Например:
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -242,21 +242,21 @@ By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` m
         'publish_at' => 'nullable|date',
     ]);
 
-In this example, we are specifying that the `publish_at` field may be either `null` or a valid date representation. If the `nullable` modifier is not added to the rule definition, the validator would consider `null` an invalid date.
+В этом примере мы указываем, что поле `publish_at` может иметь значение `null` или допустимое представление даты. Если модификатор `nullable` не добавлен в определение правила, валидатор сочтет `null` недопустимой датой.
 
 <a name="form-request-validation"></a>
-## Form Request Validation
+## Валидация запроса формы
 
 <a name="creating-form-requests"></a>
-### Creating Form Requests
+### Создание запросов формы
 
-For more complex validation scenarios, you may wish to create a "form request". Form requests are custom request classes that encapsulate their own validation and authorization logic. To create a form request class, you may use the `make:request` Artisan CLI command:
+Для более сложных сценариев проверки вы можете создать «запрос формы». Запросы формы - это настраиваемые классы запросов, которые инкапсулируют свою собственную логику проверки и авторизации. Чтобы создать класс запроса формы, вы можете использовать команду Artisan CLI `make:request`:
 
     php artisan make:request StorePostRequest
 
-The generated form request class will be placed in the `app/Http/Requests` directory. If this directory does not exist, it will be created when you run the `make:request` command. Each form request generated by Laravel has two methods: `authorize` and `rules`.
+Сгенерированный класс запроса формы будет помещен в каталог `app/Http/Requests`. Если этот каталог не существует, он будет создан, когда вы запустите команду `make:request`. Каждый запрос формы, сгенерированный Laravel, имеет два метода: `authorize` и `rules`.
 
-As you might have guessed, the `authorize` method is responsible for determining if the currently authenticated user can perform the action represented by the request, while the `rules` method returns the validation rules that should apply to the request's data:
+Как вы могли догадаться, метод `authorize` отвечает за определение того, может ли текущий аутентифицированный пользователь выполнить действие, представленное запросом, в то время как метод `rules` возвращает правила проверки, которые должны применяться к данным запроса:
 
     /**
      * Get the validation rules that apply to the request.
@@ -271,9 +271,9 @@ As you might have guessed, the `authorize` method is responsible for determining
         ];
     }
 
-> {tip} You may type-hint any dependencies you require within the `rules` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
+> {tip} Вы можете указать любые зависимости, которые вам нужны, в сигнатуре метода `rules`. Они будут автоматически разрешены через Laravel [сервисный контейнер](/docs/{{version}}/container).
 
-So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
+Итак, как оцениваются правила проверки? Все, что вам нужно сделать, это ввести подсказку запроса к методу вашего контроллера. Входящий запрос формы проверяется перед вызовом метода контроллера, что означает, что вам не нужно загромождать контроллер какой-либо логикой проверки:
 
     /**
      * Store a new blog post.
@@ -289,12 +289,12 @@ So, how are the validation rules evaluated? All you need to do is type-hint the 
         $validated = $request->validated();
     }
 
-If validation fails, a redirect response will be generated to send the user back to their previous location. The errors will also be flashed to the session so they are available for display. If the request was an XHR request, an HTTP response with a 422 status code will be returned to the user including a JSON representation of the validation errors.
+Если проверка не удалась, будет сгенерирован ответ перенаправления, чтобы отправить пользователя обратно в его предыдущее местоположение. Ошибки также будут перенесены в сеанс, чтобы они были доступны для отображения. Если запрос был запросом XHR, пользователю будет возвращен HTTP-ответ с кодом состояния 422, включая JSON-представление ошибок проверки.
 
 <a name="adding-after-hooks-to-form-requests"></a>
-#### Adding After Hooks To Form Requests
+#### Добавление хуков после к запросам формы
 
-If you would like to add an "after" validation hook to a form request, you may use the `withValidator` method. This method receives the fully constructed validator, allowing you to call any of its methods before the validation rules are actually evaluated:
+Если вы хотите добавить обработчик проверки «после» к запросу формы, вы можете использовать метод `withValidator`. Этот метод получает полностью сконструированный валидатор, позволяющий вызвать любой из его методов до того, как правила валидации будут фактически оценены:
 
     /**
      * Configure the validator instance.
@@ -311,11 +311,10 @@ If you would like to add an "after" validation hook to a form request, you may u
         });
     }
 
-
 <a name="request-stopping-on-first-validation-rule-failure"></a>
-#### Stopping On First Validation Failure Attribute
+#### Остановка при первой ошибке проверки атрибута
 
-By adding a `stopOnFirstFailure` property to your request class, you may inform the validator that it should stop validating all attributes once a single validation failure has occurred:
+Добавляя свойство `stopOnFirstFailure` к вашему классу запроса, вы можете сообщить валидатору, что он должен прекратить проверку всех атрибутов после того, как произошла единственная ошибка валидации:
 
     /**
      * Indicates if the validator should stop on the first rule failure.
@@ -325,9 +324,9 @@ By adding a `stopOnFirstFailure` property to your request class, you may inform 
     protected $stopOnFirstFailure = true;
 
 <a name="authorizing-form-requests"></a>
-### Authorizing Form Requests
+### Авторизация запросов формы
 
-The form request class also contains an `authorize` method. Within this method, you may determine if the authenticated user actually has the authority to update a given resource. For example, you may determine if a user actually owns a blog comment they are attempting to update. Most likely, you will interact with your [authorization gates and policies](/docs/{{version}}/authorization) within this method:
+Класс запроса формы также содержит метод `authorize`. В этом методе вы можете определить, действительно ли аутентифицированный пользователь имеет право обновлять данный ресурс. Например, вы можете определить, действительно ли пользователь владеет комментарием в блоге, который он пытается обновить. Скорее всего, вы будете взаимодействовать со своими [шлюзами и политиками авторизации](/docs/{{version}}/authorization) в этом методе:
 
     use App\Models\Comment;
 
@@ -343,17 +342,17 @@ The form request class also contains an `authorize` method. Within this method, 
         return $comment && $this->user()->can('update', $comment);
     }
 
-Since all form requests extend the base Laravel request class, we may use the `user` method to access the currently authenticated user. Also, note the call to the `route` method in the example above. This method grants you access to the URI parameters defined on the route being called, such as the `{comment}` parameter in the example below:
+Поскольку все запросы формы расширяют базовый класс запросов Laravel, мы можем использовать метод `user` для доступа к текущему аутентифицированному пользователю. Также обратите внимание на вызов метода `route` в приведенном выше примере. Этот метод предоставляет вам доступ к параметрам URI, определенным для вызываемого маршрута, таким как параметр `{comment}` в примере ниже:
 
     Route::post('/comment/{comment}');
 
-Therefore, if your application is taking advantage of [route model binding](/docs/{{version}}/routing#route-model-binding), your code may be made even more succinct by accessing the resolved model as a property of the request:
+Поэтому, если ваше приложение использует [привязку модели маршрута](/docs/{{version}}/routing#route-model-binding), ваш код можно сделать еще более кратким, если вы получите доступ к разрешенной модели как к свойству запрос:
 
     return $this->user()->can('update', $this->comment);
 
-If the `authorize` method returns `false`, an HTTP response with a 403 status code will automatically be returned and your controller method will not execute.
+Если метод `authorize` возвращает `false`, ответ HTTP с кодом состояния 403 будет автоматически возвращен, и метод вашего контроллера не будет выполняться.
 
-If you plan to handle authorization logic for the request in another part of your application, you may simply return `true` from the `authorize` method:
+Если вы планируете обрабатывать логику авторизации для запроса в другой части вашего приложения, вы можете просто вернуть `true` из метода `authorize`:
 
     /**
      * Determine if the user is authorized to make this request.
@@ -368,9 +367,9 @@ If you plan to handle authorization logic for the request in another part of you
 > {tip} You may type-hint any dependencies you need within the `authorize` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
 
 <a name="customizing-the-error-messages"></a>
-### Customizing The Error Messages
+### Настройка сообщений об ошибках
 
-You may customize the error messages used by the form request by overriding the `messages` method. This method should return an array of attribute / rule pairs and their corresponding error messages:
+Вы можете настроить сообщения об ошибках, используемые в запросе формы, переопределив метод `messages`. Этот метод должен возвращать массив пар атрибут / правило и соответствующие им сообщения об ошибках:
 
     /**
      * Get the error messages for the defined validation rules.
@@ -386,9 +385,9 @@ You may customize the error messages used by the form request by overriding the 
     }
 
 <a name="customizing-the-validation-attributes"></a>
-#### Customizing The Validation Attributes
+#### Настройка атрибутов проверки
 
-Many of Laravel's built-in validation rule error messages contain an `:attribute` placeholder. If you would like the `:attribute` placeholder of your validation message to be replaced with a custom attribute name, you may specify the custom names by overriding the `attributes` method. This method should return an array of attribute / name pairs:
+Многие сообщения об ошибках встроенных правил проверки Laravel содержат плейсхолдер `:attribute`. Если вы хотите, чтобы заполнитель `:attribute` вашего сообщения проверки был заменен именем настраиваемого атрибута, вы можете указать настраиваемые имена, переопределив метод `attributes`. Этот метод должен возвращать массив пар атрибут / имя:
 
     /**
      * Get custom attributes for validator errors.
@@ -403,9 +402,9 @@ Many of Laravel's built-in validation rule error messages contain an `:attribute
     }
 
 <a name="preparing-input-for-validation"></a>
-### Preparing Input For Validation
+### Подготовка ввода для валидации
 
-If you need to prepare or sanitize any data from the request before you apply your validation rules, you may use the `prepareForValidation` method:
+Если вам нужно подготовить или очистить какие-либо данные из запроса перед применением правил проверки, вы можете использовать метод `prepareForValidation`:
 
     use Illuminate\Support\Str;
 
@@ -422,9 +421,9 @@ If you need to prepare or sanitize any data from the request before you apply yo
     }
 
 <a name="manually-creating-validators"></a>
-## Manually Creating Validators
+## Создание валидаторов вручную
 
-If you do not want to use the `validate` method on the request, you may create a validator instance manually using the `Validator` [facade](/docs/{{version}}/facades). The `make` method on the facade generates a new validator instance:
+Если вы не хотите использовать метод `validate` в запросе, вы можете создать экземпляр валидатора вручную, используя `Validator` [фасад](/docs/{{version}}/facades). Метод `make` на фасаде генерирует новый экземпляр валидатора:
 
     <?php
 
@@ -459,29 +458,29 @@ If you do not want to use the `validate` method on the request, you may create a
         }
     }
 
-The first argument passed to the `make` method is the data under validation. The second argument is an array of the validation rules that should be applied to the data.
+Первый аргумент, переданный методу `make`- это проверяемые данные. Второй аргумент - это массив правил проверки, которые должны применяться к данным.
 
-After determining whether the request validation failed, you may use the `withErrors` method to flash the error messages to the session. When using this method, the `$errors` variable will automatically be shared with your views after redirection, allowing you to easily display them back to the user. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
+После определения того, не прошла ли проверка запроса, вы можете использовать метод `withErrors` для передачи сообщений об ошибках в сеанс. При использовании этого метода переменная `$errors` будет автоматически передана вашим представлениям после перенаправления, что позволит вам легко отображать их обратно пользователю. Метод `withErrors` принимает валидатор, `MessageBag`, или PHP `array`.
 
-#### Stopping On First Validation Failure
+#### Остановка при первой ошибке проверки
 
-The `stopOnFirstFailure` method will inform the validator that it should stop validating all attributes once a single validation failure has occurred:
+Метод `stopOnFirstFailure` проинформирует валидатор о том, что он должен прекратить проверку всех атрибутов после того, как произошла единственная ошибка валидации:
 
     if ($validator->stopOnFirstFailure()->fails()) {
         // ...
     }
 
 <a name="automatic-redirection"></a>
-### Automatic Redirection
+### Автоматическое перенаправление
 
-If you would like to create a validator instance manually but still take advantage of the automatic redirection offered by the HTTP request's `validate` method, you may call the `validate` method on an existing validator instance. If validation fails, the user will automatically be redirected or, in the case of an XHR request, a JSON response will be returned:
+Если вы хотите создать экземпляр валидатора вручную, но по-прежнему пользуетесь преимуществами автоматического перенаправления, предлагаемого методом `validate` HTTP-запроса, вы можете вызвать метод `validate` для существующего экземпляра валидатора. Если проверка не удалась, пользователь будет автоматически перенаправлен или, в случае запроса XHR, будет возвращен ответ JSON:
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
         'body' => 'required',
     ])->validate();
 
-You may use the `validateWithBag` method to store the error messages in a [named error bag](#named-error-bags) if validation fails:
+Вы можете использовать метод `validateWithBag` для сохранения сообщений об ошибках в [именованный пакет ошибок](#named-error-bags), если проверка не удалась:
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -489,26 +488,26 @@ You may use the `validateWithBag` method to store the error messages in a [named
     ])->validateWithBag('post');
 
 <a name="named-error-bags"></a>
-### Named Error Bags
+### Именованные пакеты ошибки
 
-If you have multiple forms on a single page, you may wish to name the `MessageBag` containing the validation errors, allowing you to retrieve the error messages for a specific form. To achieve this, pass a name as the second argument to `withErrors`:
+Если у вас есть несколько форм на одной странице, вы можете захотеть назвать `MessageBag`, содержащий ошибки проверки, что позволит вам получать сообщения об ошибках для конкретной формы. Для этого передайте имя в качестве второго аргумента в `withErrors`:
 
     return redirect('register')->withErrors($validator, 'login');
 
-You may then access the named `MessageBag` instance from the `$errors` variable:
+Затем вы можете получить доступ к именованному экземпляру `MessageBag` из переменной `$errors`:
 
     {{ $errors->login->first('email') }}
 
 <a name="manual-customizing-the-error-messages"></a>
-### Customizing The Error Messages
+### Настройка сообщений об ошибках
 
-If needed, you may provide custom error messages that a validator instance should use instead of the default error messages provided by Laravel. There are several ways to specify custom messages. First, you may pass the custom messages as the third argument to the `Validator::make` method:
+При необходимости вы можете предоставить настраиваемые сообщения об ошибках, которые должен использовать экземпляр валидатора вместо сообщений об ошибках по умолчанию, предоставляемых Laravel. Есть несколько способов указать собственные сообщения. Во-первых, вы можете передать пользовательские сообщения в качестве третьего аргумента методу `Validator::make`:
 
     $validator = Validator::make($input, $rules, $messages = [
         'required' => 'The :attribute field is required.',
     ]);
 
-In this example, the `:attribute` placeholder will be replaced by the actual name of the field under validation. You may also utilize other placeholders in validation messages. For example:
+В этом примере плейсхолдер `:attribute` будет заменен фактическим именем проверяемого поля. Вы также можете использовать другие заполнители в сообщениях проверки. Например:
 
     $messages = [
         'same' => 'The :attribute and :other must match.',
@@ -518,27 +517,27 @@ In this example, the `:attribute` placeholder will be replaced by the actual nam
     ];
 
 <a name="specifying-a-custom-message-for-a-given-attribute"></a>
-#### Specifying A Custom Message For A Given Attribute
+#### Указание настраиваемого сообщения для заданного атрибута
 
-Sometimes you may wish to specify a custom error message only for a specific attribute. You may do so using "dot" notation. Specify the attribute's name first, followed by the rule:
+Иногда вы можете указать собственное сообщение об ошибке только для определенного атрибута. Вы можете сделать это, используя "точечную" нотацию. Сначала укажите имя атрибута, а затем правило:
 
     $messages = [
         'email.required' => 'We need to know your email address!',
     ];
 
 <a name="specifying-custom-attribute-values"></a>
-#### Specifying Custom Attribute Values
+#### Указание значений настраиваемых атрибутов
 
-Many of Laravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the field or attribute under validation. To customize the values used to replace these placeholders for specific fields, you may pass an array of custom attributes as the fourth argument to the `Validator::make` method:
+Многие из встроенных сообщений об ошибках Laravel включают плейсхолдер `:attribute`, который заменяется именем проверяемого поля или атрибута. Чтобы настроить значения, используемые для замены этих заполнителей для определенных полей, вы можете передать массив настраиваемых атрибутов в качестве четвертого аргумента методу `Validator::make`:
 
     $validator = Validator::make($input, $rules, $messages, [
         'email' => 'email address',
     ]);
 
 <a name="after-validation-hook"></a>
-### After Validation Hook
+### После проверки
 
-You may also attach callbacks to be run after validation is completed. This allows you to easily perform further validation and even add more error messages to the message collection. To get started, call the `after` method on a validator instance:
+Вы также можете прикрепить обратные вызовы, которые будут запускаться после завершения проверки. Это позволяет легко выполнять дальнейшую проверку и даже добавлять сообщения об ошибках в коллекцию сообщений. Для начала вызовите метод `after` на экземпляре валидатора:
 
     $validator = Validator::make(...);
 
@@ -555,63 +554,63 @@ You may also attach callbacks to be run after validation is completed. This allo
     }
 
 <a name="working-with-error-messages"></a>
-## Working With Error Messages
+## Работа с сообщениями об ошибке
 
-After calling the `errors` method on a `Validator` instance, you will receive an `Illuminate\Support\MessageBag` instance, which has a variety of convenient methods for working with error messages. The `$errors` variable that is automatically made available to all views is also an instance of the `MessageBag` class.
+После вызова метода `errors` для экземпляра `Validator` вы получите экземпляр `Illuminate\Support\MessageBag`, который имеет множество удобных методов для работы с сообщениями об ошибках. Переменная `$errors`, которая автоматически становится доступной для всех представлений, также является экземпляром класса `MessageBag`.
 
 <a name="retrieving-the-first-error-message-for-a-field"></a>
-#### Retrieving The First Error Message For A Field
+#### Получение первого сообщения об ошибке для поля
 
-To retrieve the first error message for a given field, use the `first` method:
+Чтобы получить первое сообщение об ошибке для данного поля, используйте метод `first`:
 
     $errors = $validator->errors();
 
     echo $errors->first('email');
 
 <a name="retrieving-all-error-messages-for-a-field"></a>
-#### Retrieving All Error Messages For A Field
+#### Получение всех сообщений об ошибках для поля
 
-If you need to retrieve an array of all the messages for a given field, use the `get` method:
+Если вам нужно получить массив всех сообщений для данного поля, используйте метод `get`:
 
     foreach ($errors->get('email') as $message) {
         //
     }
 
-If you are validating an array form field, you may retrieve all of the messages for each of the array elements using the `*` character:
+Если вы проверяете поле формы массива, вы можете получить все сообщения для каждого из элементов массива, используя символ `*`:
 
     foreach ($errors->get('attachments.*') as $message) {
         //
     }
 
 <a name="retrieving-all-error-messages-for-all-fields"></a>
-#### Retrieving All Error Messages For All Fields
+#### Получение всех сообщений об ошибках для всех полей
 
-To retrieve an array of all messages for all fields, use the `all` method:
+Чтобы получить массив всех сообщений для всех полей, используйте метод `all`:
 
     foreach ($errors->all() as $message) {
         //
     }
 
 <a name="determining-if-messages-exist-for-a-field"></a>
-#### Determining If Messages Exist For A Field
+#### Определение наличия сообщений для поля
 
-The `has` method may be used to determine if any error messages exist for a given field:
+Метод `has` может использоваться, чтобы определить, существуют ли какие-либо сообщения об ошибках для данного поля:
 
     if ($errors->has('email')) {
         //
     }
 
 <a name="specifying-custom-messages-in-language-files"></a>
-### Specifying Custom Messages In Language Files
+### Указание пользовательских сообщений в языковых файлах
 
-Laravel's built-in validation rules each has an error message that is located in your application's `resources/lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Каждое из встроенных правил проверки Laravel содержит сообщение об ошибке, которое находится в файле `resources/lang/en/validation.php` вашего приложения. В этом файле вы найдете запись перевода для каждого правила проверки. Вы можете изменять или модифицировать эти сообщения в зависимости от потребностей вашего приложения.
 
-In addition, you may copy this file to another translation language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
+Кроме того, вы можете скопировать этот файл в каталог другого языка перевода, чтобы переводить сообщения на язык вашего приложения. Чтобы узнать больше о локализации Laravel, ознакомьтесь с полной [документацией по локализации](/docs/{{version}}/localization).
 
 <a name="custom-messages-for-specific-attributes"></a>
-#### Custom Messages For Specific Attributes
+#### Пользовательские сообщения для определенных атрибутов
 
-You may customize the error messages used for specified attribute and rule combinations within your application's validation language files. To do so, add your message customizations to the `custom` array of your application's `resources/lang/xx/validation.php` language file:
+Вы можете настроить сообщения об ошибках, используемые для указанных комбинаций атрибутов и правил, в файлах языка проверки вашего приложения. Для этого добавьте настройки сообщения в массив `custom` языкового файла `resources/lang/xx/validation.php` вашего приложения:
 
     'custom' => [
         'email' => [
@@ -621,28 +620,28 @@ You may customize the error messages used for specified attribute and rule combi
     ],
 
 <a name="specifying-attribute-in-language-files"></a>
-### Specifying Attributes In Language Files
+### Указание атрибутов в языковых файлах
 
-Many of Laravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the field or attribute under validation. If you would like the `:attribute` portion of your validation message to be replaced with a custom value, you may specify the custom attribute name in the `attributes` array of your `resources/lang/xx/validation.php` language file:
+Многие из встроенных сообщений об ошибках Laravel включают заполнитель `:attribute`, который заменяется именем проверяемого поля или атрибута. Если вы хотите, чтобы часть вашего сообщения проверки `:attribute` была заменена настраиваемым значением, вы можете указать имя настраиваемого атрибута в массиве `attributes` языкового файла `resources/lang/xx/validation.php`:
 
     'attributes' => [
         'email' => 'email address',
     ],
 
 <a name="specifying-values-in-language-files"></a>
-### Specifying Values In Language Files
+### Указание значений в языковых файлах
 
-Some of Laravel's built-in validation rule error messages contain a `:value` placeholder that is replaced with the current value of the request attribute. However, you may occasionally need the `:value` portion of your validation message to be replaced with a custom representation of the value. For example, consider the following rule that specifies that a credit card number is required if the `payment_type` has a value of `cc`:
+Некоторые сообщения об ошибках встроенных правил проверки Laravel содержат заполнитель `:value`, который заменяется текущим значением атрибута запроса. Однако иногда вам может понадобиться заменить часть вашего сообщения проверки `:value` на пользовательское представление значения. Например, рассмотрим следующее правило, которое указывает, что номер кредитной карты требуется, если `payment_type` имеет значение `cc`:
 
     Validator::make($request->all(), [
         'credit_card_number' => 'required_if:payment_type,cc'
     ]);
 
-If this validation rule fails, it will produce the following error message:
+В случае сбоя этого правила проверки будет выдано следующее сообщение об ошибке:
 
     The credit card number field is required when payment type is cc.
 
-Instead of displaying `cc` as the payment type value, you may specify a more user-friendly value representation in your `resources/lang/xx/validation.php` language file by defining a `values` array:
+Вместо того, чтобы отображать `cc` в качестве значения типа платежа, вы можете указать более удобное для пользователя представление значения в вашем языковом файле `resources/lang/xx/validation.php`, определив массив значений `values`:
 
     'values' => [
         'payment_type' => [
@@ -650,14 +649,14 @@ Instead of displaying `cc` as the payment type value, you may specify a more use
         ],
     ],
 
-After defining this value, the validation rule will produce the following error message:
+После определения этого значения правило проверки выдаст следующее сообщение об ошибке:
 
     The credit card number field is required when payment type is credit card.
 
 <a name="available-validation-rules"></a>
-## Available Validation Rules
+## Доступные правила валидации
 
-Below is a list of all available validation rules and their function:
+Ниже приведен список всех доступных правил проверки и их функции:
 
 <style>
     .collection-method-list > p {
@@ -748,50 +747,50 @@ Below is a list of all available validation rules and their function:
 <a name="rule-accepted"></a>
 #### accepted
 
-The field under validation must be `"yes"`, `"on"`, `1`, or `true`. This is useful for validating "Terms of Service" acceptance or similar fields.
+Проверяемое поле должно иметь значение `"yes"`, `"on"`, `1` или `true`. Это полезно для проверки принятия "Условий использования" или аналогичных полей.
 
 <a name="rule-active-url"></a>
 #### active_url
 
-The field under validation must have a valid A or AAAA record according to the `dns_get_record` PHP function. The hostname of the provided URL is extracted using the `parse_url` PHP function before being passed to `dns_get_record`.
+Проверяемое поле должно иметь допустимую запись A или AAAA в соответствии с функцией PHP `dns_get_record`. Имя хоста предоставленного URL извлекается с помощью функции PHP `parse_url` перед передачей в `dns_get_record`.
 
 <a name="rule-after"></a>
 #### after:_date_
 
-The field under validation must be a value after a given date. The dates will be passed into the `strtotime` PHP function in order to be converted to a valid `DateTime` instance:
+Проверяемое поле должно иметь значение после заданной даты. Даты будут переданы в функцию PHP `strtotime` для преобразования в действительный экземпляр `DateTime`:
 
     'start_date' => 'required|date|after:tomorrow'
 
-Instead of passing a date string to be evaluated by `strtotime`, you may specify another field to compare against the date:
+Вместо передачи строки даты для оценки `strtotime`, вы можете указать другое поле для сравнения с датой:
 
     'finish_date' => 'required|date|after:start_date'
 
 <a name="rule-after-or-equal"></a>
 #### after\_or\_equal:_date_
 
-The field under validation must be a value after or equal to the given date. For more information, see the [after](#rule-after) rule.
+Проверяемое поле должно иметь значение после указанной даты или равное ей. Для получения дополнительной информации смотрите правило [after](#rule-after).
 
 <a name="rule-alpha"></a>
 #### alpha
 
-The field under validation must be entirely alphabetic characters.
+Проверяемое поле должно состоять полностью из буквенных символов.
 
 <a name="rule-alpha-dash"></a>
 #### alpha_dash
 
-The field under validation may have alpha-numeric characters, as well as dashes and underscores.
+Проверяемое поле может содержать буквенно-цифровые символы, а также дефисы и подчеркивания.
 
 <a name="rule-alpha-num"></a>
 #### alpha_num
 
-The field under validation must be entirely alpha-numeric characters.
+Проверяемое поле должно состоять полностью из буквенно-цифровых символов.
 
 <a name="rule-array"></a>
 #### array
 
-The field under validation must be a PHP `array`.
+Проверяемое поле должно быть массивом PHP `array`.
 
-When additional values are provided to the `array` rule, each key in the input array must be present within the list of values provided to the rule. In the following example, the `admin` key in the input array is invalid since it is not contained in the list of values provided to the `array` rule:
+Когда для правила массива `array` предоставляются дополнительные значения, каждый ключ во входном массиве должен присутствовать в списке значений, предоставленных правилу. В следующем примере ключ `admin` во входном массиве недействительна, так как она не содержится в списке значений, предоставленных правилу `array`:
 
     use Illuminate\Support\Facades\Validator;
 
@@ -810,9 +809,9 @@ When additional values are provided to the `array` rule, each key in the input a
 <a name="rule-bail"></a>
 #### bail
 
-Stop running validation rules for the field after the first validation failure.
+Остановите выполнение правил проверки для поля после первого сбоя проверки.
 
-While the `bail` rule will only stop validating a specific field when it encounters a validation failure, the `stopOnFirstFailure` method will inform the validator that it should stop validating all attributes once a single validation failure has occurred:
+В то время как правило `bail` прекращает проверку определенного поля только при сбое проверки, метод `stopOnFirstFailure` сообщит валидатору, что он должен прекратить проверку всех атрибутов после того, как произошла единственная ошибка проверки:
 
     if ($validator->stopOnFirstFailure()->fails()) {
         // ...
@@ -821,72 +820,72 @@ While the `bail` rule will only stop validating a specific field when it encount
 <a name="rule-before"></a>
 #### before:_date_
 
-The field under validation must be a value preceding the given date. The dates will be passed into the PHP `strtotime` function in order to be converted into a valid `DateTime` instance. In addition, like the [`after`](#rule-after) rule, the name of another field under validation may be supplied as the value of `date`.
+Проверяемое поле должно быть значением, предшествующим указанной дате. Даты будут переданы в функцию PHP `strtotime` для преобразования в действительный экземпляр `DateTime`. Кроме того, как правило [`after`](#rule-after), имя другого проверяемого поля может быть указано как значение `date`.
 
 <a name="rule-before-or-equal"></a>
 #### before\_or\_equal:_date_
 
-The field under validation must be a value preceding or equal to the given date. The dates will be passed into the PHP `strtotime` function in order to be converted into a valid `DateTime` instance. In addition, like the [`after`](#rule-after) rule, the name of another field under validation may be supplied as the value of `date`.
+Проверяемое поле должно иметь значение, предшествующее указанной дате или равное ей. Даты будут переданы в функцию PHP `strtotime` для преобразования в действительный экземпляр `DateTime`. Кроме того, как правило [`after`](#rule-after), имя другого проверяемого поля может быть указано как значение `date`.
 
 <a name="rule-between"></a>
 #### between:_min_,_max_
 
-The field under validation must have a size between the given _min_ and _max_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+Проверяемое поле должно иметь размер между заданными _min_ и _max_. Строки, числа, массивы и файлы оцениваются так же, как правило [`size`](#rule-size).
 
 <a name="rule-boolean"></a>
 #### boolean
 
-The field under validation must be able to be cast as a boolean. Accepted input are `true`, `false`, `1`, `0`, `"1"`, and `"0"`.
+Проверяемое поле должно иметь возможность преобразования в логическое значение. Допустимые значения: `true`, `false`, `1`, `0`, `"1"` и `"0"`.
 
 <a name="rule-confirmed"></a>
 #### confirmed
 
-The field under validation must have a matching field of `{field}_confirmation`. For example, if the field under validation is `password`, a matching `password_confirmation` field must be present in the input.
+Проверяемое поле должно иметь совпадающее поле `{field}_confirmation`. Например, если проверяемое поле - это `password`, соответствующее поле `password_confirmation` должно присутствовать во входных данных.
 
 <a name="rule-date"></a>
 #### date
 
-The field under validation must be a valid, non-relative date according to the `strtotime` PHP function.
+Проверяемое поле должно быть действительной, не относительной датой в соответствии с функцией PHP `strtotime`.
 
 <a name="rule-date-equals"></a>
 #### date_equals:_date_
 
-The field under validation must be equal to the given date. The dates will be passed into the PHP `strtotime` function in order to be converted into a valid `DateTime` instance.
+Проверяемое поле должно совпадать с указанной датой. Даты будут переданы в функцию PHP `strtotime` для преобразования в действительный экземпляр `DateTime`.
 
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-The field under validation must match the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
+Проверяемое поле должно соответствовать заданному _format_. При проверке поля следует использовать **либо** `date` или `date_format`, а не то и другое вместе. Это правило проверки поддерживает все форматы, поддерживаемые классом PHP [DateTime](https://www.php.net/manual/en/class.datetime.php).
 
 <a name="rule-different"></a>
 #### different:_field_
 
-The field under validation must have a different value than _field_.
+Проверяемое поле должно иметь значение, отличное от _field_.
 
 <a name="rule-digits"></a>
 #### digits:_value_
 
-The field under validation must be _numeric_ and must have an exact length of _value_.
+Проверяемое поле должно быть _numeric_ и иметь точную длину _value_.
 
 <a name="rule-digits-between"></a>
 #### digits_between:_min_,_max_
 
-The field under validation must be _numeric_ and must have a length between the given _min_ and _max_.
+Проверяемое поле должно быть _numeric_ и иметь длину между заданными _min_ и _max_.
 
 <a name="rule-dimensions"></a>
 #### dimensions
 
-The file under validation must be an image meeting the dimension constraints as specified by the rule's parameters:
+Проверяемый файл должен быть изображением, отвечающим ограничениям размеров, указанным в параметрах правила:
 
     'avatar' => 'dimensions:min_width=100,min_height=200'
 
-Available constraints are: _min\_width_, _max\_width_, _min\_height_, _max\_height_, _width_, _height_, _ratio_.
+Доступные ограничения: _min\_width_, _max\_width_, _min\_height_, _max\_height_, _width_, _height_, _ratio_.
 
-A _ratio_ constraint should be represented as width divided by height. This can be specified either by a fraction like `3/2` or a float like `1.5`:
+Ограничение _ratio_ должно быть представлено как ширина, разделенная на высоту. Это может быть указано дробью вроде `3/2` или числом с плавающей запятой, например, `1.5`:
 
     'avatar' => 'dimensions:ratio=3/2'
 
-Since this rule requires several arguments, you may use the `Rule::dimensions` method to fluently construct the rule:
+Поскольку для этого правила требуется несколько аргументов, вы можете использовать метод `Rule::dimensions` для плавного построения правила:
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -901,26 +900,26 @@ Since this rule requires several arguments, you may use the `Rule::dimensions` m
 <a name="rule-distinct"></a>
 #### distinct
 
-When validating arrays, the field under validation must not have any duplicate values:
+При проверке массивов проверяемое поле не должно иметь повторяющихся значений:
 
     'foo.*.id' => 'distinct'
 
-Distinct uses loose variable comparisons by default. To use strict comparisons, you may add the `strict` parameter to your validation rule definition:
+По умолчанию использует свободные сравнения переменных. Чтобы использовать строгие сравнения, вы можете добавить параметр `strict` в определение правила проверки:
 
     'foo.*.id' => 'distinct:strict'
 
-You may add `ignore_case` to the validation rule's arguments to make the rule ignore capitalization differences:
+Вы можете добавить `ignore_case` к аргументам правила проверки, чтобы правило игнорировало различия в использовании заглавных букв:
 
     'foo.*.id' => 'distinct:ignore_case'
 
 <a name="rule-email"></a>
 #### email
 
-The field under validation must be formatted as an email address. This validation rule utilizes the [`egulias/email-validator`](https://github.com/egulias/EmailValidator) package for validating the email address. By default, the `RFCValidation` validator is applied, but you can apply other validation styles as well:
+Проверяемое поле должно быть отформатировано как адрес электронной почты. Это правило проверки использует пакет [`egulias/email-validator`](https://github.com/egulias/EmailValidator) для проверки адреса электронной почты. По умолчанию применяется валидатор `RFCValidation`, но вы также можете применить другие стили валидации:
 
     'email' => 'email:rfc,dns'
 
-The example above will apply the `RFCValidation` and `DNSCheckValidation` validations. Here's a full list of validation styles you can apply:
+В приведенном выше примере будут применяться проверки `RFCValidation` и `DNSCheckValidation`. Вот полный список стилей проверки, которые вы можете применить:
 
 <div class="content-list" markdown="1">
 - `rfc`: `RFCValidation`
@@ -930,53 +929,53 @@ The example above will apply the `RFCValidation` and `DNSCheckValidation` valida
 - `filter`: `FilterEmailValidation`
 </div>
 
-The `filter` validator, which uses PHP's `filter_var` function, ships with Laravel and was Laravel's default email validation behavior prior to Laravel version 5.8.
+Валидатор `filter`, который использует функцию PHP `filter_var`, поставляется с Laravel и был поведением проверки электронной почты по умолчанию до Laravel версии 5.8.
 
-> {note} The `dns` and `spoof` validators require the PHP `intl` extension.
+> {note} Валидаторы `dns` и `spoof` требуют расширения PHP `intl`.
 
 <a name="rule-ends-with"></a>
 #### ends_with:_foo_,_bar_,...
 
-The field under validation must end with one of the given values.
+Проверяемое поле должно заканчиваться одним из указанных значений.
 
 <a name="rule-exclude-if"></a>
 #### exclude_if:_anotherfield_,_value_
 
-The field under validation will be excluded from the request data returned by the `validate` and `validated` methods if the _anotherfield_ field is equal to _value_.
+Проверяемое поле будет исключено из данных запроса, возвращаемых методами `validate` и `validated`, если поле _anotherfield_ равно _value_.
 
 <a name="rule-exclude-unless"></a>
 #### exclude_unless:_anotherfield_,_value_
 
-The field under validation will be excluded from the request data returned by the `validate` and `validated` methods unless _anotherfield_'s field is equal to _value_. If _value_ is `null` (`exclude_unless:name,null`), the field under validation will be excluded unless the comparison field is `null` or the comparison field is missing from the request data.
+Проверяемое поле будет исключено из данных запроса, возвращаемых методами `validate` и `validated` methods unless _anotherfield_ не равно _value_. Если _value_ равно `null` (`exclude_unless:name,null`), проверяемое поле будет исключено, если поле сравнения не имеет значение `null` или поле сравнения отсутствует в данных запроса.
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
 
-The field under validation must exist in a given database table.
+Проверяемое поле должно существовать в данной таблице базы данных.
 
 <a name="basic-usage-of-exists-rule"></a>
-#### Basic Usage Of Exists Rule
+#### Основное использование правила Exists
 
     'state' => 'exists:states'
 
-If the `column` option is not specified, the field name will be used. So, in this case, the rule will validate that the `states` database table contains a record with a `state` column value matching the request's `state` attribute value.
+Если опция `column` не указана, будет использоваться имя поля. Таким образом, в этом случае правило будет проверять, что таблица базы данных `states` содержит запись со значением столбца `state`, совпадающим со значением атрибута запроса `state`.
 
 <a name="specifying-a-custom-column-name"></a>
-#### Specifying A Custom Column Name
+#### Указание кастомного имени столбца
 
-You may explicitly specify the database column name that should be used by the validation rule by placing it after the database table name:
+Вы можете явно указать имя столбца базы данных, которое должно использоваться правилом проверки, поместив его после имени таблицы базы данных:
 
     'state' => 'exists:states,abbreviation'
 
-Occasionally, you may need to specify a specific database connection to be used for the `exists` query. You can accomplish this by prepending the connection name to the table name:
+Иногда вам может потребоваться указать конкретное соединение с базой данных, которое будет использоваться для `exists` запроса. Вы можете сделать это, добавив имя подключения к имени таблицы:
 
     'email' => 'exists:connection.staff,email'
 
-Instead of specifying the table name directly, you may specify the Eloquent model which should be used to determine the table name:
+Вместо того, чтобы указывать имя таблицы напрямую, вы можете указать модель Eloquent, которая должна использоваться для определения имени таблицы:
 
     'user_id' => 'exists:App\Models\User,id'
 
-If you would like to customize the query executed by the validation rule, you may use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit them:
+Если вы хотите настроить запрос, выполняемый правилом проверки, вы можете использовать класс `Rule` для плавного определения правила. В этом примере мы также укажем правила проверки в виде массива вместо использования символа `|` для их разделения:
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -993,32 +992,32 @@ If you would like to customize the query executed by the validation rule, you ma
 <a name="rule-file"></a>
 #### file
 
-The field under validation must be a successfully uploaded file.
+Проверяемое поле должно быть успешно загруженным файлом.
 
 <a name="rule-filled"></a>
 #### filled
 
-The field under validation must not be empty when it is present.
+Проверяемое поле не должно быть пустым, если оно присутствует.
 
 <a name="rule-gt"></a>
 #### gt:_field_
 
-The field under validation must be greater than the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
+Проверяемое поле должно быть больше заданного _field_. Два поля должны быть одного типа. Строки, числа, массивы и файлы оцениваются с использованием тех же соглашений, что и правило [`size`](#rule-size).
 
 <a name="rule-gte"></a>
 #### gte:_field_
 
-The field under validation must be greater than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
+Проверяемое поле должно быть больше или равно заданному _field_. Два поля должны быть одного типа. Строки, числа, массивы и файлы оцениваются с использованием тех же соглашений, что и правило [`size`](#rule-size).
 
 <a name="rule-image"></a>
 #### image
 
-The file under validation must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).
+Проверяемый файл должен быть изображением (jpg, jpeg, png, bmp, gif, svg или webp).
 
 <a name="rule-in"></a>
 #### in:_foo_,_bar_,...
 
-The field under validation must be included in the given list of values. Since this rule often requires you to `implode` an array, the `Rule::in` method may be used to fluently construct the rule:
+Проверяемое поле должно быть включено в указанный список значений. Поскольку это правило часто требует, чтобы вы `implode` массив, метод `Rule::in` может быть использован для плавного построения правила:
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -1030,7 +1029,7 @@ The field under validation must be included in the given list of values. Since t
         ],
     ]);
 
-When the `in` rule is combined with the `array` rule, each value in the input array must be present within the list of values provided to the `in` rule. In the following example, the `LAS` airport code in the input array is invalid since it is not contained in the list of airports provided to the `in` rule:
+Когда правило `in` комбинируется с правилом `array`, каждое значение во входном массиве должно присутствовать в списке значений, предоставленных правилу `in`. В следующем примере код аэропорта `LAS` во входном массиве недействителен, так как он не содержится в списке аэропортов, предоставленном правилу `in`:
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -1050,87 +1049,87 @@ When the `in` rule is combined with the `array` rule, each value in the input ar
 <a name="rule-in-array"></a>
 #### in_array:_anotherfield_.*
 
-The field under validation must exist in _anotherfield_'s values.
+Проверяемое поле должно существовать в значениях _anotherfield_.
 
 <a name="rule-integer"></a>
 #### integer
 
-The field under validation must be an integer.
+Проверяемое поле должно быть целым числом.
 
-> {note} This validation rule does not verify that the input is of the "integer" variable type, only that the input is of a type accepted by PHP's `FILTER_VALIDATE_INT` rule. If you need to validate the input as being a number please use this rule in combination with [the `numeric` validation rule](#rule-numeric).
+> {note} Это правило проверки не проверяет, что ввод относится к типу переменной «целое число», а только что ввод относится к типу, принятому правилом PHP `FILTER_VALIDATE_INT`. Если вам нужно проверить ввод как число, используйте это правило в сочетании с [правилом проверки `numeric`](#rule-numeric).
 
 <a name="rule-ip"></a>
 #### ip
 
-The field under validation must be an IP address.
+Проверяемое поле должно быть IP-адресом.
 
 <a name="ipv4"></a>
 #### ipv4
 
-The field under validation must be an IPv4 address.
+Проверяемое поле должно быть адресом IPv4.
 
 <a name="ipv6"></a>
 #### ipv6
 
-The field under validation must be an IPv6 address.
+Проверяемое поле должно быть адресом IPv6.
 
 <a name="rule-json"></a>
 #### json
 
-The field under validation must be a valid JSON string.
+Проверяемое поле должно быть допустимой строкой JSON.
 
 <a name="rule-lt"></a>
 #### lt:_field_
 
-The field under validation must be less than the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
+Проверяемое поле должно быть меньше заданного _field_. Два поля должны быть одного типа. Строки, числа, массивы и файлы оцениваются с использованием тех же соглашений, что и правило [`size`](#rule-size).
 
 <a name="rule-lte"></a>
 #### lte:_field_
 
-The field under validation must be less than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
+Проверяемое поле должно быть меньше или равно заданному _field_. Два поля должны быть одного типа. Строки, числа, массивы и файлы оцениваются с использованием тех же соглашений, что и правило [`size`](#rule-size).
 
 <a name="rule-max"></a>
 #### max:_value_
 
-The field under validation must be less than or equal to a maximum _value_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+Проверяемое поле должно быть меньше или равно максимальному _value_. Строки, числа, массивы и файлы оцениваются так же, как правило [`size`](#rule-size).
 
 <a name="rule-mimetypes"></a>
 #### mimetypes:_text/plain_,...
 
-The file under validation must match one of the given MIME types:
+Проверяемый файл должен соответствовать одному из указанных типов MIME:
 
     'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime'
 
-To determine the MIME type of the uploaded file, the file's contents will be read and the framework will attempt to guess the MIME type, which may be different from the client's provided MIME type.
+Чтобы определить тип MIME загруженного файла, содержимое файла будет прочитано, и платформа попытается угадать тип MIME, который может отличаться от типа MIME, предоставленного клиентом.
 
 <a name="rule-mimes"></a>
 #### mimes:_foo_,_bar_,...
 
-The file under validation must have a MIME type corresponding to one of the listed extensions.
+Проверяемый файл должен иметь тип MIME, соответствующий одному из перечисленных расширений.
 
 <a name="basic-usage-of-mime-rule"></a>
-#### Basic Usage Of MIME Rule
+#### Основное использование правила MIME
 
     'photo' => 'mimes:jpg,bmp,png'
 
-Even though you only need to specify the extensions, this rule actually validates the MIME type of the file by reading the file's contents and guessing its MIME type. A full listing of MIME types and their corresponding extensions may be found at the following location:
+Несмотря на то, что вам нужно только указать расширения, это правило фактически проверяет MIME-тип файла, читая содержимое файла и угадывая его MIME-тип. Полный список типов MIME и их соответствующих расширений можно найти по следующему адресу:
 
 [https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
 <a name="rule-min"></a>
 #### min:_value_
 
-The field under validation must have a minimum _value_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+Проверяемое поле должно иметь минимальное значение _value_. Строки, числа, массивы и файлы оцениваются так же, как правило [`size`](#rule-size).
 
 <a name="multiple-of"></a>
 #### multiple_of:_value_
 
-The field under validation must be a multiple of _value_.
+Проверяемое поле должно быть кратным _value_.
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
 
-The field under validation must not be included in the given list of values. The `Rule::notIn` method may be used to fluently construct the rule:
+Проверяемое поле не должно быть включено в данный список значений. Метод `Rule::notIn` может использоваться для плавного построения правила:
 
     use Illuminate\Validation\Rule;
 
@@ -1144,78 +1143,78 @@ The field under validation must not be included in the given list of values. The
 <a name="rule-not-regex"></a>
 #### not_regex:_pattern_
 
-The field under validation must not match the given regular expression.
+Проверяемое поле не должно соответствовать заданному регулярному выражению.
 
-Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'not_regex:/^.+$/i'`.
+Внутренне это правило использует функцию PHP `preg_match`. Указанный шаблон должен подчиняться тому же форматированию, которое требуется для `preg_match`, и, следовательно, также включать допустимые разделители. Например: `'email' => 'not_regex:/^.+$/i'`.
 
-> {note} When using the `regex` / `not_regex` patterns, it may be necessary to specify your validation rules using an array instead of using `|` delimiters, especially if the regular expression contains a `|` character.
+> {note} При использовании шаблонов `regex` / `not_regex` может потребоваться указать ваши правила проверки с использованием массива вместо использования разделителей `|`, особенно если регулярное выражение содержит символ `|`.
 
 <a name="rule-nullable"></a>
 #### nullable
 
-The field under validation may be `null`.
+Проверяемое поле может быть `null`.
 
 <a name="rule-numeric"></a>
 #### numeric
 
-The field under validation must be [numeric](https://www.php.net/manual/en/function.is-numeric.php).
+Проверяемое поле должно быть [numeric](https://www.php.net/manual/en/function.is-numeric.php).
 
 <a name="rule-password"></a>
 #### password
 
-The field under validation must match the authenticated user's password. You may specify an [authentication guard](/docs/{{version}}/authentication) using the rule's first parameter:
+Проверяемое поле должно соответствовать паролю аутентифицированного пользователя. Вы можете указать [защиту аутентификации](/docs/{{version}}/authentication), используя первый параметр правила:
 
     'password' => 'password:api'
 
 <a name="rule-present"></a>
 #### present
 
-The field under validation must be present in the input data but can be empty.
+Проверяемое поле должно присутствовать во входных данных, но может быть пустым.
 
 <a name="rule-prohibited"></a>
 #### prohibited
 
-The field under validation must be empty or not present.
+Проверяемое поле должно быть пустым или отсутствовать.
 
 <a name="rule-prohibited-if"></a>
 #### prohibited_if:_anotherfield_,_value_,...
 
-The field under validation must be empty or not present if the _anotherfield_ field is equal to any _value_.
+Проверяемое поле должно быть пустым или отсутствовать, если поле _anotherfield_ равно любому _value_.
 
 <a name="rule-prohibited-unless"></a>
 #### prohibited_unless:_anotherfield_,_value_,...
 
-The field under validation must be empty or not present unless the _anotherfield_ field is equal to any _value_.
+Проверяемое поле должно быть пустым или отсутствовать, если поле _anotherfield_ не равно какому-либо _value_.
 
 <a name="rule-regex"></a>
 #### regex:_pattern_
 
-The field under validation must match the given regular expression.
+Проверяемое поле должно соответствовать заданному регулярному выражению.
 
-Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'regex:/^.+@.+$/i'`.
+Внутренне это правило использует функцию PHP `preg_match`. Указанный шаблон должен подчиняться тому же форматированию, которое требуется для `preg_match`, и, следовательно, также включать допустимые разделители. Например: `'email' => 'regex:/^.+@.+$/i'`.
 
-> {note} When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using `|` delimiters, especially if the regular expression contains a `|` character.
+> {note} При использовании шаблонов `regex` / `not_regex` может потребоваться указать правила в массиве вместо использования разделителей `|`, особенно если регулярное выражение содержит символ `|`.
 
 <a name="rule-required"></a>
 #### required
 
-The field under validation must be present in the input data and not empty. A field is considered "empty" if one of the following conditions are true:
+Проверяемое поле должно присутствовать во входных данных и не быть пустым. Поле считается «пустым», если выполняется одно из следующих условий:
 
 <div class="content-list" markdown="1">
 
-- The value is `null`.
-- The value is an empty string.
-- The value is an empty array or empty `Countable` object.
-- The value is an uploaded file with no path.
+- Значение равно `null`.
+- Значение - пустая строка.
+- Значение представляет собой пустой массив или пустой объект `Countable`.
+- Значение - загруженный файл без пути.
 
 </div>
 
 <a name="rule-required-if"></a>
 #### required_if:_anotherfield_,_value_,...
 
-The field under validation must be present and not empty if the _anotherfield_ field is equal to any _value_.
+Проверяемое поле должно присутствовать и не быть пустым, если поле _anotherfield_ равно любому _value_.
 
-If you would like to construct a more complex condition for the `required_if` rule, you may use the `Rule::requiredIf` method. This method accepts a boolean or a closure. When passed a closure, the closure should return `true` or `false` to indicate if the field under validation is required:
+Если вы хотите создать более сложное условие для правила `required_if`, вы можете использовать метод `Rule::requiredIf`. Этот метод принимает логическое значение или замыкание. При передаче закрытия оно должно возвращать `true` или `false`, чтобы указать, требуется ли проверяемое поле:
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -1233,91 +1232,91 @@ If you would like to construct a more complex condition for the `required_if` ru
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
-The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_. This also means _anotherfield_ must be present in the request data unless _value_ is `null`. If _value_ is `null` (`required_unless:name,null`), the field under validation will be required unless the comparison field is `null` or the comparison field is missing from the request data.
+Проверяемое поле должно присутствовать и не быть пустым, если поле _anotherfield_ не равно какому-либо _value_. Это также означает, что в данных запроса должно присутствовать _anotherfield_, если _value_ не имеет значения `null`. Если _value_ равно `null` (`required_unless:name,null`), проверяемое поле будет обязательным, если поле сравнения не равно `null` или поле сравнения отсутствует в данных запроса.
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
 
-The field under validation must be present and not empty _only if_ any of the other specified fields are present and not empty.
+Проверяемое поле должно присутствовать и не быть пустым, _only if_ присутствует любое из других указанных полей, а не пустое.
 
 <a name="rule-required-with-all"></a>
 #### required_with_all:_foo_,_bar_,...
 
-The field under validation must be present and not empty _only if_ all of the other specified fields are present and not empty.
+Проверяемое поле должно присутствовать и не быть пустым, _only if_ все другие указанные поля присутствуют, а не пусто.
 
 <a name="rule-required-without"></a>
 #### required_without:_foo_,_bar_,...
 
-The field under validation must be present and not empty _only when_ any of the other specified fields are empty or not present.
+Проверяемое поле должно присутствовать и не быть пустым, _only when_ только если любое из других указанных полей пусто или отсутствует.
 
 <a name="rule-required-without-all"></a>
 #### required_without_all:_foo_,_bar_,...
 
-The field under validation must be present and not empty _only when_ all of the other specified fields are empty or not present.
+Поле для проверки должно присутствовать и не быть пустым, _only when_ все другие указанные поля пусты или отсутствуют.
 
 <a name="rule-same"></a>
 #### same:_field_
 
-The given _field_ must match the field under validation.
+Данное _field_ должно соответствовать проверяемому полю.
 
 <a name="rule-size"></a>
 #### size:_value_
 
-The field under validation must have a size matching the given _value_. For string data, _value_ corresponds to the number of characters. For numeric data, _value_ corresponds to a given integer value (the attribute must also have the `numeric` or `integer` rule). For an array, _size_ corresponds to the `count` of the array. For files, _size_ corresponds to the file size in kilobytes. Let's look at some examples:
+Проверяемое поле должно иметь размер, соответствующий заданному _value_. Для строковых данных _value_ соответствует количеству символов. Для числовых данных _value_ соответствует заданному целочисленному значению (атрибут также должен иметь правило `numeric` или `integer`). Для массива _size_ соответствует `count` массива. Для файлов _size_ соответствует размеру файла в килобайтах. Давайте посмотрим на несколько примеров:
 
-    // Validate that a string is exactly 12 characters long...
+    // Убедитесь, что длина строки составляет ровно 12 символов...
     'title' => 'size:12';
 
-    // Validate that a provided integer equals 10...
+    // Убедитесь, что указанное целое число равно 10...
     'seats' => 'integer|size:10';
 
-    // Validate that an array has exactly 5 elements...
+    // Убедитесь, что в массиве ровно 5 элементов...
     'tags' => 'array|size:5';
 
-    // Validate that an uploaded file is exactly 512 kilobytes...
+    // Убедитесь, что загруженный файл составляет ровно 512 килобайт...
     'image' => 'file|size:512';
 
 <a name="rule-starts-with"></a>
 #### starts_with:_foo_,_bar_,...
 
-The field under validation must start with one of the given values.
+Проверяемое поле должно начинаться с одного из указанных значений.
 
 <a name="rule-string"></a>
 #### string
 
-The field under validation must be a string. If you would like to allow the field to also be `null`, you should assign the `nullable` rule to the field.
+Проверяемое поле должно быть строкой. Если вы хотите, чтобы поле также было `null`, вы должны назначить этому полю правило `nullable`.
 
 <a name="rule-timezone"></a>
 #### timezone
 
-The field under validation must be a valid timezone identifier according to the `timezone_identifiers_list` PHP function.
+Проверяемое поле должно быть действительным идентификатором часового пояса в соответствии с функцией PHP `timezone_identifiers_list`.
 
 <a name="rule-unique"></a>
 #### unique:_table_,_column_,_except_,_idColumn_
 
-The field under validation must not exist within the given database table.
+Проверяемое поле не должно существовать в данной таблице базы данных.
 
-**Specifying A Custom Table / Column Name:**
+**Указание настраиваемого имени таблицы / столбца:**
 
-Instead of specifying the table name directly, you may specify the Eloquent model which should be used to determine the table name:
+Вместо того, чтобы указывать имя таблицы напрямую, вы можете указать модель Eloquent, которая должна использоваться для определения имени таблицы:
 
     'email' => 'unique:App\Models\User,email_address'
 
-The `column` option may be used to specify the field's corresponding database column. If the `column` option is not specified, the name of the field under validation will be used.
+Параметр `column` может использоваться для указания соответствующего столбца базы данных поля. Если опция `column` не указана, будет использоваться имя проверяемого поля.
 
     'email' => 'unique:users,email_address'
 
-**Specifying A Custom Database Connection**
+**Указание настраиваемого подключения к базе данных**
 
-Occasionally, you may need to set a custom connection for database queries made by the Validator. To accomplish this, you may prepend the connection name to the table name:
+Иногда вам может потребоваться настроить пользовательское соединение для запросов к базе данных, сделанных валидатором. Для этого вы можете добавить имя подключения к имени таблицы:
 
     'email' => 'unique:connection.users,email_address'
 
-**Forcing A Unique Rule To Ignore A Given ID:**
+**Принуждение уникального правила игнорировать данный идентификатор:**
 
-Sometimes, you may wish to ignore a given ID during unique validation. For example, consider an "update profile" screen that includes the user's name, email address, and location. You will probably want to verify that the email address is unique. However, if the user only changes the name field and not the email field, you do not want a validation error to be thrown because the user is already the owner of the email address in question.
+Иногда вы можете захотеть проигнорировать данный идентификатор во время уникальной проверки. Например, рассмотрим экран «обновить профиль», который включает имя пользователя, адрес электронной почты и местоположение. Вероятно, вы захотите убедиться, что адрес электронной почты уникален. Однако, если пользователь изменяет только поле имени, а не поле электронной почты, вы не хотите, чтобы возникла ошибка проверки, потому что пользователь уже является владельцем рассматриваемого адреса электронной почты.
 
-To instruct the validator to ignore the user's ID, we'll use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit the rules:
+Чтобы указать валидатору игнорировать идентификатор пользователя, мы воспользуемся классом `Rule` для плавного определения правила. В этом примере мы также укажем правила проверки в виде массива вместо использования символа `|` для ограничения правил:
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -1329,23 +1328,23 @@ To instruct the validator to ignore the user's ID, we'll use the `Rule` class to
         ],
     ]);
 
-> {note} You should never pass any user controlled request input into the `ignore` method. Instead, you should only pass a system generated unique ID such as an auto-incrementing ID or UUID from an Eloquent model instance. Otherwise, your application will be vulnerable to an SQL injection attack.
+> {note} Вы никогда не должны передавать какие-либо запросы, контролируемые пользователем, в метод `ignore`. Вместо этого вы должны передавать только уникальный идентификатор, сгенерированный системой, такой как автоматически увеличивающийся идентификатор или UUID из экземпляра модели Eloquent. В противном случае ваше приложение будет уязвимо для атаки с использованием SQL-инъекции.
 
-Instead of passing the model key's value to the `ignore` method, you may also pass the entire model instance. Laravel will automatically extract the key from the model:
+Вместо того, чтобы передавать значение ключа модели методу `ignore`, вы также можете передать весь экземпляр модели. Laravel автоматически извлечет ключ из модели:
 
     Rule::unique('users')->ignore($user)
 
-If your table uses a primary key column name other than `id`, you may specify the name of the column when calling the `ignore` method:
+Если ваша таблица использует имя столбца первичного ключа, отличное от `id`, вы можете указать имя столбца при вызове метода `ignore`:
 
     Rule::unique('users')->ignore($user->id, 'user_id')
 
-By default, the `unique` rule will check the uniqueness of the column matching the name of the attribute being validated. However, you may pass a different column name as the second argument to the `unique` method:
+По умолчанию правило `unique` проверяет уникальность столбца, совпадающего с именем проверяемого атрибута. Однако вы можете передать другое имя столбца в качестве второго аргумента метода `unique`:
 
     Rule::unique('users', 'email_address')->ignore($user->id),
 
-**Adding Additional Where Clauses:**
+**Добавление дополнительных пунктов Where:**
 
-You may specify additional query conditions by customizing the query using the `where` method. For example, let's add a query condition that scopes the query to only search records that have an `account_id` column value of `1`:
+Вы можете указать дополнительные условия запроса, настроив запрос с помощью метода `where`. Например, давайте добавим условие запроса, которое ограничивает поиск только тех записей, которые имеют значение столбца `account_id` равно `1`:
 
     'email' => Rule::unique('users')->where(function ($query) {
         return $query->where('account_id', 1);
@@ -1354,20 +1353,20 @@ You may specify additional query conditions by customizing the query using the `
 <a name="rule-url"></a>
 #### url
 
-The field under validation must be a valid URL.
+Проверяемое поле должно быть действительным URL.
 
 <a name="rule-uuid"></a>
 #### uuid
 
-The field under validation must be a valid RFC 4122 (version 1, 3, 4, or 5) universally unique identifier (UUID).
+Проверяемое поле должно быть действительным универсальным уникальным идентификатором (UUID) RFC 4122 (версии 1, 3, 4 или 5).
 
 <a name="conditionally-adding-rules"></a>
-## Conditionally Adding Rules
+## Условное добавление правил
 
 <a name="skipping-validation-when-fields-have-certain-values"></a>
-#### Skipping Validation When Fields Have Certain Values
+#### Пропуск проверки, когда поля имеют определенные значения
 
-You may occasionally wish to not validate a given field if another field has a given value. You may accomplish this using the `exclude_if` validation rule. In this example, the `appointment_date` and `doctor_name` fields will not be validated if the `has_appointment` field has a value of `false`:
+Иногда вы можете захотеть не проверять данное поле, если другое поле имеет заданное значение. Вы можете сделать это, используя правило проверки `exclude_if`. В этом примере поля `appointment_date` и `doctor_name` не будут проверяться, если поле `has_appointment` имеет значение `false`:
 
     use Illuminate\Support\Facades\Validator;
 
@@ -1377,7 +1376,7 @@ You may occasionally wish to not validate a given field if another field has a g
         'doctor_name' => 'exclude_if:has_appointment,false|required|string',
     ]);
 
-Alternatively, you may use the `exclude_unless` rule to not validate a given field unless another field has a given value:
+В качестве альтернативы вы можете использовать правило `exclude_unless`, чтобы не проверять данное поле, если другое поле не имеет данного значения:
 
     $validator = Validator::make($data, [
         'has_appointment' => 'required|boolean',
@@ -1386,22 +1385,22 @@ Alternatively, you may use the `exclude_unless` rule to not validate a given fie
     ]);
 
 <a name="validating-when-present"></a>
-#### Validating When Present
+#### Проверка при наличии
 
-In some situations, you may wish to run validation checks against a field **only** if that field is present in the data being validated. To quickly accomplish this, add the `sometimes` rule to your rule list:
+В некоторых ситуациях вы можете захотеть выполнить проверки для поля **только**, если это поле присутствует в проверяемых данных. Чтобы быстро добиться этого, добавьте правило `sometimes` в свой список правил:
 
     $v = Validator::make($request->all(), [
         'email' => 'sometimes|required|email',
     ]);
 
-In the example above, the `email` field will only be validated if it is present in the `$data` array.
+В приведенном выше примере поле `email` будет проверено, только если оно присутствует в массиве `$data`.
 
-> {tip} If you are attempting to validate a field that should always be present but may be empty, check out [this note on optional fields](#a-note-on-optional-fields).
+> {tip} Если вы пытаетесь проверить поле, которое всегда должно присутствовать, но может быть пустым, ознакомьтесь с [этим примечанием о дополнительных полях](#a-note-on-optional-fields).
 
 <a name="complex-conditional-validation"></a>
-#### Complex Conditional Validation
+#### Комплексная условная проверка
 
-Sometimes you may wish to add validation rules based on more complex conditional logic. For example, you may wish to require a given field only if another field has a greater value than 100. Or, you may need two fields to have a given value only when another field is present. Adding these validation rules doesn't have to be a pain. First, create a `Validator` instance with your _static rules_ that never change:
+Иногда вы можете захотеть добавить правила проверки, основанные на более сложной условной логике. Например, вы можете потребовать заданное поле только в том случае, если другое поле имеет значение больше 100. Или вам может потребоваться, чтобы два поля имели заданное значение только при наличии другого поля. Добавление этих правил проверки не должно вызывать затруднений. Сначала создайте экземпляр `Validator` с вашими _статическими правилами_, которые никогда не меняются:
 
     use Illuminate\Support\Facades\Validator;
 
@@ -1410,24 +1409,24 @@ Sometimes you may wish to add validation rules based on more complex conditional
         'games' => 'required|numeric',
     ]);
 
-Let's assume our web application is for game collectors. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. For example, perhaps they run a game resale shop, or maybe they just enjoy collecting games. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance.
+Предположим, наше веб-приложение предназначено для коллекционеров игр. Если коллекционер игр регистрируется в нашем приложении и у него есть более 100 игр, мы хотим, чтобы он объяснил, почему у него так много игр. Например, возможно, у них есть магазин по перепродаже игр, или, может быть, им просто нравится коллекционировать игры. Чтобы условно добавить это требование, мы можем использовать метод `sometimes` в экземпляре `Validator`.
 
     $v->sometimes('reason', 'required|max:500', function ($input) {
         return $input->games >= 100;
     });
 
-The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. The second argument is a list of the rules we want to add. If the closure passed as the third argument returns `true`, the rules will be added. This method makes it a breeze to build complex conditional validations. You may even add conditional validations for several fields at once:
+Первым аргументом, передаваемым методу `sometimes`, является имя поля, которое мы условно проверяем. Второй аргумент - это список правил, которые мы хотим добавить. Если закрытие, переданное в качестве третьего аргумента, возвращает `true`, правила будут добавлены. Этот метод упрощает создание сложных условных проверок. Вы даже можете добавить условные проверки сразу для нескольких полей:
 
     $v->sometimes(['reason', 'cost'], 'required', function ($input) {
         return $input->games >= 100;
     });
 
-> {tip} The `$input` parameter passed to your closure will be an instance of `Illuminate\Support\Fluent` and may be used to access your input and files under validation.
+> {tip} Параметр `$input`, переданный вашему закрытию, будет экземпляром `Illuminate\Support\Fluent` и может использоваться для доступа к вашему вводу и файлам при проверке.
 
 <a name="validating-arrays"></a>
-## Validating Arrays
+## Валидация массивов
 
-Validating array based form input fields doesn't have to be a pain. You may use "dot notation" to validate attributes within an array. For example, if the incoming HTTP request contains a `photos[profile]` field, you may validate it like so:
+Проверка полей ввода формы на основе массива не должна вызывать затруднений. Вы можете использовать «точечную нотацию» для проверки атрибутов в массиве. Например, если входящий HTTP-запрос содержит поле `photos[profile]`, вы можете проверить его следующим образом:
 
     use Illuminate\Support\Facades\Validator;
 
@@ -1435,14 +1434,14 @@ Validating array based form input fields doesn't have to be a pain. You may use 
         'photos.profile' => 'required|image',
     ]);
 
-You may also validate each element of an array. For example, to validate that each email in a given array input field is unique, you may do the following:
+Вы также можете проверить каждый элемент массива. Например, чтобы убедиться, что каждое электронное письмо в заданном поле ввода массива уникально, вы можете сделать следующее:
 
     $validator = Validator::make($request->all(), [
         'person.*.email' => 'email|unique:users',
         'person.*.first_name' => 'required_with:person.*.last_name',
     ]);
 
-Likewise, you may use the `*` character when specifying [custom validation messages in your language files](#custom-messages-for-specific-attributes), making it a breeze to use a single validation message for array based fields:
+Точно так же вы можете использовать символ `*` при указании [настраиваемых сообщений проверки в ваших языковых файлах](#custom-messages-for-specific-attributes), что упрощает использование одного сообщения проверки для полей на основе массива:
 
     'custom' => [
         'person.*.email' => [
@@ -1451,9 +1450,9 @@ Likewise, you may use the `*` character when specifying [custom validation messa
     ],
 
 <a name="validating-passwords"></a>
-## Validating Passwords
+## Валидация паролей
 
-To ensure that passwords have an adequate level of complexity, you may use Laravel's `Password` rule object:
+Чтобы гарантировать, что пароли имеют адекватный уровень сложности, вы можете использовать объект правила Laravel `Password`:
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rules\Password;
@@ -1462,35 +1461,35 @@ To ensure that passwords have an adequate level of complexity, you may use Larav
         'password' => ['required', 'confirmed', Password::min(8)],
     ]);
 
-The `Password` rule object allows you to easily customize the password complexity requirements for your application, such as specifying that passwords require at least one letter, number, symbol, or characters with mixed casing:
+Объект правила `Password` позволяет вам легко настроить требования к сложности пароля для вашего приложения, например указать, что для паролей требуется хотя бы одна буква, цифра, символ или символы со смешанным регистром:
 
-    // Require at least 8 characters...
+    // Требуется не менее 8 символов...
     Password::min(8)
 
-    // Require at least one letter...
+    // Требуется хотя бы одна буква...
     Password::min(8)->letters()
 
-    // Require at least one uppercase and one lowercase letter...
+    // Требуется хотя бы одна заглавная и одна строчная буква...
     Password::min(8)->mixedCase()
 
-    // Require at least one number...
+    // Требовать хотя бы одна цифра...
     Password::min(8)->numbers()
 
-    // Require at least one symbol...
+    // Требуется хотя бы один символ...
     Password::min(8)->symbols()
 
-In addition, you may ensure that a password has not been compromised in a public password data breach leak using the `uncompromised` method:
+Кроме того, вы можете убедиться, что пароль не был скомпрометирован в результате утечки данных публичного пароля, используя метод `uncompromised`:
 
     Password::min(8)->uncompromised()
 
-Internally, the `Password` rule object uses the [k-Anonymity](https://en.wikipedia.org/wiki/K-anonymity) model to determine if a password has been leaked via the [haveibeenpwned.com](https://haveibeenpwned.com) service without sacrificing the user's privacy or security.
+Внутренне объект правила `Password` использует модель [k-Anonymity](https://en.wikipedia.org/wiki/K-anonymity), чтобы определить, не произошла ли утечка пароля через [haveibeenpwned.com](https://haveibeenpwned.com) без ущерба для конфиденциальности или безопасности пользователя.
 
-By default, if a password appears at least once in a data leak, it will be considered compromised. You can customize this threshold using the first argument of the `uncompromised` method:
+По умолчанию, если пароль появляется хотя бы один раз в утечке данных, он будет считаться скомпрометированным. Вы можете настроить этот порог, используя первый аргумент метода `uncompromised`:
 
-    // Ensure the password appears less than 3 times in the same data leak...
+    // Убедитесь, что пароль появляется менее 3 раз в одной и той же утечке данных...
     Password::min(8)->uncompromised(3);
 
-Of course, you may chain all the methods in the examples above:
+Конечно, вы можете связать все методы в приведенных выше примерах:
 
     Password::min(8)
         ->letters()
@@ -1500,9 +1499,9 @@ Of course, you may chain all the methods in the examples above:
         ->uncompromised()
 
 <a name="defining-default-password-rules"></a>
-#### Defining Default Password Rules
+#### Определение правил паролей по умолчанию
 
-You may find it convenient to specify the default validation rules for passwords in a single location of your application. You can easily accomplish this using the `Password::defaults` method, which accepts a closure. The closure given to the `defaults` method should return the default configuration of the Password rule. Typically, the `defaults` rule should be called within the `boot` method of one of your application's service providers:
+Возможно, вам будет удобно указать правила проверки паролей по умолчанию в одном месте вашего приложения. Вы можете легко сделать это, используя метод `Password::defaults`, который принимает замыкание. Замыкание, данное методу `defaults`, должно возвращать конфигурацию правила пароля по умолчанию. Обычно правило `defaults` должно вызываться в методе `boot` одного из сервис провайдеров вашего приложения:
 
 ```php
 use Illuminate\Validation\Rules\Password;
@@ -1524,21 +1523,21 @@ public function boot()
 }
 ```
 
-Then, when you would like to apply the default rules to a particular password undergoing validation, you may invoke the `defaults` method with no arguments:
+Затем, когда вы хотите применить правила по умолчанию к конкретному паролю, проходящему проверку, вы можете вызвать метод `defaults` без аргументов:
 
     'password' => ['required', Password::defaults()],
 
 <a name="custom-validation-rules"></a>
-## Custom Validation Rules
+## Пользовательские правила проверки
 
 <a name="using-rule-objects"></a>
-### Using Rule Objects
+### Использование объектов правила
 
-Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using rule objects. To generate a new rule object, you may use the `make:rule` Artisan command. Let's use this command to generate a rule that verifies a string is uppercase. Laravel will place the new rule in the `app/Rules` directory. If this directory does not exist, Laravel will create it when you execute the Artisan command to create your rule:
+Laravel предоставляет множество полезных правил проверки; однако вы можете указать свои собственные. Один из методов регистрации настраиваемых правил проверки - использование объектов правил. Чтобы сгенерировать новый объект правила, вы можете использовать Artisan-команду `make:rule`. Давайте воспользуемся этой командой, чтобы сгенерировать правило, которое проверяет, что строка является прописной. Laravel поместит новое правило в каталог `app/Rules`. Если этот каталог не существует, Laravel создаст его, когда вы выполните команду Artisan для создания своего правила:
 
     php artisan make:rule Uppercase
 
-Once the rule has been created, we are ready to define its behavior. A rule object contains two methods: `passes` and `message`. The `passes` method receives the attribute value and name, and should return `true` or `false` depending on whether the attribute value is valid or not. The `message` method should return the validation error message that should be used when validation fails:
+Как только правило создано, мы готовы определить его поведение. Объект правила содержит два метода: `passes` и `message`. Метод `passes` получает значение и имя атрибута и должен возвращать `true` или `false` в зависимости от того, является ли значение атрибута допустимым или нет. Метод `message` должен возвращать сообщение об ошибке проверки, которое следует использовать, если проверка не удалась:
 
     <?php
 
@@ -1571,7 +1570,7 @@ Once the rule has been created, we are ready to define its behavior. A rule obje
         }
     }
 
-You may call the `trans` helper from your `message` method if you would like to return an error message from your translation files:
+Вы можете вызвать помощника `trans` из вашего метода `message`, если хотите вернуть сообщение об ошибке из ваших файлов перевода:
 
     /**
      * Get the validation error message.
@@ -1583,7 +1582,7 @@ You may call the `trans` helper from your `message` method if you would like to 
         return trans('validation.uppercase');
     }
 
-Once the rule has been defined, you may attach it to a validator by passing an instance of the rule object with your other validation rules:
+После определения правила вы можете присоединить его к валидатору, передав экземпляр объекта правила с другими вашими правилами валидации:
 
     use App\Rules\Uppercase;
 
@@ -1592,9 +1591,9 @@ Once the rule has been defined, you may attach it to a validator by passing an i
     ]);
 
 <a name="using-closures"></a>
-### Using Closures
+### Использование замыканий
 
-If you only need the functionality of a custom rule once throughout your application, you may use a closure instead of a rule object. The closure receives the attribute's name, the attribute's value, and a `$fail` callback that should be called if validation fails:
+Если вам нужна функциональность настраиваемого правила только один раз во всем приложении, вы можете использовать замыкание вместо объекта правила. Замыкание получает имя атрибута, значение атрибута и обратный вызов `$fail`, который должен вызываться в случае неудачной проверки:
 
     use Illuminate\Support\Facades\Validator;
 
@@ -1611,9 +1610,9 @@ If you only need the functionality of a custom rule once throughout your applica
     ]);
 
 <a name="implicit-rules"></a>
-### Implicit Rules
+### Неявные правила
 
-By default, when an attribute being validated is not present or contains an empty string, normal validation rules, including custom rules, are not run. For example, the [`unique`](#rule-unique) rule will not be run against an empty string:
+По умолчанию, когда проверяемый атрибут отсутствует или содержит пустую строку, обычные правила проверки, включая настраиваемые правила, не выполняются. Например, правило [`unique`](#rule-unique) не будет выполняться для пустой строки:
 
     use Illuminate\Support\Facades\Validator;
 
@@ -1623,6 +1622,6 @@ By default, when an attribute being validated is not present or contains an empt
 
     Validator::make($input, $rules)->passes(); // true
 
-For a custom rule to run even when an attribute is empty, the rule must imply that the attribute is required. To create an "implicit" rule, implement the `Illuminate\Contracts\Validation\ImplicitRule` interface. This interface serves as a "marker interface" for the validator; therefore, it does not contain any additional methods you need to implement beyond the methods required by the typical `Rule` interface.
+Чтобы настраиваемое правило работало, даже если атрибут пуст, правило должно подразумевать, что атрибут является обязательным. Чтобы создать «неявное» правило, реализуйте интерфейс `Illuminate\Contracts\Validation\ImplicitRule`. Этот интерфейс служит «маркерным интерфейсом» для валидатора; следовательно, он не содержит каких-либо дополнительных методов, которые необходимо реализовать помимо методов, требуемых типичным интерфейсом `Rule`.
 
-> {note} An "implicit" rule only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
+> {note} «Неявное» правило только _подразумевает_, что атрибут является обязательным. Независимо от того, аннулирует ли он отсутствующий или пустой атрибут, решать вам.
