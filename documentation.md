@@ -27,8 +27,8 @@
     - [Валидация](/docs/{{version}}/validation)
     - [Обработка ошибок](/docs/{{version}}/errors)
     - [Логирование](/docs/{{version}}/logging)
-- ## Digging Deeper
-    - [Artisan Console](/docs/{{version}}/artisan)
+- ## Копаем глубже
+    - [Консоль Artisan](/docs/{{version}}/artisan)
     - [Broadcasting](/docs/{{version}}/broadcasting)
     - [Cache](/docs/{{version}}/cache)
     - [Collections](/docs/{{version}}/collections)
