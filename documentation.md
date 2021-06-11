@@ -30,7 +30,7 @@
 - ## Копаем глубже
     - [Консоль Artisan](/docs/{{version}}/artisan)
     - [Бродкастинг](/docs/{{version}}/broadcasting)
-    - [Cache](/docs/{{version}}/cache)
+    - [Кэш](/docs/{{version}}/cache)
     - [Collections](/docs/{{version}}/collections)
     - [Compiling Assets](/docs/{{version}}/mix)
     - [Contracts](/docs/{{version}}/contracts)
