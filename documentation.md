@@ -29,7 +29,7 @@
     - [Логирование](/docs/{{version}}/logging)
 - ## Копаем глубже
     - [Консоль Artisan](/docs/{{version}}/artisan)
-    - [Broadcasting](/docs/{{version}}/broadcasting)
+    - [Бродкастинг](/docs/{{version}}/broadcasting)
     - [Cache](/docs/{{version}}/cache)
     - [Collections](/docs/{{version}}/collections)
     - [Compiling Assets](/docs/{{version}}/mix)
