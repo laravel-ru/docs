@@ -31,7 +31,7 @@
     - [Консоль Artisan](/docs/{{version}}/artisan)
     - [Бродкастинг](/docs/{{version}}/broadcasting)
     - [Кэш](/docs/{{version}}/cache)
-    - [Collections](/docs/{{version}}/collections)
+    - [Коллекции](/docs/{{version}}/collections)
     - [Compiling Assets](/docs/{{version}}/mix)
     - [Contracts](/docs/{{version}}/contracts)
     - [Events](/docs/{{version}}/events)
