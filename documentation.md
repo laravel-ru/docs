@@ -35,7 +35,7 @@
     - [Компиляция ресурсов](/docs/{{version}}/mix)
     - [Контракты](/docs/{{version}}/contracts)
     - [События](/docs/{{version}}/events)
-    - [File Storage](/docs/{{version}}/filesystem)
+    - [Файловое хранилище](/docs/{{version}}/filesystem)
     - [Helpers](/docs/{{version}}/helpers)
     - [HTTP Client](/docs/{{version}}/http-client)
     - [Localization](/docs/{{version}}/localization)
