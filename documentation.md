@@ -37,7 +37,7 @@
     - [События](/docs/{{version}}/events)
     - [Файловое хранилище](/docs/{{version}}/filesystem)
     - [Хелперы](/docs/{{version}}/helpers)
-    - [HTTP Client](/docs/{{version}}/http-client)
+    - [HTTP-клиент](/docs/{{version}}/http-client)
     - [Localization](/docs/{{version}}/localization)
     - [Mail](/docs/{{version}}/mail)
     - [Notifications](/docs/{{version}}/notifications)
