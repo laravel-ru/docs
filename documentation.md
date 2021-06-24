@@ -38,7 +38,7 @@
     - [Файловое хранилище](/docs/{{version}}/filesystem)
     - [Хелперы](/docs/{{version}}/helpers)
     - [HTTP-клиент](/docs/{{version}}/http-client)
-    - [Localization](/docs/{{version}}/localization)
+    - [Локализация](/docs/{{version}}/localization)
     - [Mail](/docs/{{version}}/mail)
     - [Notifications](/docs/{{version}}/notifications)
     - [Package Development](/docs/{{version}}/packages)
