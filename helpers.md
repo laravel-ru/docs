@@ -1,15 +1,15 @@
-# Helpers
+# Помощники
 
-- [Introduction](#introduction)
-- [Available Methods](#available-methods)
+- [Введение](#introduction)
+- [Доступные методы](#available-methods)
 
 <a name="introduction"></a>
-## Introduction
+## Введение
 
-Laravel includes a variety of global "helper" PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.
+Laravel включает в себя множество глобальных «вспомогательных» функций PHP. Многие из этих функций используются самим фреймворком; однако вы можете использовать их в своих собственных приложениях, если сочтете их удобными.
 
 <a name="available-methods"></a>
-## Available Methods
+## Доступные методы
 
 <style>
     .collection-method-list > p {
@@ -23,7 +23,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 </style>
 
 <a name="arrays-and-objects-method-list"></a>
-### Arrays & Objects
+### Массивы и объекты
 
 <div class="collection-method-list" markdown="1">
 
@@ -63,7 +63,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 </div>
 
 <a name="paths-method-list"></a>
-### Paths
+### Пути
 
 <div class="collection-method-list" markdown="1">
 
@@ -79,7 +79,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 </div>
 
 <a name="strings-method-list"></a>
-### Strings
+### Строки
 
 <div class="collection-method-list" markdown="1">
 
@@ -138,7 +138,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 </div>
 
 <a name="fluent-strings-method-list"></a>
-### Fluent Strings
+### Свободные строки
 
 <div class="collection-method-list" markdown="1">
 
@@ -204,7 +204,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 </div>
 
 <a name="urls-method-list"></a>
-### URLs
+### URL-адреса
 
 <div class="collection-method-list" markdown="1">
 
@@ -218,7 +218,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 </div>
 
 <a name="miscellaneous-method-list"></a>
-### Miscellaneous
+### Дополнительные
 
 <div class="collection-method-list" markdown="1">
 
@@ -273,7 +273,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 </div>
 
 <a name="method-listing"></a>
-## Method Listing
+## Список методов
 
 <style>
     #collection-method code {
@@ -286,12 +286,12 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 </style>
 
 <a name="arrays"></a>
-## Arrays & Objects
+## Массивы и объекты
 
 <a name="method-array-accessible"></a>
 #### `Arr::accessible()` {#collection-method .first-collection-method}
 
-The `Arr::accessible` method determines if the given value is array accessible:
+Метод `Arr::accessible` определяет, доступно ли данное значение массиву:
 
     use Illuminate\Support\Arr;
     use Illuminate\Support\Collection;
@@ -315,7 +315,7 @@ The `Arr::accessible` method determines if the given value is array accessible:
 <a name="method-array-add"></a>
 #### `Arr::add()` {#collection-method}
 
-The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array or is set to `null`:
+Метод `Arr::add` добавляет заданную пару ключ/значение в массив, если данный ключ еще не существует в массиве или установлен в `null`:
 
     use Illuminate\Support\Arr;
 
@@ -331,7 +331,7 @@ The `Arr::add` method adds a given key / value pair to an array if the given key
 <a name="method-array-collapse"></a>
 #### `Arr::collapse()` {#collection-method}
 
-The `Arr::collapse` method collapses an array of arrays into a single array:
+Метод `Arr::collapse` сворачивает массив массивов в один массив:
 
     use Illuminate\Support\Arr;
 
@@ -342,7 +342,7 @@ The `Arr::collapse` method collapses an array of arrays into a single array:
 <a name="method-array-crossjoin"></a>
 #### `Arr::crossJoin()` {#collection-method}
 
-The `Arr::crossJoin` method cross joins the given arrays, returning a Cartesian product with all possible permutations:
+Метод `Arr::crossJoin` объединяет указанные массивы, возвращая Декартово произведение со всеми возможными перестановками:
 
     use Illuminate\Support\Arr;
 
@@ -375,7 +375,7 @@ The `Arr::crossJoin` method cross joins the given arrays, returning a Cartesian 
 <a name="method-array-divide"></a>
 #### `Arr::divide()` {#collection-method}
 
-The `Arr::divide` method returns two arrays: one containing the keys and the other containing the values of the given array:
+Метод `Arr::divide` возвращает два массива: один содержит ключи, а другой - значения данного массива:
 
     use Illuminate\Support\Arr;
 
@@ -388,7 +388,7 @@ The `Arr::divide` method returns two arrays: one containing the keys and the oth
 <a name="method-array-dot"></a>
 #### `Arr::dot()` {#collection-method}
 
-The `Arr::dot` method flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
+Метод `Arr::dot` объединяет многомерный массив в одноуровневый массив, который использует «точечную» нотацию для обозначения глубины:
 
     use Illuminate\Support\Arr;
 
@@ -401,7 +401,7 @@ The `Arr::dot` method flattens a multi-dimensional array into a single level arr
 <a name="method-array-except"></a>
 #### `Arr::except()` {#collection-method}
 
-The `Arr::except` method removes the given key / value pairs from an array:
+Метод `Arr::except` удаляет заданные пары ключ/значение из массива:
 
     use Illuminate\Support\Arr;
 
@@ -414,7 +414,7 @@ The `Arr::except` method removes the given key / value pairs from an array:
 <a name="method-array-exists"></a>
 #### `Arr::exists()` {#collection-method}
 
-The `Arr::exists` method checks that the given key exists in the provided array:
+Метод `Arr::exists` проверяет, существует ли данный ключ в предоставленном массиве:
 
     use Illuminate\Support\Arr;
 
@@ -431,7 +431,7 @@ The `Arr::exists` method checks that the given key exists in the provided array:
 <a name="method-array-first"></a>
 #### `Arr::first()` {#collection-method}
 
-The `Arr::first` method returns the first element of an array passing a given truth test:
+Метод `Arr::first` возвращает первый элемент массива, прошедшего заданный тест истинности:
 
     use Illuminate\Support\Arr;
 
@@ -443,7 +443,7 @@ The `Arr::first` method returns the first element of an array passing a given tr
 
     // 200
 
-A default value may also be passed as the third parameter to the method. This value will be returned if no value passes the truth test:
+Значение по умолчанию также может быть передано в метод в качестве третьего параметра. Это значение будет возвращено, если ни одно значение не прошло проверку истинности:
 
     use Illuminate\Support\Arr;
 
@@ -452,7 +452,7 @@ A default value may also be passed as the third parameter to the method. This va
 <a name="method-array-flatten"></a>
 #### `Arr::flatten()` {#collection-method}
 
-The `Arr::flatten` method flattens a multi-dimensional array into a single level array:
+Метод `Arr::flatten` объединяет многомерный массив в одноуровневый массив:
 
     use Illuminate\Support\Arr;
 
@@ -465,7 +465,7 @@ The `Arr::flatten` method flattens a multi-dimensional array into a single level
 <a name="method-array-forget"></a>
 #### `Arr::forget()` {#collection-method}
 
-The `Arr::forget` method removes a given key / value pair from a deeply nested array using "dot" notation:
+Метод `Arr::forget` удаляет заданную пару ключ/значение из глубоко вложенного массива, используя «точечную» нотацию:
 
     use Illuminate\Support\Arr;
 
@@ -478,7 +478,7 @@ The `Arr::forget` method removes a given key / value pair from a deeply nested a
 <a name="method-array-get"></a>
 #### `Arr::get()` {#collection-method}
 
-The `Arr::get` method retrieves a value from a deeply nested array using "dot" notation:
+Метод `Arr::get` извлекает значение из глубоко вложенного массива, используя «точечную» нотацию:
 
     use Illuminate\Support\Arr;
 
@@ -488,7 +488,7 @@ The `Arr::get` method retrieves a value from a deeply nested array using "dot" n
 
     // 100
 
-The `Arr::get` method also accepts a default value, which will be returned if the specified key is not present in the array:
+Метод `Arr::get` также принимает значение по умолчанию, которое будет возвращено, если указанный ключ отсутствует в массиве:
 
     use Illuminate\Support\Arr;
 
@@ -499,7 +499,7 @@ The `Arr::get` method also accepts a default value, which will be returned if th
 <a name="method-array-has"></a>
 #### `Arr::has()` {#collection-method}
 
-The `Arr::has` method checks whether a given item or items exists in an array using "dot" notation:
+Метод `Arr::has` проверяет, существует ли данный элемент или элементы в массиве, используя «точечную» нотацию:
 
     use Illuminate\Support\Arr;
 
@@ -516,7 +516,7 @@ The `Arr::has` method checks whether a given item or items exists in an array us
 <a name="method-array-hasany"></a>
 #### `Arr::hasAny()` {#collection-method}
 
-The `Arr::hasAny` method checks whether any item in a given set exists in an array using "dot" notation:
+Метод `Arr::hasAny` проверяет, существует ли какой-либо элемент в данном наборе в массиве, используя «точечную» нотацию:
 
     use Illuminate\Support\Arr;
 
@@ -537,7 +537,7 @@ The `Arr::hasAny` method checks whether any item in a given set exists in an arr
 <a name="method-array-isassoc"></a>
 #### `Arr::isAssoc()` {#collection-method}
 
-The `Arr::isAssoc` returns `true` if the given array is an associative array. An array is considered "associative" if it doesn't have sequential numerical keys beginning with zero:
+`Arr::isAssoc` возвращает `true`, если данный массив является ассоциативным. Массив считается "ассоциативным", если в нем нет последовательных цифровых ключей, начинающихся с нуля:
 
     use Illuminate\Support\Arr;
 
@@ -552,7 +552,7 @@ The `Arr::isAssoc` returns `true` if the given array is an associative array. An
 <a name="method-array-last"></a>
 #### `Arr::last()` {#collection-method}
 
-The `Arr::last` method returns the last element of an array passing a given truth test:
+Метод `Arr::last` возвращает последний элемент массива, прошедшего заданный тест истинности:
 
     use Illuminate\Support\Arr;
 
@@ -564,7 +564,7 @@ The `Arr::last` method returns the last element of an array passing a given trut
 
     // 300
 
-A default value may be passed as the third argument to the method. This value will be returned if no value passes the truth test:
+В качестве третьего аргумента метода может быть передано значение по умолчанию. Это значение будет возвращено, если ни одно значение не прошло проверку истинности:
 
     use Illuminate\Support\Arr;
 
@@ -573,7 +573,7 @@ A default value may be passed as the third argument to the method. This value wi
 <a name="method-array-only"></a>
 #### `Arr::only()` {#collection-method}
 
-The `Arr::only` method returns only the specified key / value pairs from the given array:
+Метод `Arr::only` возвращает только указанные пары ключ / значение из данного массива:
 
     use Illuminate\Support\Arr;
 
@@ -586,7 +586,7 @@ The `Arr::only` method returns only the specified key / value pairs from the giv
 <a name="method-array-pluck"></a>
 #### `Arr::pluck()` {#collection-method}
 
-The `Arr::pluck` method retrieves all of the values for a given key from an array:
+Метод `Arr::pluck` извлекает все значения для данного ключа из массива:
 
     use Illuminate\Support\Arr;
 
@@ -599,7 +599,7 @@ The `Arr::pluck` method retrieves all of the values for a given key from an arra
 
     // ['Taylor', 'Abigail']
 
-You may also specify how you wish the resulting list to be keyed:
+Вы также можете указать, как вы хотите, чтобы результирующий список был оформлен в виде ключа:
 
     use Illuminate\Support\Arr;
 
@@ -610,7 +610,7 @@ You may also specify how you wish the resulting list to be keyed:
 <a name="method-array-prepend"></a>
 #### `Arr::prepend()` {#collection-method}
 
-The `Arr::prepend` method will push an item onto the beginning of an array:
+Метод `Arr::prepend` помещает элемент в начало массива:
 
     use Illuminate\Support\Arr;
 
@@ -620,7 +620,7 @@ The `Arr::prepend` method will push an item onto the beginning of an array:
 
     // ['zero', 'one', 'two', 'three', 'four']
 
-If needed, you may specify the key that should be used for the value:
+При необходимости вы можете указать ключ, который следует использовать для значения:
 
     use Illuminate\Support\Arr;
 
@@ -633,7 +633,7 @@ If needed, you may specify the key that should be used for the value:
 <a name="method-array-pull"></a>
 #### `Arr::pull()` {#collection-method}
 
-The `Arr::pull` method returns and removes a key / value pair from an array:
+Метод `Arr::pull` возвращает и удаляет пару ключ / значение из массива:
 
     use Illuminate\Support\Arr;
 
@@ -645,7 +645,7 @@ The `Arr::pull` method returns and removes a key / value pair from an array:
 
     // $array: ['price' => 100]
 
-A default value may be passed as the third argument to the method. This value will be returned if the key doesn't exist:
+В качестве третьего аргумента метода может быть передано значение по умолчанию. Это значение будет возвращено, если ключ не существует:
 
     use Illuminate\Support\Arr;
 
@@ -654,7 +654,7 @@ A default value may be passed as the third argument to the method. This value wi
 <a name="method-array-query"></a>
 #### `Arr::query()` {#collection-method}
 
-The `Arr::query` method converts the array into a query string:
+Метод `Arr::query` преобразует массив в строку запроса:
 
     use Illuminate\Support\Arr;
 
@@ -673,7 +673,7 @@ The `Arr::query` method converts the array into a query string:
 <a name="method-array-random"></a>
 #### `Arr::random()` {#collection-method}
 
-The `Arr::random` method returns a random value from an array:
+Метод `Arr::random` возвращает случайное значение из массива:
 
     use Illuminate\Support\Arr;
 
@@ -683,7 +683,7 @@ The `Arr::random` method returns a random value from an array:
 
     // 4 - (retrieved randomly)
 
-You may also specify the number of items to return as an optional second argument. Note that providing this argument will return an array even if only one item is desired:
+Вы также можете указать количество возвращаемых элементов в качестве необязательного второго аргумента. Обратите внимание, что предоставление этого аргумента вернет массив, даже если требуется только один элемент:
 
     use Illuminate\Support\Arr;
 
@@ -694,7 +694,7 @@ You may also specify the number of items to return as an optional second argumen
 <a name="method-array-set"></a>
 #### `Arr::set()` {#collection-method}
 
-The `Arr::set` method sets a value within a deeply nested array using "dot" notation:
+Метод `Arr::set` устанавливает значение внутри глубоко вложенного массива, используя «точечную» нотацию:
 
     use Illuminate\Support\Arr;
 
@@ -707,7 +707,7 @@ The `Arr::set` method sets a value within a deeply nested array using "dot" nota
 <a name="method-array-shuffle"></a>
 #### `Arr::shuffle()` {#collection-method}
 
-The `Arr::shuffle` method randomly shuffles the items in the array:
+Метод `Arr::shuffle` случайным образом перемешивает элементы в массиве:
 
     use Illuminate\Support\Arr;
 
@@ -718,7 +718,7 @@ The `Arr::shuffle` method randomly shuffles the items in the array:
 <a name="method-array-sort"></a>
 #### `Arr::sort()` {#collection-method}
 
-The `Arr::sort` method sorts an array by its values:
+Метод `Arr::sort` сортирует массив по его значениям:
 
     use Illuminate\Support\Arr;
 
@@ -728,7 +728,7 @@ The `Arr::sort` method sorts an array by its values:
 
     // ['Chair', 'Desk', 'Table']
 
-You may also sort the array by the results of a given closure:
+Вы также можете отсортировать массив по результатам данного замыкания:
 
     use Illuminate\Support\Arr;
 
@@ -753,7 +753,7 @@ You may also sort the array by the results of a given closure:
 <a name="method-array-sort-recursive"></a>
 #### `Arr::sortRecursive()` {#collection-method}
 
-The `Arr::sortRecursive` method recursively sorts an array using the `sort` function for numerically indexed sub-arrays and the `ksort` function for associative sub-arrays:
+Метод `Arr::sortRecursive` рекурсивно сортирует массив, используя функцию `sort` для подмассивов с числовым индексом и функцию `ksort` для ассоциативных подмассивов:
 
     use Illuminate\Support\Arr;
 
@@ -776,7 +776,7 @@ The `Arr::sortRecursive` method recursively sorts an array using the `sort` func
 <a name="method-array-where"></a>
 #### `Arr::where()` {#collection-method}
 
-The `Arr::where` method filters an array using the given closure:
+Метод `Arr::where` фильтрует массив, используя заданное замыкание:
 
     use Illuminate\Support\Arr;
 
@@ -791,7 +791,7 @@ The `Arr::where` method filters an array using the given closure:
 <a name="method-array-wrap"></a>
 #### `Arr::wrap()` {#collection-method}
 
-The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will be returned without modification:
+Метод `Arr::wrap` помещает заданное значение в массив. Если данное значение уже является массивом, оно будет возвращено без изменений:
 
     use Illuminate\Support\Arr;
 
@@ -801,7 +801,7 @@ The `Arr::wrap` method wraps the given value in an array. If the given value is 
 
     // ['Laravel']
 
-If the given value is `null`, an empty array will be returned:
+Если заданное значение равно `null`, будет возвращен пустой массив:
 
     use Illuminate\Support\Arr;
 
@@ -812,7 +812,7 @@ If the given value is `null`, an empty array will be returned:
 <a name="method-data-fill"></a>
 #### `data_fill()` {#collection-method}
 
-The `data_fill` function sets a missing value within a nested array or object using "dot" notation:
+Функция `data_fill` устанавливает отсутствующее значение во вложенном массиве или объекте, используя «точечную» нотацию:
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -824,7 +824,7 @@ The `data_fill` function sets a missing value within a nested array or object us
 
     // ['products' => ['desk' => ['price' => 100, 'discount' => 10]]]
 
-This function also accepts asterisks as wildcards and will fill the target accordingly:
+Эта функция также принимает звездочки в качестве подстановочных знаков и соответствующим образом заполняет цель:
 
     $data = [
         'products' => [
@@ -847,7 +847,7 @@ This function also accepts asterisks as wildcards and will fill the target accor
 <a name="method-data-get"></a>
 #### `data_get()` {#collection-method}
 
-The `data_get` function retrieves a value from a nested array or object using "dot" notation:
+Функция `data_get` извлекает значение из вложенного массива или объекта, используя «точечную» нотацию:
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -855,13 +855,13 @@ The `data_get` function retrieves a value from a nested array or object using "d
 
     // 100
 
-The `data_get` function also accepts a default value, which will be returned if the specified key is not found:
+Функция `data_get` также принимает значение по умолчанию, которое будет возвращено, если указанный ключ не найден:
 
     $discount = data_get($data, 'products.desk.discount', 0);
 
     // 0
 
-The function also accepts wildcards using asterisks, which may target any key of the array or object:
+Функция также принимает подстановочные знаки с использованием звездочек, которые могут указывать на любой ключ массива или объекта:
 
     $data = [
         'product-one' => ['name' => 'Desk 1', 'price' => 100],
@@ -875,7 +875,7 @@ The function also accepts wildcards using asterisks, which may target any key of
 <a name="method-data-set"></a>
 #### `data_set()` {#collection-method}
 
-The `data_set` function sets a value within a nested array or object using "dot" notation:
+Функция `data_set` устанавливает значение внутри вложенного массива или объекта, используя «точечную» нотацию:
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -883,7 +883,7 @@ The `data_set` function sets a value within a nested array or object using "dot"
 
     // ['products' => ['desk' => ['price' => 200]]]
 
-This function also accepts wildcards using asterisks and will set values on the target accordingly:
+Эта функция также принимает подстановочные знаки с использованием звездочек и соответственно устанавливает значения для цели:
 
     $data = [
         'products' => [
@@ -903,7 +903,7 @@ This function also accepts wildcards using asterisks and will set values on the 
         ]
     */
 
-By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the fourth argument to the function:
+По умолчанию все существующие значения перезаписываются. Если вы хотите установить значение только в том случае, если оно не существует, вы можете передать `false` в качестве четвертого аргумента функции:
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -914,7 +914,7 @@ By default, any existing values are overwritten. If you wish to only set a value
 <a name="method-head"></a>
 #### `head()` {#collection-method}
 
-The `head` function returns the first element in the given array:
+Функция `head` возвращает первый элемент в данном массиве:
 
     $array = [100, 200, 300];
 
@@ -925,7 +925,7 @@ The `head` function returns the first element in the given array:
 <a name="method-last"></a>
 #### `last()` {#collection-method}
 
-The `last` function returns the last element in the given array:
+Функция `last` возвращает последний элемент в данном массиве:
 
     $array = [100, 200, 300];
 
@@ -934,12 +934,12 @@ The `last` function returns the last element in the given array:
     // 300
 
 <a name="paths"></a>
-## Paths
+## Пути
 
 <a name="method-app-path"></a>
 #### `app_path()` {#collection-method}
 
-The `app_path` function returns the fully qualified path to your application's `app` directory. You may also use the `app_path` function to generate a fully qualified path to a file relative to the application directory:
+Функция `app_path` возвращает полный путь к каталогу `app` вашего приложения directory. Вы также можете использовать функцию `app_path` для генерации полного пути к файлу относительно каталога приложения:
 
     $path = app_path();
 
@@ -948,7 +948,7 @@ The `app_path` function returns the fully qualified path to your application's `
 <a name="method-base-path"></a>
 #### `base_path()` {#collection-method}
 
-The `base_path` function returns the fully qualified path to your application's root directory. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the project root directory:
+Функция `base_path` возвращает полный путь к каталогу `root` вашего приложения. Вы также можете использовать функцию `base_path` для генерации полного пути к заданному файлу относительно корневого каталога проекта:
 
     $path = base_path();
 
@@ -957,7 +957,7 @@ The `base_path` function returns the fully qualified path to your application's 
 <a name="method-config-path"></a>
 #### `config_path()` {#collection-method}
 
-The `config_path` function returns the fully qualified path to your application's `config` directory. You may also use the `config_path` function to generate a fully qualified path to a given file within the application's configuration directory:
+Функция `config_path` возвращает полный путь к каталогу `config` вашего приложения. Вы также можете использовать функцию `config_path` для генерации полного пути к заданному файлу в каталоге конфигурации приложения:
 
     $path = config_path();
 
@@ -966,7 +966,7 @@ The `config_path` function returns the fully qualified path to your application'
 <a name="method-database-path"></a>
 #### `database_path()` {#collection-method}
 
-The `database_path` function returns the fully qualified path to your application's `database` directory. You may also use the `database_path` function to generate a fully qualified path to a given file within the database directory:
+Функция `database_path` возвращает полный путь к каталогу `database` вашего приложения. Вы также можете использовать функцию `database_path` для генерации полного пути к заданному файлу в каталоге базы данных:
 
     $path = database_path();
 
@@ -982,7 +982,7 @@ The `mix` function returns the path to a [versioned Mix file](/docs/{{version}}/
 <a name="method-public-path"></a>
 #### `public_path()` {#collection-method}
 
-The `public_path` function returns the fully qualified path to your application's `public` directory. You may also use the `public_path` function to generate a fully qualified path to a given file within the public directory:
+Функция `public_path` возвращает полный путь к каталогу `public` вашего приложения. Вы также можете использовать функцию `public_path` для генерации полного пути к заданному файлу в общедоступном каталоге:
 
     $path = public_path();
 
@@ -991,7 +991,7 @@ The `public_path` function returns the fully qualified path to your application'
 <a name="method-resource-path"></a>
 #### `resource_path()` {#collection-method}
 
-The `resource_path` function returns the fully qualified path to your application's `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file within the resources directory:
+Функция `resource_path` возвращает полный путь к каталогу `resources` вашего приложения. Вы также можете использовать функцию `resource_path` для генерации полного пути к заданному файлу в каталоге ресурсов:
 
     $path = resource_path();
 
@@ -1000,30 +1000,30 @@ The `resource_path` function returns the fully qualified path to your applicatio
 <a name="method-storage-path"></a>
 #### `storage_path()` {#collection-method}
 
-The `storage_path` function returns the fully qualified path to your application's `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file within the storage directory:
+Функция `storage_path` возвращает полный путь к каталогу `storage` вашего приложения. Вы также можете использовать функцию `storage_path` для генерации полного пути к заданному файлу в каталоге хранилища:
 
     $path = storage_path();
 
     $path = storage_path('app/file.txt');
 
 <a name="strings"></a>
-## Strings
+## Строки
 
 <a name="method-__"></a>
 #### `__()` {#collection-method}
 
-The `__` function translates the given translation string or translation key using your [localization files](/docs/{{version}}/localization):
+Функция `__` переводит заданную строку перевода или ключ перевода, используя ваши [файлы локализации](/docs/{{version}}/localization):
 
     echo __('Welcome to our application');
 
     echo __('messages.welcome');
 
-If the specified translation string or key does not exist, the `__` function will return the given value. So, using the example above, the `__` function would return `messages.welcome` if that translation key does not exist.
+Если указанная строка перевода или ключ не существует, функция `__` вернет заданное значение. Итак, используя приведенный выше пример, функция `__` вернет `messages.welcome`, если этот ключ перевода не существует.
 
 <a name="method-class-basename"></a>
 #### `class_basename()` {#collection-method}
 
-The `class_basename` function returns the class name of the given class with the class's namespace removed:
+Функция `class_basename` возвращает имя класса данного класса с удаленным пространством имен класса:
 
     $class = class_basename('Foo\Bar\Baz');
 
@@ -1032,7 +1032,7 @@ The `class_basename` function returns the class name of the given class with the
 <a name="method-e"></a>
 #### `e()` {#collection-method}
 
-The `e` function runs PHP's `htmlspecialchars` function with the `double_encode` option set to `true` by default:
+Функция `e` запускает функцию PHP `htmlspecialchars` с параметром `double_encode`, установленным по умолчанию в значение `true`:
 
     echo e('<html>foo</html>');
 
@@ -1041,7 +1041,7 @@ The `e` function runs PHP's `htmlspecialchars` function with the `double_encode`
 <a name="method-preg-replace-array"></a>
 #### `preg_replace_array()` {#collection-method}
 
-The `preg_replace_array` function replaces a given pattern in the string sequentially using an array:
+Функция `preg_replace_array` последовательно заменяет заданный шаблон в строке, используя массив:
 
     $string = 'The event will take place between :start and :end';
 
@@ -1052,7 +1052,7 @@ The `preg_replace_array` function replaces a given pattern in the string sequent
 <a name="method-str-after"></a>
 #### `Str::after()` {#collection-method}
 
-The `Str::after` method returns everything after the given value in a string. The entire string will be returned if the value does not exist within the string:
+Метод `Str::after` возвращает все, что находится после заданного значения в строке. Вся строка будет возвращена, если значение не существует в строке:
 
     use Illuminate\Support\Str;
 
@@ -1063,7 +1063,7 @@ The `Str::after` method returns everything after the given value in a string. Th
 <a name="method-str-after-last"></a>
 #### `Str::afterLast()` {#collection-method}
 
-The `Str::afterLast` method returns everything after the last occurrence of the given value in a string. The entire string will be returned if the value does not exist within the string:
+Метод `Str::afterLast` возвращает все, что находится после последнего появления данного значения в строке. Вся строка будет возвращена, если значение не существует в строке:
 
     use Illuminate\Support\Str;
 
@@ -1074,7 +1074,7 @@ The `Str::afterLast` method returns everything after the last occurrence of the 
 <a name="method-str-ascii"></a>
 #### `Str::ascii()` {#collection-method}
 
-The `Str::ascii` method will attempt to transliterate the string into an ASCII value:
+Метод `Str::ascii` попытается транслитерировать строку в значение ASCII:
 
     use Illuminate\Support\Str;
 
@@ -1085,7 +1085,7 @@ The `Str::ascii` method will attempt to transliterate the string into an ASCII v
 <a name="method-str-before"></a>
 #### `Str::before()` {#collection-method}
 
-The `Str::before` method returns everything before the given value in a string:
+Метод `Str::before` возвращает все, что находится перед заданным значением в строке:
 
     use Illuminate\Support\Str;
 
@@ -1096,7 +1096,7 @@ The `Str::before` method returns everything before the given value in a string:
 <a name="method-str-before-last"></a>
 #### `Str::beforeLast()` {#collection-method}
 
-The `Str::beforeLast` method returns everything before the last occurrence of the given value in a string:
+Метод `Str::beforeLast` возвращает все, что было до последнего появления данного значения в строке:
 
     use Illuminate\Support\Str;
 
@@ -1107,7 +1107,7 @@ The `Str::beforeLast` method returns everything before the last occurrence of th
 <a name="method-str-between"></a>
 #### `Str::between()` {#collection-method}
 
-The `Str::between` method returns the portion of a string between two values:
+Метод `Str::between` возвращает часть строки между двумя значениями:
 
     use Illuminate\Support\Str;
 
@@ -1118,7 +1118,7 @@ The `Str::between` method returns the portion of a string between two values:
 <a name="method-camel-case"></a>
 #### `Str::camel()` {#collection-method}
 
-The `Str::camel` method converts the given string to `camelCase`:
+Метод `Str::camel` преобразует данную строку в `camelCase`:
 
     use Illuminate\Support\Str;
 
@@ -1129,7 +1129,7 @@ The `Str::camel` method converts the given string to `camelCase`:
 <a name="method-str-contains"></a>
 #### `Str::contains()` {#collection-method}
 
-The `Str::contains` method determines if the given string contains the given value. This method is case sensitive:
+Метод `Str::contains` определяет, содержит ли данная строка заданное значение. Этот метод чувствителен к регистру:
 
     use Illuminate\Support\Str;
 
@@ -1137,7 +1137,7 @@ The `Str::contains` method determines if the given string contains the given val
 
     // true
 
-You may also pass an array of values to determine if the given string contains any of the values in the array:
+Вы также можете передать массив значений, чтобы определить, содержит ли данная строка какое-либо из значений в массиве:
 
     use Illuminate\Support\Str;
 
@@ -1148,7 +1148,7 @@ You may also pass an array of values to determine if the given string contains a
 <a name="method-str-contains-all"></a>
 #### `Str::containsAll()` {#collection-method}
 
-The `Str::containsAll` method determines if the given string contains all of the values in a given array:
+Метод `Str::containsAll` определяет, содержит ли данная строка все значения в данном массиве:
 
     use Illuminate\Support\Str;
 
@@ -1159,7 +1159,7 @@ The `Str::containsAll` method determines if the given string contains all of the
 <a name="method-ends-with"></a>
 #### `Str::endsWith()` {#collection-method}
 
-The `Str::endsWith` method determines if the given string ends with the given value:
+Метод `Str::endsWith` определяет, заканчивается ли данная строка заданным значением:
 
     use Illuminate\Support\Str;
 
@@ -1168,7 +1168,7 @@ The `Str::endsWith` method determines if the given string ends with the given va
     // true
 
 
-You may also pass an array of values to determine if the given string ends with any of the values in the array:
+Вы также можете передать массив значений, чтобы определить, заканчивается ли данная строка каким-либо из значений в массиве:
 
     use Illuminate\Support\Str;
 
@@ -1183,7 +1183,7 @@ You may also pass an array of values to determine if the given string ends with 
 <a name="method-str-finish"></a>
 #### `Str::finish()` {#collection-method}
 
-The `Str::finish` method adds a single instance of the given value to a string if it does not already end with that value:
+Метод `Str::finish` добавляет один экземпляр данного значения в строку, если она еще не заканчивается этим значением:
 
     use Illuminate\Support\Str;
 
@@ -1198,7 +1198,7 @@ The `Str::finish` method adds a single instance of the given value to a string i
 <a name="method-str-is"></a>
 #### `Str::is()` {#collection-method}
 
-The `Str::is` method determines if a given string matches a given pattern. Asterisks may be used as wildcard values:
+Метод `Str::is` определяет, соответствует ли данная строка заданному шаблону. Звездочки могут использоваться как значения подстановочных знаков:
 
     use Illuminate\Support\Str;
 
@@ -1213,7 +1213,7 @@ The `Str::is` method determines if a given string matches a given pattern. Aster
 <a name="method-str-is-ascii"></a>
 #### `Str::isAscii()` {#collection-method}
 
-The `Str::isAscii` method determines if a given string is 7 bit ASCII:
+Метод `Str::isAscii` определяет, является ли данная строка 7-битной ASCII:
 
     use Illuminate\Support\Str;
 
@@ -1228,7 +1228,7 @@ The `Str::isAscii` method determines if a given string is 7 bit ASCII:
 <a name="method-str-is-uuid"></a>
 #### `Str::isUuid()` {#collection-method}
 
-The `Str::isUuid` method determines if the given string is a valid UUID:
+Метод `Str::isUuid` определяет, является ли данная строка допустимым UUID:
 
     use Illuminate\Support\Str;
 
@@ -1243,7 +1243,7 @@ The `Str::isUuid` method determines if the given string is a valid UUID:
 <a name="method-kebab-case"></a>
 #### `Str::kebab()` {#collection-method}
 
-The `Str::kebab` method converts the given string to `kebab-case`:
+Метод `Str::kebab` преобразует заданную строку в `kebab-case`:
 
     use Illuminate\Support\Str;
 
@@ -1254,7 +1254,7 @@ The `Str::kebab` method converts the given string to `kebab-case`:
 <a name="method-str-length"></a>
 #### `Str::length()` {#collection-method}
 
-The `Str::length` method returns the length of the given string:
+Метод `Str::length` возвращает длину заданной строки:
 
     use Illuminate\Support\Str;
 
@@ -1265,7 +1265,7 @@ The `Str::length` method returns the length of the given string:
 <a name="method-str-limit"></a>
 #### `Str::limit()` {#collection-method}
 
-The `Str::limit` method truncates the given string to the specified length:
+Метод `Str::limit` обрезает данную строку до указанной длины:
 
     use Illuminate\Support\Str;
 
@@ -1273,7 +1273,7 @@ The `Str::limit` method truncates the given string to the specified length:
 
     // The quick brown fox...
 
-You may pass a third argument to the method to change the string that will be appended to the end of the truncated string:
+Вы можете передать третий аргумент методу, чтобы изменить строку, которая будет добавлена в конец усеченной строки:
 
     use Illuminate\Support\Str;
 
@@ -1284,7 +1284,7 @@ You may pass a third argument to the method to change the string that will be ap
 <a name="method-str-lower"></a>
 #### `Str::lower()` {#collection-method}
 
-The `Str::lower` method converts the given string to lowercase:
+Метод `Str::lower` преобразует данную строку в нижний регистр:
 
     use Illuminate\Support\Str;
 
@@ -1295,7 +1295,7 @@ The `Str::lower` method converts the given string to lowercase:
 <a name="method-str-markdown"></a>
 #### `Str::markdown()` {#collection-method}
 
-The `Str::markdown` method converts GitHub flavored Markdown into HTML:
+Метод `Str::markdown` преобразует  GitHub flavored Markdown в HTML:
 
     use Illuminate\Support\Str;
 
@@ -1312,7 +1312,7 @@ The `Str::markdown` method converts GitHub flavored Markdown into HTML:
 <a name="method-str-ordered-uuid"></a>
 #### `Str::orderedUuid()` {#collection-method}
 
-The `Str::orderedUuid` method generates a "timestamp first" UUID that may be efficiently stored in an indexed database column. Each UUID that is generated using this method will be sorted after UUIDs previously generated using the method:
+Метод `Str::orderedUuid` генерирует UUID "сначала временная метка", который может быть эффективно сохранен в индексированном столбце базы данных. Каждый UUID, созданный с помощью этого метода, будет отсортирован после UUID, ранее созданных с помощью этого метода:
 
     use Illuminate\Support\Str;
 
@@ -1321,7 +1321,7 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 <a name="method-str-padboth"></a>
 #### `Str::padBoth()` {#collection-method}
 
-The `Str::padBoth` method wraps PHP's `str_pad` function, padding both sides of a string with another string until the final string reaches a desired length:
+Метод `Str::padBoth` оборачивает функцию PHP `str_pad`, заполняя обе стороны строки другой строкой, пока последняя строка не достигнет желаемой длины:
 
     use Illuminate\Support\Str;
 
@@ -1336,7 +1336,7 @@ The `Str::padBoth` method wraps PHP's `str_pad` function, padding both sides of 
 <a name="method-str-padleft"></a>
 #### `Str::padLeft()` {#collection-method}
 
-The `Str::padLeft` method wraps PHP's `str_pad` function, padding the left side of a string with another string until the final string reaches a desired length:
+Метод `Str::padLeft` оборачивает функцию PHP `str_pad`, заполняя левую часть строки другой строкой, пока последняя строка не достигнет желаемой длины:
 
     use Illuminate\Support\Str;
 
@@ -1351,7 +1351,7 @@ The `Str::padLeft` method wraps PHP's `str_pad` function, padding the left side 
 <a name="method-str-padright"></a>
 #### `Str::padRight()` {#collection-method}
 
-The `Str::padRight` method wraps PHP's `str_pad` function, padding the right side of a string with another string until the final string reaches a desired length:
+Метод `Str::padRight` оборачивает функцию PHP `str_pad`, заполняя правую часть строки другой строкой, пока последняя строка не достигнет желаемой длины:
 
     use Illuminate\Support\Str;
 
@@ -1366,7 +1366,7 @@ The `Str::padRight` method wraps PHP's `str_pad` function, padding the right sid
 <a name="method-str-plural"></a>
 #### `Str::plural()` {#collection-method}
 
-The `Str::plural` method converts a singular word string to its plural form. This function currently only supports the English language:
+Метод `Str::plural` преобразует строку единственного слова во множественное число. В настоящее время эта функция поддерживает только английский язык:
 
     use Illuminate\Support\Str;
 
@@ -1378,7 +1378,7 @@ The `Str::plural` method converts a singular word string to its plural form. Thi
 
     // children
 
-You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
+Вы можете указать целое число в качестве второго аргумента функции для получения единственного или множественного числа строки:
 
     use Illuminate\Support\Str;
 
@@ -1393,7 +1393,7 @@ You may provide an integer as a second argument to the function to retrieve the 
 <a name="method-str-plural-studly"></a>
 #### `Str::pluralStudly()` {#collection-method}
 
-The `Str::pluralStudly` method converts a singular word string formatted in studly caps case to its plural form. This function currently only supports the English language:
+Метод `Str::pluralStudly` преобразует строку единственного числа, отформатированную в регистре заглавных букв, в форму множественного числа. В настоящее время эта функция поддерживает только английский язык:
 
     use Illuminate\Support\Str;
 
@@ -1405,7 +1405,7 @@ The `Str::pluralStudly` method converts a singular word string formatted in stud
 
     // UserFeedback
 
-You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
+Вы можете указать целое число в качестве второго аргумента функции для получения единственного или множественного числа строки:
 
     use Illuminate\Support\Str;
 
@@ -1420,7 +1420,7 @@ You may provide an integer as a second argument to the function to retrieve the 
 <a name="method-str-random"></a>
 #### `Str::random()` {#collection-method}
 
-The `Str::random` method generates a random string of the specified length. This function uses PHP's `random_bytes` function:
+Метод `Str::random` генерирует случайную строку указанной длины. Эта функция использует функцию PHP `random_bytes`:
 
     use Illuminate\Support\Str;
 
@@ -1429,7 +1429,7 @@ The `Str::random` method generates a random string of the specified length. This
 <a name="method-str-remove"></a>
 #### `Str::remove()` {#collection-method}
 
-The `Str::remove` method removes the given value or array of values from the string:
+Метод `Str::remove` удаляет заданное значение или массив значений из строки:
 
     use Illuminate\Support\Str;
 
@@ -1439,12 +1439,12 @@ The `Str::remove` method removes the given value or array of values from the str
 
     // Ptr Pipr pickd a pck of pickld ppprs.
 
-You may also pass `false` as a third argument to the `remove` method to ignore case when removing strings.
+Вы также можете передать `false` в качестве третьего аргумента методу `remove`, чтобы игнорировать регистр при удалении строк.
 
 <a name="method-str-replace"></a>
 #### `Str::replace()` {#collection-method}
 
-The `Str::replace` method replaces a given string within the string:
+Метод `Str::replace` заменяет заданную строку внутри строки:
 
     use Illuminate\Support\Str;
 
@@ -1457,7 +1457,7 @@ The `Str::replace` method replaces a given string within the string:
 <a name="method-str-replace-array"></a>
 #### `Str::replaceArray()` {#collection-method}
 
-The `Str::replaceArray` method replaces a given value in the string sequentially using an array:
+Метод `Str::replaceArray` заменяет заданное значение в строке последовательно, используя массив:
 
     use Illuminate\Support\Str;
 
@@ -1470,7 +1470,7 @@ The `Str::replaceArray` method replaces a given value in the string sequentially
 <a name="method-str-replace-first"></a>
 #### `Str::replaceFirst()` {#collection-method}
 
-The `Str::replaceFirst` method replaces the first occurrence of a given value in a string:
+Метод `Str::replaceFirst` заменяет первое вхождение данного значения в строке:
 
     use Illuminate\Support\Str;
 
@@ -1481,7 +1481,7 @@ The `Str::replaceFirst` method replaces the first occurrence of a given value in
 <a name="method-str-replace-last"></a>
 #### `Str::replaceLast()` {#collection-method}
 
-The `Str::replaceLast` method replaces the last occurrence of a given value in a string:
+Метод `Str::replaceLast` заменяет последнее вхождение данного значения в строке:
 
     use Illuminate\Support\Str;
 
@@ -1492,7 +1492,7 @@ The `Str::replaceLast` method replaces the last occurrence of a given value in a
 <a name="method-str-singular"></a>
 #### `Str::singular()` {#collection-method}
 
-The `Str::singular` method converts a string to its singular form. This function currently only supports the English language:
+Метод `Str::singular` преобразует строку в ее единственную форму. В настоящее время эта функция поддерживает только английский язык:
 
     use Illuminate\Support\Str;
 
@@ -1507,7 +1507,7 @@ The `Str::singular` method converts a string to its singular form. This function
 <a name="method-str-slug"></a>
 #### `Str::slug()` {#collection-method}
 
-The `Str::slug` method generates a URL friendly "slug" from the given string:
+Метод `Str::slug` генерирует дружественный URL-адрес "slug" из заданной строки:
 
     use Illuminate\Support\Str;
 
@@ -1518,7 +1518,7 @@ The `Str::slug` method generates a URL friendly "slug" from the given string:
 <a name="method-snake-case"></a>
 #### `Str::snake()` {#collection-method}
 
-The `Str::snake` method converts the given string to `snake_case`:
+Метод `Str::snake` преобразует данную строку в `snake_case`:
 
     use Illuminate\Support\Str;
 
@@ -1529,7 +1529,7 @@ The `Str::snake` method converts the given string to `snake_case`:
 <a name="method-str-start"></a>
 #### `Str::start()` {#collection-method}
 
-The `Str::start` method adds a single instance of the given value to a string if it does not already start with that value:
+Метод `Str::start` добавляет в строку единственный экземпляр данного значения, если он еще не начинается с этого значения:
 
     use Illuminate\Support\Str;
 
@@ -1544,7 +1544,7 @@ The `Str::start` method adds a single instance of the given value to a string if
 <a name="method-starts-with"></a>
 #### `Str::startsWith()` {#collection-method}
 
-The `Str::startsWith` method determines if the given string begins with the given value:
+Метод `Str::startsWith` определяет, начинается ли данная строка с заданного значения:
 
     use Illuminate\Support\Str;
 
@@ -1552,7 +1552,7 @@ The `Str::startsWith` method determines if the given string begins with the give
 
     // true
 
-If an array of possible values is passed, the `startsWith` method will return `true` if the string begins with any of the given values:
+Если передан массив возможных значений, метод `startsWith` вернет `true`, если строка начинается с любого из заданных значений:
 
     $result = Str::startsWith('This is my name', ['This', 'That', 'There']);
 
@@ -1561,7 +1561,7 @@ If an array of possible values is passed, the `startsWith` method will return `t
 <a name="method-studly-case"></a>
 #### `Str::studly()` {#collection-method}
 
-The `Str::studly` method converts the given string to `StudlyCase`:
+Метод `Str::studly` преобразует заданную строку в `StudlyCase`:
 
     use Illuminate\Support\Str;
 
@@ -1572,7 +1572,7 @@ The `Str::studly` method converts the given string to `StudlyCase`:
 <a name="method-str-substr"></a>
 #### `Str::substr()` {#collection-method}
 
-The `Str::substr` method returns the portion of string specified by the start and length parameters:
+Метод `Str::substr` возвращает часть строки, указанную параметрами start и length:
 
     use Illuminate\Support\Str;
 
@@ -1583,7 +1583,7 @@ The `Str::substr` method returns the portion of string specified by the start an
 <a name="method-str-substrcount"></a>
 #### `Str::substrCount()` {#collection-method}
 
-The `Str::substrCount` method returns the number of occurrences of a given value in the given string:
+Метод `Str::substrCount` возвращает количество вхождений данного значения в данную строку:
 
     use Illuminate\Support\Str;
 
@@ -1594,7 +1594,7 @@ The `Str::substrCount` method returns the number of occurrences of a given value
 <a name="method-title-case"></a>
 #### `Str::title()` {#collection-method}
 
-The `Str::title` method converts the given string to `Title Case`:
+Метод `Str::title` преобразует заданную строку в `Title Case`:
 
     use Illuminate\Support\Str;
 
@@ -1605,7 +1605,7 @@ The `Str::title` method converts the given string to `Title Case`:
 <a name="method-str-ucfirst"></a>
 #### `Str::ucfirst()` {#collection-method}
 
-The `Str::ucfirst` method returns the given string with the first character capitalized:
+Метод `Str::ucfirst` возвращает заданную строку с первым символом, написанным с заглавной буквы:
 
     use Illuminate\Support\Str;
 
@@ -1616,7 +1616,7 @@ The `Str::ucfirst` method returns the given string with the first character capi
 <a name="method-str-upper"></a>
 #### `Str::upper()` {#collection-method}
 
-The `Str::upper` method converts the given string to uppercase:
+Метод `Str::upper` преобразует данную строку в верхний регистр:
 
     use Illuminate\Support\Str;
 
@@ -1627,7 +1627,7 @@ The `Str::upper` method converts the given string to uppercase:
 <a name="method-str-uuid"></a>
 #### `Str::uuid()` {#collection-method}
 
-The `Str::uuid` method generates a UUID (version 4):
+Метод `Str::uuid` генерирует UUID (версия 4):
 
     use Illuminate\Support\Str;
 
@@ -1636,7 +1636,7 @@ The `Str::uuid` method generates a UUID (version 4):
 <a name="method-str-word-count"></a>
 ### `wordCount`
 
-The `wordCount` function returns the number of words that a string contains:
+Функция `wordCount` возвращает количество слов, содержащихся в строке:
 
 ```php
 use Illuminate\Support\Str;
@@ -1647,7 +1647,7 @@ Str::wordCount('Hello, world!'); // 2
 <a name="method-str-words"></a>
 #### `Str::words()` {#collection-method}
 
-The `Str::words` method limits the number of words in a string. An additional string may be passed to this method via its third argument to specify which string should be appended to the end of the truncated string:
+Метод `Str::words` ограничивает количество слов в строке. Дополнительная строка может быть передана этому методу через его третий аргумент, чтобы указать, какая строка должна быть добавлена в конец усеченной строки:
 
     use Illuminate\Support\Str;
 
@@ -1658,30 +1658,30 @@ The `Str::words` method limits the number of words in a string. An additional st
 <a name="method-trans"></a>
 #### `trans()` {#collection-method}
 
-The `trans` function translates the given translation key using your [localization files](/docs/{{version}}/localization):
+Функция `trans` переводит заданный ключ перевода, используя ваши [файлы локализации](/docs/{{version}}/localization):
 
     echo trans('messages.welcome');
 
-If the specified translation key does not exist, the `trans` function will return the given key. So, using the example above, the `trans` function would return `messages.welcome` if the translation key does not exist.
+Если указанный ключ перевода не существует, функция `trans` вернет данный ключ. Итак, используя приведенный выше пример, функция `trans` вернет `messages.welcome`, если ключ перевода не существует.
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
 
-The `trans_choice` function translates the given translation key with inflection:
+Функция `trans_choice` переводит заданный ключ перевода с отклонением:
 
     echo trans_choice('messages.notifications', $unreadCount);
 
-If the specified translation key does not exist, the `trans_choice` function will return the given key. So, using the example above, the `trans_choice` function would return `messages.notifications` if the translation key does not exist.
+Если указанный ключ перевода не существует, функция `trans_choice` вернет данный ключ. Итак, используя приведенный выше пример, функция `trans_choice` вернет `messages.notifications`, если ключ перевода не существует.
 
 <a name="fluent-strings"></a>
-## Fluent Strings
+## Свободные строки
 
-Fluent strings provide a more fluent, object-oriented interface for working with string values, allowing you to chain multiple string operations together using a more readable syntax compared to traditional string operations.
+Свободные строки обеспечивают более плавный объектно-ориентированный интерфейс для работы со строковыми значениями, позволяя объединять несколько строковых операций вместе с использованием более удобочитаемого синтаксиса по сравнению с традиционными строковыми операциями.
 
 <a name="method-fluent-str-after"></a>
 #### `after` {#collection-method}
 
-The `after` method returns everything after the given value in a string. The entire string will be returned if the value does not exist within the string:
+Метод `after` возвращает все, что находится после заданного значения в строке. Вся строка будет возвращена, если значение не существует в строке:
 
     use Illuminate\Support\Str;
 
@@ -1692,7 +1692,7 @@ The `after` method returns everything after the given value in a string. The ent
 <a name="method-fluent-str-after-last"></a>
 #### `afterLast` {#collection-method}
 
-The `afterLast` method returns everything after the last occurrence of the given value in a string. The entire string will be returned if the value does not exist within the string:
+Метод `afterLast` возвращает все, что находится после последнего появления данного значения в строке. Вся строка будет возвращена, если значение не существует в строке:
 
     use Illuminate\Support\Str;
 
@@ -1703,7 +1703,7 @@ The `afterLast` method returns everything after the last occurrence of the given
 <a name="method-fluent-str-append"></a>
 #### `append` {#collection-method}
 
-The `append` method appends the given values to the string:
+Метод `append` добавляет заданные значения в строку:
 
     use Illuminate\Support\Str;
 
@@ -1714,7 +1714,7 @@ The `append` method appends the given values to the string:
 <a name="method-fluent-str-ascii"></a>
 #### `ascii` {#collection-method}
 
-The `ascii` method will attempt to transliterate the string into an ASCII value:
+Метод `ascii` попытается транслитерировать строку в значение ASCII:
 
     use Illuminate\Support\Str;
 
@@ -1725,7 +1725,7 @@ The `ascii` method will attempt to transliterate the string into an ASCII value:
 <a name="method-fluent-str-basename"></a>
 #### `basename` {#collection-method}
 
-The `basename` method will return the trailing name component of the given string:
+Метод `basename` вернет завершающий компонент имени данной строки:
 
     use Illuminate\Support\Str;
 
@@ -1733,7 +1733,7 @@ The `basename` method will return the trailing name component of the given strin
 
     // 'baz'
 
-If needed, you may provide an "extension" that will be removed from the trailing component:
+При необходимости вы можете предоставить «расширение», которое будет удалено из конечного компонента:
 
     use Illuminate\Support\Str;
 
@@ -1744,7 +1744,7 @@ If needed, you may provide an "extension" that will be removed from the trailing
 <a name="method-fluent-str-before"></a>
 #### `before` {#collection-method}
 
-The `before` method returns everything before the given value in a string:
+Метод `before` возвращает все, что находится перед заданным значением в строке:
 
     use Illuminate\Support\Str;
 
@@ -1755,7 +1755,7 @@ The `before` method returns everything before the given value in a string:
 <a name="method-fluent-str-before-last"></a>
 #### `beforeLast` {#collection-method}
 
-The `beforeLast` method returns everything before the last occurrence of the given value in a string:
+Метод `beforeLast` возвращает все, что было до последнего появления данного значения в строке:
 
     use Illuminate\Support\Str;
 
@@ -1766,7 +1766,7 @@ The `beforeLast` method returns everything before the last occurrence of the giv
 <a name="method-fluent-str-camel"></a>
 #### `camel` {#collection-method}
 
-The `camel` method converts the given string to `camelCase`:
+Метод `camel` преобразует данную строку в `camelCase`:
 
     use Illuminate\Support\Str;
 
@@ -1777,7 +1777,7 @@ The `camel` method converts the given string to `camelCase`:
 <a name="method-fluent-str-contains"></a>
 #### `contains` {#collection-method}
 
-The `contains` method determines if the given string contains the given value. This method is case sensitive:
+Метод `contains` определяет, содержит ли данная строка данное значение. Этот метод чувствителен к регистру:
 
     use Illuminate\Support\Str;
 
@@ -1785,7 +1785,7 @@ The `contains` method determines if the given string contains the given value. T
 
     // true
 
-You may also pass an array of values to determine if the given string contains any of the values in the array:
+Вы также можете передать массив значений, чтобы определить, содержит ли данная строка какое-либо из значений в массиве:
 
     use Illuminate\Support\Str;
 
@@ -1796,7 +1796,7 @@ You may also pass an array of values to determine if the given string contains a
 <a name="method-fluent-str-contains-all"></a>
 #### `containsAll` {#collection-method}
 
-The `containsAll` method determines if the given string contains all of the values in the given array:
+Метод `containsAll` определяет, содержит ли данная строка все значения в данном массиве:
 
     use Illuminate\Support\Str;
 
@@ -1807,7 +1807,7 @@ The `containsAll` method determines if the given string contains all of the valu
 <a name="method-fluent-str-dirname"></a>
 #### `dirname` {#collection-method}
 
-The `dirname` method returns the parent directory portion of the given string:
+Метод `dirname` возвращает часть родительского каталога данной строки:
 
     use Illuminate\Support\Str;
 
@@ -1815,7 +1815,7 @@ The `dirname` method returns the parent directory portion of the given string:
 
     // '/foo/bar'
 
-If necessary, you may specify how many directory levels you wish to trim from the string:
+При необходимости вы можете указать, сколько уровней каталогов вы хотите вырезать из строки:
 
     use Illuminate\Support\Str;
 
@@ -1826,7 +1826,7 @@ If necessary, you may specify how many directory levels you wish to trim from th
 <a name="method-fluent-str-ends-with"></a>
 #### `endsWith` {#collection-method}
 
-The `endsWith` method determines if the given string ends with the given value:
+Метод `endsWith` определяет, заканчивается ли данная строка заданным значением:
 
     use Illuminate\Support\Str;
 
@@ -1834,7 +1834,7 @@ The `endsWith` method determines if the given string ends with the given value:
 
     // true
 
-You may also pass an array of values to determine if the given string ends with any of the values in the array:
+Вы также можете передать массив значений, чтобы определить, заканчивается ли данная строка каким-либо из значений в массиве:
 
     use Illuminate\Support\Str;
 
@@ -1849,7 +1849,7 @@ You may also pass an array of values to determine if the given string ends with 
 <a name="method-fluent-str-exactly"></a>
 #### `exactly` {#collection-method}
 
-The `exactly` method determines if the given string is an exact match with another string:
+Метод `exactly` определяет, является ли данная строка точным совпадением с другой строкой:
 
     use Illuminate\Support\Str;
 
@@ -1860,7 +1860,7 @@ The `exactly` method determines if the given string is an exact match with anoth
 <a name="method-fluent-str-explode"></a>
 #### `explode` {#collection-method}
 
-The `explode` method splits the string by the given delimiter and returns a collection containing each section of the split string:
+Метод `explode` разбивает строку по заданному разделителю и возвращает коллекцию, содержащую каждый раздел разбитой строки:
 
     use Illuminate\Support\Str;
 
@@ -1871,7 +1871,7 @@ The `explode` method splits the string by the given delimiter and returns a coll
 <a name="method-fluent-str-finish"></a>
 #### `finish` {#collection-method}
 
-The `finish` method adds a single instance of the given value to a string if it does not already end with that value:
+Метод `finish` добавляет один экземпляр данного значения к строке, если она еще не заканчивается этим значением:
 
     use Illuminate\Support\Str;
 
@@ -1886,7 +1886,7 @@ The `finish` method adds a single instance of the given value to a string if it 
 <a name="method-fluent-str-is"></a>
 #### `is` {#collection-method}
 
-The `is` method determines if a given string matches a given pattern. Asterisks may be used as wildcard values
+Метод `is` определяет, соответствует ли данная строка заданному шаблону. Звездочки могут использоваться как подстановочные знаки:
 
     use Illuminate\Support\Str;
 
@@ -1901,7 +1901,7 @@ The `is` method determines if a given string matches a given pattern. Asterisks 
 <a name="method-fluent-str-is-ascii"></a>
 #### `isAscii` {#collection-method}
 
-The `isAscii` method determines if a given string is an ASCII string:
+Метод `isAscii` определяет, является ли данная строка строкой ASCII:
 
     use Illuminate\Support\Str;
 
@@ -1916,7 +1916,7 @@ The `isAscii` method determines if a given string is an ASCII string:
 <a name="method-fluent-str-is-empty"></a>
 #### `isEmpty` {#collection-method}
 
-The `isEmpty` method determines if the given string is empty:
+Метод `isEmpty` определяет, является ли данная строка пустой:
 
     use Illuminate\Support\Str;
 
@@ -1931,7 +1931,7 @@ The `isEmpty` method determines if the given string is empty:
 <a name="method-fluent-str-is-not-empty"></a>
 #### `isNotEmpty` {#collection-method}
 
-The `isNotEmpty` method determines if the given string is not empty:
+Метод `isNotEmpty` определяет, не пуста ли данная строка:
 
 
     use Illuminate\Support\Str;
@@ -1947,7 +1947,7 @@ The `isNotEmpty` method determines if the given string is not empty:
 <a name="method-fluent-str-kebab"></a>
 #### `kebab` {#collection-method}
 
-The `kebab` method converts the given string to `kebab-case`:
+Метод `kebab` преобразует данную строку в `kebab-case`:
 
     use Illuminate\Support\Str;
 
@@ -1958,7 +1958,7 @@ The `kebab` method converts the given string to `kebab-case`:
 <a name="method-fluent-str-length"></a>
 #### `length` {#collection-method}
 
-The `length` method returns the length of the given string:
+Метод `length` возвращает длину данной строки:
 
     use Illuminate\Support\Str;
 
@@ -1969,7 +1969,7 @@ The `length` method returns the length of the given string:
 <a name="method-fluent-str-limit"></a>
 #### `limit` {#collection-method}
 
-The `limit` method truncates the given string to the specified length:
+Метод `limit` обрезает данную строку до указанной длины:
 
     use Illuminate\Support\Str;
 
@@ -1977,7 +1977,7 @@ The `limit` method truncates the given string to the specified length:
 
     // The quick brown fox...
 
-You may also pass a second argument to change the string that will be appended to the end of the truncated string:
+Вы также можете передать второй аргумент, чтобы изменить строку, которая будет добавлена в конец усеченной строки:
 
     use Illuminate\Support\Str;
 
@@ -1988,7 +1988,7 @@ You may also pass a second argument to change the string that will be appended t
 <a name="method-fluent-str-lower"></a>
 #### `lower` {#collection-method}
 
-The `lower` method converts the given string to lowercase:
+Метод `lower` преобразует данную строку в нижний регистр:
 
     use Illuminate\Support\Str;
 
@@ -1999,7 +1999,7 @@ The `lower` method converts the given string to lowercase:
 <a name="method-fluent-str-ltrim"></a>
 #### `ltrim` {#collection-method}
 
-The `ltrim` method trims the left side of the string:
+Метод `ltrim` обрезает левую часть строки:
 
     use Illuminate\Support\Str;
 
@@ -2014,7 +2014,7 @@ The `ltrim` method trims the left side of the string:
 <a name="method-fluent-str-markdown"></a>
 #### `markdown` {#collection-method}
 
-The `markdown` method converts GitHub flavored Markdown into HTML:
+Метод `markdown` конвертирует GitHub flavored Markdown в HTML:
 
     use Illuminate\Support\Str;
 
@@ -2031,7 +2031,7 @@ The `markdown` method converts GitHub flavored Markdown into HTML:
 <a name="method-fluent-str-match"></a>
 #### `match` {#collection-method}
 
-The `match` method will return the portion of a string that matches a given regular expression pattern:
+Метод `match` вернет часть строки, которая соответствует заданному шаблону регулярного выражения:
 
     use Illuminate\Support\Str;
 
@@ -2046,7 +2046,7 @@ The `match` method will return the portion of a string that matches a given regu
 <a name="method-fluent-str-match-all"></a>
 #### `matchAll` {#collection-method}
 
-The `matchAll` method will return a collection containing the portions of a string that match a given regular expression pattern:
+Метод `matchAll` вернет коллекцию, содержащую части строки, соответствующие заданному шаблону регулярного выражения:
 
     use Illuminate\Support\Str;
 
@@ -2054,7 +2054,7 @@ The `matchAll` method will return a collection containing the portions of a stri
 
     // collect(['bar', 'bar'])
 
-If you specify a matching group within the expression, Laravel will return a collection of that group's matches:
+Если вы укажете соответствующую группу в выражении, Laravel вернет коллекцию совпадений этой группы:
 
     use Illuminate\Support\Str;
 
@@ -2062,12 +2062,12 @@ If you specify a matching group within the expression, Laravel will return a col
 
     // collect(['un', 'ly']);
 
-If no matches are found, an empty collection will be returned.
+Если совпадений не найдено, будет возвращена пустая коллекция.
 
 <a name="method-fluent-str-padboth"></a>
 #### `padBoth` {#collection-method}
 
-The `padBoth` method wraps PHP's `str_pad` function, padding both sides of a string with another string until the final string reaches the desired length:
+Метод `padBoth` оборачивает функцию PHP `str_pad`, заполняя обе стороны строки другой строкой, пока конечная строка не достигнет желаемой длины:
 
     use Illuminate\Support\Str;
 
@@ -2082,7 +2082,7 @@ The `padBoth` method wraps PHP's `str_pad` function, padding both sides of a str
 <a name="method-fluent-str-padleft"></a>
 #### `padLeft` {#collection-method}
 
-The `padLeft` method wraps PHP's `str_pad` function, padding the left side of a string with another string until the final string reaches the desired length:
+Метод `padLeft` оборачивает функцию PHP `str_pad`, заполняя левую часть строки другой строкой, пока последняя строка не достигнет желаемой длины:
 
     use Illuminate\Support\Str;
 
@@ -2097,7 +2097,7 @@ The `padLeft` method wraps PHP's `str_pad` function, padding the left side of a 
 <a name="method-fluent-str-padright"></a>
 #### `padRight` {#collection-method}
 
-The `padRight` method wraps PHP's `str_pad` function, padding the right side of a string with another string until the final string reaches the desired length:
+Метод `padRight` оборачивает функцию PHP `str_pad`, заполняя правую часть строки другой строкой, пока конечная строка не достигнет желаемой длины:
 
     use Illuminate\Support\Str;
 
@@ -2112,7 +2112,7 @@ The `padRight` method wraps PHP's `str_pad` function, padding the right side of 
 <a name="method-fluent-str-pipe"></a>
 #### `pipe` {#collection-method}
 
-The `pipe` method allows you to transform the string by passing its current value to the given callable:
+Метод `pipe` позволяет вам преобразовать строку, передав ее текущее значение заданному вызываемому объекту:
 
     use Illuminate\Support\Str;
 
@@ -2129,7 +2129,7 @@ The `pipe` method allows you to transform the string by passing its current valu
 <a name="method-fluent-str-plural"></a>
 #### `plural` {#collection-method}
 
-The `plural` method converts a singular word string to its plural form. This function currently only supports the English language:
+Метод `plural` преобразует строку единственного числа в форму множественного числа. В настоящее время эта функция поддерживает только английский язык:
 
     use Illuminate\Support\Str;
 
@@ -2141,7 +2141,7 @@ The `plural` method converts a singular word string to its plural form. This fun
 
     // children
 
-You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
+Вы можете указать целое число в качестве второго аргумента функции для получения единственного или множественного числа строки:
 
     use Illuminate\Support\Str;
 
@@ -2156,7 +2156,7 @@ You may provide an integer as a second argument to the function to retrieve the 
 <a name="method-fluent-str-prepend"></a>
 #### `prepend` {#collection-method}
 
-The `prepend` method prepends the given values onto the string:
+Метод `prepend` добавляет указанные значения в строку:
 
     use Illuminate\Support\Str;
 
@@ -2167,7 +2167,7 @@ The `prepend` method prepends the given values onto the string:
 <a name="method-fluent-str-remove"></a>
 #### `remove` {#collection-method}
 
-The `remove` method removes the given value or array of values from the string:
+Метод `remove` удаляет заданное значение или массив значений из строки:
 
     use Illuminate\Support\Str;
 
@@ -2175,12 +2175,12 @@ The `remove` method removes the given value or array of values from the string:
 
     // Arkansas is beautiful!
 
-You may also pass `false` as a second parameter to ignore case when removing.
+Вы также можете передать `false` в качестве второго параметра, чтобы игнорировать регистр при удалении.
 
 <a name="method-fluent-str-replace"></a>
 #### `replace` {#collection-method}
 
-The `replace` method replaces a given string within the string:
+Метод `replace` заменяет заданную строку внутри строки:
 
     use Illuminate\Support\Str;
 
@@ -2191,7 +2191,7 @@ The `replace` method replaces a given string within the string:
 <a name="method-fluent-str-replace-array"></a>
 #### `replaceArray` {#collection-method}
 
-The `replaceArray` method replaces a given value in the string sequentially using an array:
+Метод `replaceArray` последовательно заменяет заданное значение в строке, используя массив:
 
     use Illuminate\Support\Str;
 
@@ -2204,7 +2204,7 @@ The `replaceArray` method replaces a given value in the string sequentially usin
 <a name="method-fluent-str-replace-first"></a>
 #### `replaceFirst` {#collection-method}
 
-The `replaceFirst` method replaces the first occurrence of a given value in a string:
+Метод `replaceFirst` заменяет первое вхождение данного значения в строке:
 
     use Illuminate\Support\Str;
 
@@ -2215,7 +2215,7 @@ The `replaceFirst` method replaces the first occurrence of a given value in a st
 <a name="method-fluent-str-replace-last"></a>
 #### `replaceLast` {#collection-method}
 
-The `replaceLast` method replaces the last occurrence of a given value in a string:
+Метод `replaceLast` заменяет последнее вхождение данного значения в строке:
 
     use Illuminate\Support\Str;
 
@@ -2226,7 +2226,7 @@ The `replaceLast` method replaces the last occurrence of a given value in a stri
 <a name="method-fluent-str-replace-matches"></a>
 #### `replaceMatches` {#collection-method}
 
-The `replaceMatches` method replaces all portions of a string matching a pattern with the given replacement string:
+Метод `replaceMatches` заменяет все части строки, соответствующие шаблону, заданной строкой замены:
 
     use Illuminate\Support\Str;
 
@@ -2234,7 +2234,7 @@ The `replaceMatches` method replaces all portions of a string matching a pattern
 
     // '15015551000'
 
-The `replaceMatches` method also accepts a closure that will be invoked with each portion of the string matching the given pattern, allowing you to perform the replacement logic within the closure and return the replaced value:
+Метод `replaceMatches` также принимает замыкание, которое будет вызываться с каждой частью строки, соответствующей данному шаблону, что позволяет вам выполнить логику замены внутри замыкания и вернуть замененное значение:
 
     use Illuminate\Support\Str;
 
@@ -2247,7 +2247,7 @@ The `replaceMatches` method also accepts a closure that will be invoked with eac
 <a name="method-fluent-str-rtrim"></a>
 #### `rtrim` {#collection-method}
 
-The `rtrim` method trims the right side of the given string:
+Метод `rtrim` обрезает правую часть данной строки:
 
     use Illuminate\Support\Str;
 
@@ -2262,7 +2262,7 @@ The `rtrim` method trims the right side of the given string:
 <a name="method-fluent-str-singular"></a>
 #### `singular` {#collection-method}
 
-The `singular` method converts a string to its singular form. This function currently only supports the English language:
+Метод `singular` преобразует строку в ее особую форму. В настоящее время эта функция поддерживает только английский язык:
 
     use Illuminate\Support\Str;
 
@@ -2277,7 +2277,7 @@ The `singular` method converts a string to its singular form. This function curr
 <a name="method-fluent-str-slug"></a>
 #### `slug` {#collection-method}
 
-The `slug` method generates a URL friendly "slug" from the given string:
+Метод `slug` генерирует дружественный URL-адрес "slug" из заданной строки:
 
     use Illuminate\Support\Str;
 
@@ -2288,7 +2288,7 @@ The `slug` method generates a URL friendly "slug" from the given string:
 <a name="method-fluent-str-snake"></a>
 #### `snake` {#collection-method}
 
-The `snake` method converts the given string to `snake_case`:
+Метод `snake` преобразует данную строку в `snake_case`:
 
     use Illuminate\Support\Str;
 
@@ -2299,7 +2299,7 @@ The `snake` method converts the given string to `snake_case`:
 <a name="method-fluent-str-split"></a>
 #### `split` {#collection-method}
 
-The `split` method splits a string into a collection using a regular expression:
+Метод `split` разбивает строку на коллекцию с помощью регулярного выражения:
 
     use Illuminate\Support\Str;
 
@@ -2310,7 +2310,7 @@ The `split` method splits a string into a collection using a regular expression:
 <a name="method-fluent-str-start"></a>
 #### `start` {#collection-method}
 
-The `start` method adds a single instance of the given value to a string if it does not already start with that value:
+Метод `start` добавляет один экземпляр данного значения к строке, если он еще не начинается с этого значения:
 
     use Illuminate\Support\Str;
 
@@ -2325,7 +2325,7 @@ The `start` method adds a single instance of the given value to a string if it d
 <a name="method-fluent-str-starts-with"></a>
 #### `startsWith` {#collection-method}
 
-The `startsWith` method determines if the given string begins with the given value:
+Метод `startsWith` определяет, начинается ли данная строка с заданного значения:
 
     use Illuminate\Support\Str;
 
@@ -2336,7 +2336,7 @@ The `startsWith` method determines if the given string begins with the given val
 <a name="method-fluent-str-studly"></a>
 #### `studly` {#collection-method}
 
-The `studly` method converts the given string to `StudlyCase`:
+Метод `studly` преобразует данную строку в `StudlyCase`:
 
     use Illuminate\Support\Str;
 
@@ -2347,7 +2347,7 @@ The `studly` method converts the given string to `StudlyCase`:
 <a name="method-fluent-str-substr"></a>
 #### `substr` {#collection-method}
 
-The `substr` method returns the portion of the string specified by the given start and length parameters:
+Метод `substr` возвращает часть строки, указанную заданными параметрами start и length:
 
     use Illuminate\Support\Str;
 
@@ -2362,7 +2362,7 @@ The `substr` method returns the portion of the string specified by the given sta
 <a name="method-fluent-str-tap"></a>
 #### `tap` {#collection-method}
 
-The `tap` method passes the string to the given closure, allowing you to examine and interact with the string while not affecting the string itself. The original string is returned by the `tap` method regardless of what is returned by the closure:
+Метод `tap` передает строку заданному замыканию, позволяя вам исследовать строку и взаимодействовать с ней, не затрагивая при этом саму строку. Исходная строка возвращается методом `tap` независимо от того, что возвращает замыкание:
 
     use Illuminate\Support\Str;
 
@@ -2378,7 +2378,7 @@ The `tap` method passes the string to the given closure, allowing you to examine
 <a name="method-fluent-str-test"></a>
 #### `test` {#collection-method}
 
-The `test` method determines if a string matches the given regular expression pattern:
+Метод `test` определяет, соответствует ли строка заданному шаблону регулярного выражения:
 
     use Illuminate\Support\Str;
 
@@ -2389,7 +2389,7 @@ The `test` method determines if a string matches the given regular expression pa
 <a name="method-fluent-str-title"></a>
 #### `title` {#collection-method}
 
-The `title` method converts the given string to `Title Case`:
+Метод `title` преобразует данную строку в `Title Case`:
 
     use Illuminate\Support\Str;
 
@@ -2400,7 +2400,7 @@ The `title` method converts the given string to `Title Case`:
 <a name="method-fluent-str-trim"></a>
 #### `trim` {#collection-method}
 
-The `trim` method trims the given string:
+Метод `trim` обрезает данную строку:
 
     use Illuminate\Support\Str;
 
@@ -2415,7 +2415,7 @@ The `trim` method trims the given string:
 <a name="method-fluent-str-ucfirst"></a>
 #### `ucfirst` {#collection-method}
 
-The `ucfirst` method returns the given string with the first character capitalized:
+Метод `ucfirst` возвращает заданную строку с заглавными буквами первого символа:
 
     use Illuminate\Support\Str;
 
@@ -2426,7 +2426,7 @@ The `ucfirst` method returns the given string with the first character capitaliz
 <a name="method-fluent-str-upper"></a>
 #### `upper` {#collection-method}
 
-The `upper` method converts the given string to uppercase:
+Метод `upper` преобразует данную строку в верхний регистр:
 
     use Illuminate\Support\Str;
 
@@ -2437,7 +2437,7 @@ The `upper` method converts the given string to uppercase:
 <a name="method-fluent-str-when"></a>
 #### `when` {#collection-method}
 
-The `when` method invokes the given closure if a given condition is `true`. The closure will receive the fluent string instance:
+Метод `when` вызывает данное замыкание, если данное условие `true`. Замыкание получит экземпляр свободной строки:
 
     use Illuminate\Support\Str;
 
@@ -2448,12 +2448,12 @@ The `when` method invokes the given closure if a given condition is `true`. The 
 
     // 'Taylor Otwell'
 
-If necessary, you may pass another closure as the third parameter to the `when` method. This closure will execute if the condition parameter evaluates to `false`.
+При необходимости вы можете передать другое замыкание в качестве третьего параметра методу `when`. Это замыкание будет выполнено, если параметр условия будет иметь значение `false`.
 
 <a name="method-fluent-str-when-empty"></a>
 #### `whenEmpty` {#collection-method}
 
-The `whenEmpty` method invokes the given closure if the string is empty. If the closure returns a value, that value will also be returned by the `whenEmpty` method. If the closure does not return a value, the fluent string instance will be returned:
+Метод `whenEmpty` вызывает данное замыкание, если строка пуста. Если замыкание возвращает значение, это значение также будет возвращено методом `whenEmpty`. Если замыкание не возвращает значение, будет возвращен свободный экземпляр строки:
 
     use Illuminate\Support\Str;
 
@@ -2466,7 +2466,7 @@ The `whenEmpty` method invokes the given closure if the string is empty. If the 
 <a name="method-fluent-str-word-count"></a>
 ### `wordCount`
 
-The `wordCount` function returns the number of words that a string contains:
+Функция `wordCount` возвращает количество слов, содержащихся в строке:
 
 ```php
 use Illuminate\Support\Str;
@@ -2477,7 +2477,7 @@ Str::of('Hello, world!')->wordCount(); // 2
 <a name="method-fluent-str-words"></a>
 #### `words` {#collection-method}
 
-The `words` method limits the number of words in a string. If necessary, you may specify an additional string that will be appended to the truncated string:
+Метод `words` ограничивает количество слов в строке. При необходимости вы можете указать дополнительную строку, которая будет добавлена к усеченной строке:
 
     use Illuminate\Support\Str;
 
@@ -2486,29 +2486,29 @@ The `words` method limits the number of words in a string. If necessary, you may
     // Perfectly balanced, as >>>
 
 <a name="urls"></a>
-## URLs
+## URL-адреса
 
 <a name="method-action"></a>
 #### `action()` {#collection-method}
 
-The `action` function generates a URL for the given controller action:
+Функция `action` генерирует URL-адрес для данного действия контроллера:
 
     use App\Http\Controllers\HomeController;
 
     $url = action([HomeController::class, 'index']);
 
-If the method accepts route parameters, you may pass them as the second argument to the method:
+Если метод принимает параметры маршрута, вы можете передать их в качестве второго аргумента метода:
 
     $url = action([UserController::class, 'profile'], ['id' => 1]);
 
 <a name="method-asset"></a>
 #### `asset()` {#collection-method}
 
-The `asset` function generates a URL for an asset using the current scheme of the request (HTTP or HTTPS):
+Функция `asset` генерирует URL для актива, используя текущую схему запроса (HTTP или HTTPS):
 
     $url = asset('img/photo.jpg');
 
-You can configure the asset URL host by setting the `ASSET_URL` variable in your `.env` file. This can be useful if you host your assets on an external service like Amazon S3 or another CDN:
+Вы можете настроить хост URL ресурса, установив переменную `ASSET_URL` в вашем файле `.env`. Это может быть полезно, если вы размещаете свои активы на внешнем сервисе, таком как Amazon S3 или другой CDN:
 
     // ASSET_URL=http://example.com/assets
 
@@ -2517,29 +2517,29 @@ You can configure the asset URL host by setting the `ASSET_URL` variable in your
 <a name="method-route"></a>
 #### `route()` {#collection-method}
 
-The `route` function generates a URL for a given [named route](/docs/{{version}}/routing#named-routes):
+Функция `route` генерирует URL для заданного [именованного маршрута](/docs/{{version}}/routing#named-routes):
 
     $url = route('route.name');
 
-If the route accepts parameters, you may pass them as the second argument to the function:
+Если маршрут принимает параметры, вы можете передать их в качестве второго аргумента функции:
 
     $url = route('route.name', ['id' => 1]);
 
-By default, the `route` function generates an absolute URL. If you wish to generate a relative URL, you may pass `false` as the third argument to the function:
+По умолчанию функция `route` генерирует абсолютный URL. Если вы хотите сгенерировать относительный URL-адрес, вы можете передать `false` в качестве третьего аргумента функции:
 
     $url = route('route.name', ['id' => 1], false);
 
 <a name="method-secure-asset"></a>
 #### `secure_asset()` {#collection-method}
 
-The `secure_asset` function generates a URL for an asset using HTTPS:
+Функция `secure_asset` генерирует URL для актива с использованием HTTPS:
 
     $url = secure_asset('img/photo.jpg');
 
 <a name="method-secure-url"></a>
 #### `secure_url()` {#collection-method}
 
-The `secure_url` function generates a fully qualified HTTPS URL to the given path. Additional URL segments may be passed in the function's second argument:
+Функция `secure_url` генерирует полный URL HTTPS для заданного пути. Дополнительные сегменты URL могут быть переданы во втором аргументе функции:
 
     $url = secure_url('user/profile');
 
@@ -2548,13 +2548,13 @@ The `secure_url` function generates a fully qualified HTTPS URL to the given pat
 <a name="method-url"></a>
 #### `url()` {#collection-method}
 
-The `url` function generates a fully qualified URL to the given path:
+Функция `url` генерирует полный URL для указанного пути:
 
     $url = url('user/profile');
 
     $url = url('user/profile', [1]);
 
-If no path is provided, an `Illuminate\Routing\UrlGenerator` instance is returned:
+Если путь не указан, возвращается экземпляр `Illuminate\Routing\UrlGenerator`:
 
     $current = url()->current();
 
@@ -2563,63 +2563,63 @@ If no path is provided, an `Illuminate\Routing\UrlGenerator` instance is returne
     $previous = url()->previous();
 
 <a name="miscellaneous"></a>
-## Miscellaneous
+## Дополнительные
 
 <a name="method-abort"></a>
 #### `abort()` {#collection-method}
 
-The `abort` function throws [an HTTP exception](/docs/{{version}}/errors#http-exceptions) which will be rendered by the [exception handler](/docs/{{version}}/errors#the-exception-handler):
+Функция `abort` генерирует [исключение HTTP](/docs/{{version}}/errors#http-exceptions), которое будет обработано [обработчиком исключения](/docs/{{version}}/errors#the-exception-handler):
 
     abort(403);
 
-You may also provide the exception's message and custom HTTP response headers that should be sent to the browser:
+Вы также можете предоставить сообщение об исключении и настраиваемые заголовки HTTP-ответа, которые должны быть отправлены в браузер:
 
     abort(403, 'Unauthorized.', $headers);
 
 <a name="method-abort-if"></a>
 #### `abort_if()` {#collection-method}
 
-The `abort_if` function throws an HTTP exception if a given boolean expression evaluates to `true`:
+Функция `abort_if` генерирует исключение HTTP, если данное логическое выражение оценивается как `true`:
 
     abort_if(! Auth::user()->isAdmin(), 403);
 
-Like the `abort` method, you may also provide the exception's response text as the third argument and an array of custom response headers as the fourth argument to the function.
+Подобно методу `abort`, вы также можете предоставить текст ответа исключения в качестве третьего аргумента и массив пользовательских заголовков ответа в качестве четвертого аргумента функции.
 
 <a name="method-abort-unless"></a>
 #### `abort_unless()` {#collection-method}
 
-The `abort_unless` function throws an HTTP exception if a given boolean expression evaluates to `false`:
+Функция `abort_unless` генерирует исключение HTTP, если данное логическое выражение оценивается как `false`:
 
     abort_unless(Auth::user()->isAdmin(), 403);
 
-Like the `abort` method, you may also provide the exception's response text as the third argument and an array of custom response headers as the fourth argument to the function.
+Подобно методу `abort`, вы также можете предоставить текст ответа исключения в качестве третьего аргумента и массив пользовательских заголовков ответа в качестве четвертого аргумента функции.
 
 <a name="method-app"></a>
 #### `app()` {#collection-method}
 
-The `app` function returns the [service container](/docs/{{version}}/container) instance:
+Функция `app` возвращает экземпляр [сервис контейнера](/docs/{{version}}/container):
 
     $container = app();
 
-You may pass a class or interface name to resolve it from the container:
+Вы можете передать имя класса или интерфейса, чтобы разрешить его из контейнера:
 
     $api = app('HelpSpot\API');
 
 <a name="method-auth"></a>
 #### `auth()` {#collection-method}
 
-The `auth` function returns an [authenticator](/docs/{{version}}/authentication) instance. You may use it as an alternative to the `Auth` facade:
+Функция `auth` возвращает экземпляр [аутентификатора](/docs/{{version}}/authentication). Вы можете использовать его как альтернативу фасаду `Auth`:
 
     $user = auth()->user();
 
-If needed, you may specify which guard instance you would like to access:
+При необходимости вы можете указать, к какому экземпляру защиты вы хотите получить доступ:
 
     $user = auth('admin')->user();
 
 <a name="method-back"></a>
 #### `back()` {#collection-method}
 
-The `back` function generates a [redirect HTTP response](/docs/{{version}}/responses#redirects) to the user's previous location:
+Функция `back` генерирует [HTTP-ответ перенаправления](/docs/{{version}}/responses#redirects) в предыдущее местоположение пользователя:
 
     return back($status = 302, $headers = [], $fallback = '/');
 
@@ -2628,14 +2628,14 @@ The `back` function generates a [redirect HTTP response](/docs/{{version}}/respo
 <a name="method-bcrypt"></a>
 #### `bcrypt()` {#collection-method}
 
-The `bcrypt` function [hashes](/docs/{{version}}/hashing) the given value using Bcrypt. You may use this function as an alternative to the `Hash` facade:
+Функция `bcrypt` [хеширует](/docs/{{version}}/hashing) заданное значение с помощью Bcrypt. Вы можете использовать эту функцию как альтернативу фасаду `Hash`:
 
     $password = bcrypt('my-secret-password');
 
 <a name="method-blank"></a>
 #### `blank()` {#collection-method}
 
-The `blank` function determines whether the given value is "blank":
+Функция `blank` определяет, является ли данное значение «пустым»:
 
     blank('');
     blank('   ');
@@ -2650,12 +2650,12 @@ The `blank` function determines whether the given value is "blank":
 
     // false
 
-For the inverse of `blank`, see the [`filled`](#method-filled) method.
+Для обратного к `blank`, смотрите метод [`filled`](#method-filled).
 
 <a name="method-broadcast"></a>
 #### `broadcast()` {#collection-method}
 
-The `broadcast` function [broadcasts](/docs/{{version}}/broadcasting) the given [event](/docs/{{version}}/events) to its listeners:
+Функция `broadcast` [броадкастинга](/docs/{{version}}/broadcasting) передает данное [событие](/docs/{{version}}/events) своим слушателям:
 
     broadcast(new UserRegistered($user));
 
@@ -2664,13 +2664,13 @@ The `broadcast` function [broadcasts](/docs/{{version}}/broadcasting) the given 
 <a name="method-cache"></a>
 #### `cache()` {#collection-method}
 
-The `cache` function may be used to get values from the [cache](/docs/{{version}}/cache). If the given key does not exist in the cache, an optional default value will be returned:
+Функция `cache` может использоваться для получения значений из [cache](/docs/{{version}}/cache). Если данный ключ не существует в кеше, будет возвращено необязательное значение по умолчанию:
 
     $value = cache('key');
 
     $value = cache('key', 'default');
 
-You may add items to the cache by passing an array of key / value pairs to the function. You should also pass the number of seconds or duration the cached value should be considered valid:
+Вы можете добавлять элементы в кеш, передавая в функцию массив пар ключ / значение. Вы также должны передать количество секунд или продолжительность, в течение которых кешированное значение должно считаться действительным:
 
     cache(['key' => 'value'], 300);
 
@@ -2679,102 +2679,102 @@ You may add items to the cache by passing an array of key / value pairs to the f
 <a name="method-class-uses-recursive"></a>
 #### `class_uses_recursive()` {#collection-method}
 
-The `class_uses_recursive` function returns all traits used by a class, including traits used by all of its parent classes:
+Функция `class_uses_recursive` возвращает все признаки, используемые классом, включая признаки, используемые всеми его родительскими классами:
 
     $traits = class_uses_recursive(App\Models\User::class);
 
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
 
-The `collect` function creates a [collection](/docs/{{version}}/collections) instance from the given value:
+Функция `collect` создает экземпляр [коллекции](/docs/{{version}}/collections) из заданного значения:
 
     $collection = collect(['taylor', 'abigail']);
 
 <a name="method-config"></a>
 #### `config()` {#collection-method}
 
-The `config` function gets the value of a [configuration](/docs/{{version}}/configuration) variable. The configuration values may be accessed using "dot" syntax, which includes the name of the file and the option you wish to access. A default value may be specified and is returned if the configuration option does not exist:
+Функция `config` получает значение переменной [конфигурации](/docs/{{version}}/configuration). Доступ к значениям конфигурации можно получить с помощью синтаксиса «точка», который включает имя файла и параметр, к которому вы хотите получить доступ. Может быть указано значение по умолчанию, которое возвращается, если параметр конфигурации не существует:
 
     $value = config('app.timezone');
 
     $value = config('app.timezone', $default);
 
-You may set configuration variables at runtime by passing an array of key / value pairs. However, note that this function only affects the configuration value for the current request and does not update your actual configuration values:
+Вы можете установить переменные конфигурации во время выполнения, передав массив пар ключ / значение. Однако обратите внимание, что эта функция влияет только на значение конфигурации для текущего запроса и не обновляет ваши фактические значения конфигурации:
 
     config(['app.debug' => true]);
 
 <a name="method-cookie"></a>
 #### `cookie()` {#collection-method}
 
-The `cookie` function creates a new [cookie](/docs/{{version}}/requests#cookies) instance:
+Функция `cookie` создает новый экземпляр [cookie](/docs/{{version}}/requests#cookies):
 
     $cookie = cookie('name', 'value', $minutes);
 
 <a name="method-csrf-field"></a>
 #### `csrf_field()` {#collection-method}
 
-The `csrf_field` function generates an HTML `hidden` input field containing the value of the CSRF token. For example, using [Blade syntax](/docs/{{version}}/blade):
+Функция `csrf_field` генерирует HTML-поле ввода `hidden`, содержащее значение токена CSRF. Например, используя [синтаксис Blade](/docs/{{version}}/blade):
 
     {{ csrf_field() }}
 
 <a name="method-csrf-token"></a>
 #### `csrf_token()` {#collection-method}
 
-The `csrf_token` function retrieves the value of the current CSRF token:
+Функция `csrf_token` извлекает значение текущего токена CSRF:
 
     $token = csrf_token();
 
 <a name="method-dd"></a>
 #### `dd()` {#collection-method}
 
-The `dd` function dumps the given variables and ends execution of the script:
+Функция `dd` выгружает заданные переменные и завершает выполнение скрипта:
 
     dd($value);
 
     dd($value1, $value2, $value3, ...);
 
-If you do not want to halt the execution of your script, use the [`dump`](#method-dump) function instead.
+Если вы не хотите останавливать выполнение вашего скрипта, используйте вместо этого функцию [`dump`](#method-dump).
 
 <a name="method-dispatch"></a>
 #### `dispatch()` {#collection-method}
 
-The `dispatch` function pushes the given [job](/docs/{{version}}/queues#creating-jobs) onto the Laravel [job queue](/docs/{{version}}/queues):
+Функция `dispatch` помещает данное [задание](/docs/{{version}}/queues#creating-jobs) в [очередь заданий](/docs/{{version}}/queues) Laravel:
 
     dispatch(new App\Jobs\SendEmails);
 
 <a name="method-dump"></a>
 #### `dump()` {#collection-method}
 
-The `dump` function dumps the given variables:
+Функция `dump` выгружает заданные переменные:
 
     dump($value);
 
     dump($value1, $value2, $value3, ...);
 
-If you want to stop executing the script after dumping the variables, use the [`dd`](#method-dd) function instead.
+Если вы хотите остановить выполнение сценария после сброса переменных, используйте вместо этого функцию [`dd`](#method-dd).
 
 <a name="method-env"></a>
 #### `env()` {#collection-method}
 
-The `env` function retrieves the value of an [environment variable](/docs/{{version}}/configuration#environment-configuration) or returns a default value:
+Функция `env` извлекает значение [переменной среды](/docs/{{version}}/configuration#environment-configuration) или возвращает значение по умолчанию:
 
     $env = env('APP_ENV');
 
     $env = env('APP_ENV', 'production');
 
-> {note} If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded and all calls to the `env` function will return `null`.
+> {note} Если вы выполняете команду `config:cache` в процессе развертывания, вы должны быть уверены, что вызываете функцию `env` только из ваших файлов конфигурации. После кэширования конфигурации файл `.env` не будет загружен, и все вызовы функции `env` вернут `null`.
 
 <a name="method-event"></a>
 #### `event()` {#collection-method}
 
-The `event` function dispatches the given [event](/docs/{{version}}/events) to its listeners:
+Функция `event` отправляет данное [событие](/docs/{{version}}/events) своим слушателям:
 
     event(new UserRegistered($user));
 
 <a name="method-filled"></a>
 #### `filled()` {#collection-method}
 
-The `filled` function determines whether the given value is not "blank":
+Функция `filled` определяет, не является ли данное значение «пустым»:
 
     filled(0);
     filled(true);
@@ -2789,38 +2789,38 @@ The `filled` function determines whether the given value is not "blank":
 
     // false
 
-For the inverse of `filled`, see the [`blank`](#method-blank) method.
+Чтобы узнать об обратном методе `filled`, смотрите метод [`blank`](#method-blank).
 
 <a name="method-info"></a>
 #### `info()` {#collection-method}
 
-The `info` function will write information to your application's [log](/docs/{{version}}/logging):
+Функция `info` запишет информацию в [журнал](/docs/{{version}}/logging) вашего приложения:
 
     info('Some helpful information!');
 
-An array of contextual data may also be passed to the function:
+В функцию также может быть передан массив контекстных данных:
 
     info('User login attempt failed.', ['id' => $user->id]);
 
 <a name="method-logger"></a>
 #### `logger()` {#collection-method}
 
-The `logger` function can be used to write a `debug` level message to the [log](/docs/{{version}}/logging):
+Функцию `logger` можно использовать для записи сообщения уровня `debug` в [журнале](/docs/{{version}}/logging):
 
     logger('Debug message');
 
-An array of contextual data may also be passed to the function:
+В функцию также может быть передан массив контекстных данных:
 
     logger('User has logged in.', ['id' => $user->id]);
 
-A [logger](/docs/{{version}}/errors#logging) instance will be returned if no value is passed to the function:
+Экземпляр [logger](/docs/{{version}}/errors#logging) будет возвращен, если в функцию не передано значение:
 
     logger()->error('You are not allowed here.');
 
 <a name="method-method-field"></a>
 #### `method_field()` {#collection-method}
 
-The `method_field` function generates an HTML `hidden` input field containing the spoofed value of the form's HTTP verb. For example, using [Blade syntax](/docs/{{version}}/blade):
+Функция `method_field` генерирует HTML-поле ввода `hidden`, содержащее поддельное значение HTTP-глагола формы. Например, используя [синтаксис Blade](/docs/{{version}}/blade):
 
     <form method="POST">
         {{ method_field('DELETE') }}
@@ -2829,14 +2829,14 @@ The `method_field` function generates an HTML `hidden` input field containing th
 <a name="method-now"></a>
 #### `now()` {#collection-method}
 
-The `now` function creates a new `Illuminate\Support\Carbon` instance for the current time:
+Функция `now` создает новый экземпляр `Illuminate\Support\Carbon` для текущего времени:
 
     $now = now();
 
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
-The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an [old input](/docs/{{version}}/requests#old-input) value flashed into the session:
+Функция `old` [извлекает](/docs/{{version}}/requests#retrieving-input) значение [старого ввода](/docs/{{version}}/requests#old-input), которое передается в сеанс :
 
     $value = old('value');
 
@@ -2845,13 +2845,13 @@ The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an [
 <a name="method-optional"></a>
 #### `optional()` {#collection-method}
 
-The `optional` function accepts any argument and allows you to access properties or call methods on that object. If the given object is `null`, properties and methods will return `null` instead of causing an error:
+Функция `optional` принимает любой аргумент и позволяет вам получать доступ к свойствам или вызывать методы этого объекта. Если данный объект имеет значение `null`, свойства и методы будут возвращать `null` вместо того, чтобы вызывать ошибку:
 
     return optional($user->address)->street;
 
     {!! old('name', optional($user)->name) !!}
 
-The `optional` function also accepts a closure as its second argument. The closure will be invoked if the value provided as the first argument is not null:
+Функция `optional` также принимает замыкание в качестве второго аргумента. Замыкание будет вызвано, если значение, указанное в качестве первого аргумента, не равно нулю:
 
     return optional(User::find($id), function ($user) {
         return $user->name;
@@ -2860,14 +2860,14 @@ The `optional` function also accepts a closure as its second argument. The closu
 <a name="method-policy"></a>
 #### `policy()` {#collection-method}
 
-The `policy` method retrieves a [policy](/docs/{{version}}/authorization#creating-policies) instance for a given class:
+Метод `policy` извлекает экземпляр [политики](/docs/{{version}}/authorization#creating-policies) для данного класса:
 
     $policy = policy(App\Models\User::class);
 
 <a name="method-redirect"></a>
 #### `redirect()` {#collection-method}
 
-The `redirect` function returns a [redirect HTTP response](/docs/{{version}}/responses#redirects), or returns the redirector instance if called with no arguments:
+Функция `redirect` возвращает [HTTP-ответ перенаправления](/docs/{{version}}/responses#redirects) или возвращает экземпляр перенаправителя, если вызывается без аргументов:
 
     return redirect($to = null, $status = 302, $headers = [], $https = null);
 
@@ -2878,18 +2878,18 @@ The `redirect` function returns a [redirect HTTP response](/docs/{{version}}/res
 <a name="method-report"></a>
 #### `report()` {#collection-method}
 
-The `report` function will report an exception using your [exception handler](/docs/{{version}}/errors#the-exception-handler):
+Функция `report` сообщит об исключении, используя ваш [обработчик исключений](/docs/{{version}}/errors#the-exception-handler):
 
     report($e);
 
-The `report` function also accepts a string as an argument. When a string is given to the function, the function will create an exception with the given string as its message:
+Функция `report` также принимает строку в качестве аргумента. Когда в функцию передается строка, функция создает исключение с данной строкой в качестве сообщения:
 
     report('Something went wrong.');
 
 <a name="method-request"></a>
 #### `request()` {#collection-method}
 
-The `request` function returns the current [request](/docs/{{version}}/requests) instance or obtains an input field's value from the current request:
+Функция `request` возвращает текущий экземпляр [запроса](/docs/{{version}}/requests) или получает значение поля ввода из текущего запроса:
 
     $request = request();
 
@@ -2898,13 +2898,13 @@ The `request` function returns the current [request](/docs/{{version}}/requests)
 <a name="method-rescue"></a>
 #### `rescue()` {#collection-method}
 
-The `rescue` function executes the given closure and catches any exceptions that occur during its execution. All exceptions that are caught will be sent to your [exception handler](/docs/{{version}}/errors#the-exception-handler); however, the request will continue processing:
+Функция `rescue` выполняет заданное замыкание и перехватывает любые исключения, возникающие во время его выполнения. Все перехваченные исключения будут отправлены вашему [обработчику исключений](/docs/{{version}}/errors#the-exception-handler); однако запрос продолжит обработку:
 
     return rescue(function () {
         return $this->method();
     });
 
-You may also pass a second argument to the `rescue` function. This argument will be the "default" value that should be returned if an exception occurs while executing the closure:
+Вы также можете передать второй аргумент функции `rescue`. Этот аргумент будет значением "по умолчанию", которое должно быть возвращено, если во время выполнения замыкания возникает исключение:
 
     return rescue(function () {
         return $this->method();
@@ -2919,14 +2919,14 @@ You may also pass a second argument to the `rescue` function. This argument will
 <a name="method-resolve"></a>
 #### `resolve()` {#collection-method}
 
-The `resolve` function resolves a given class or interface name to an instance using the [service container](/docs/{{version}}/container):
+Функция `resolve` преобразует данный класс или имя интерфейса в экземпляр, используя [сервис контенейр](/docs/{{version}}/container):
 
     $api = resolve('HelpSpot\API');
 
 <a name="method-response"></a>
 #### `response()` {#collection-method}
 
-The `response` function creates a [response](/docs/{{version}}/responses) instance or obtains an instance of the response factory:
+Функция `response` создает экземпляр [ответа](/docs/{{version}}/responses) или получает экземпляр фабрики ответов:
 
     return response('Hello World', 200, $headers);
 
@@ -2935,7 +2935,7 @@ The `response` function creates a [response](/docs/{{version}}/responses) instan
 <a name="method-retry"></a>
 #### `retry()` {#collection-method}
 
-The `retry` function attempts to execute the given callback until the given maximum attempt threshold is met. If the callback does not throw an exception, its return value will be returned. If the callback throws an exception, it will automatically be retried. If the maximum attempt count is exceeded, the exception will be thrown:
+Функция `retry` пытается выполнить данный обратный вызов, пока не будет достигнут заданный максимальный порог попытки. Если обратный вызов не вызывает исключения, возвращается его возвращаемое значение. Если обратный вызов вызывает исключение, он будет автоматически повторен. Если максимальное количество попыток превышено, будет сгенерировано исключение:
 
     return retry(5, function () {
         // Attempt 5 times while resting 100ms in between attempts...
@@ -2944,15 +2944,15 @@ The `retry` function attempts to execute the given callback until the given maxi
 <a name="method-session"></a>
 #### `session()` {#collection-method}
 
-The `session` function may be used to get or set [session](/docs/{{version}}/session) values:
+Функцию `session` можно использовать для получения или установки значений [сессий](/docs/{{version}}/session):
 
     $value = session('key');
 
-You may set values by passing an array of key / value pairs to the function:
+Вы можете установить значения, передав в функцию массив пар ключ / значение:
 
     session(['chairs' => 7, 'instruments' => 3]);
 
-The session store will be returned if no value is passed to the function:
+Хранилище сеансов будет возвращено, если функции не передано значение:
 
     $value = session()->get('key');
 
@@ -2961,7 +2961,7 @@ The session store will be returned if no value is passed to the function:
 <a name="method-tap"></a>
 #### `tap()` {#collection-method}
 
-The `tap` function accepts two arguments: an arbitrary `$value` and a closure. The `$value` will be passed to the closure and then be returned by the `tap` function. The return value of the closure is irrelevant:
+Функция `tap` принимает два аргумента: произвольное `$value` и замыкание. `$value` будет передано в замыкание, а затем будет возвращено функцией `tap`. Возвращаемое значение замыкания не имеет значения:
 
     $user = tap(User::first(), function ($user) {
         $user->name = 'taylor';
@@ -2969,14 +2969,14 @@ The `tap` function accepts two arguments: an arbitrary `$value` and a closure. T
         $user->save();
     });
 
-If no closure is passed to the `tap` function, you may call any method on the given `$value`. The return value of the method you call will always be `$value`, regardless of what the method actually returns in its definition. For example, the Eloquent `update` method typically returns an integer. However, we can force the method to return the model itself by chaining the `update` method call through the `tap` function:
+Если в функцию `tap` не передается замыкание, вы можете вызвать любой метод для данного `$value`. Возвращаемое значение метода, который вы вызываете, всегда будет `$value`, независимо от того, что метод фактически возвращает в своем определении. Например, метод `update` Eloquent обычно возвращает целое число. Однако мы можем заставить метод возвращать саму модель, связав вызов метода `update` через функцию `tap`:
 
     $user = tap($user)->update([
         'name' => $name,
         'email' => $email,
     ]);
 
-To add a `tap` method to a class, you may add the `Illuminate\Support\Traits\Tappable` trait to the class. The `tap` method of this trait accepts a Closure as its only argument. The object instance itself will be passed to the Closure and then be returned by the `tap` method:
+Чтобы добавить к классу метод `tap`, вы можете добавить в класс трейта `Illuminate\Support\Traits\Tappable`. Метод `tap` этой черты принимает замыкание как единственный аргумент. Сам экземпляр объекта будет передан Замыканию, а затем будет возвращен методом `tap`:
 
     return $user->tap(function ($user) {
         //
@@ -2985,7 +2985,7 @@ To add a `tap` method to a class, you may add the `Illuminate\Support\Traits\Tap
 <a name="method-throw-if"></a>
 #### `throw_if()` {#collection-method}
 
-The `throw_if` function throws the given exception if a given boolean expression evaluates to `true`:
+Функция `throw_if` генерирует данное исключение, если данное логическое выражение оценивается как `true`:
 
     throw_if(! Auth::user()->isAdmin(), AuthorizationException::class);
 
@@ -2998,7 +2998,7 @@ The `throw_if` function throws the given exception if a given boolean expression
 <a name="method-throw-unless"></a>
 #### `throw_unless()` {#collection-method}
 
-The `throw_unless` function throws the given exception if a given boolean expression evaluates to `false`:
+Функция `throw_unless` генерирует данное исключение, если данное логическое выражение оценивается как `false`:
 
     throw_unless(Auth::user()->isAdmin(), AuthorizationException::class);
 
@@ -3011,21 +3011,21 @@ The `throw_unless` function throws the given exception if a given boolean expres
 <a name="method-today"></a>
 #### `today()` {#collection-method}
 
-The `today` function creates a new `Illuminate\Support\Carbon` instance for the current date:
+Функция `today` создает новый экземпляр `Illuminate\Support\Carbon` для текущей даты:
 
     $today = today();
 
 <a name="method-trait-uses-recursive"></a>
 #### `trait_uses_recursive()` {#collection-method}
 
-The `trait_uses_recursive` function returns all traits used by a trait:
+Функция `trait_uses_recursive` возвращает все трейты, используемые трейтом:
 
     $traits = trait_uses_recursive(\Illuminate\Notifications\Notifiable::class);
 
 <a name="method-transform"></a>
 #### `transform()` {#collection-method}
 
-The `transform` function executes a closure on a given value if the value is not [blank](#method-blank) and then returns the return value of the closure:
+Функция `transform` выполняет замыкание для данного значения, если значение не [пустое](#method-blank), а затем возвращает возвращаемое значение замыкания:
 
     $callback = function ($value) {
         return $value * 2;
@@ -3035,7 +3035,7 @@ The `transform` function executes a closure on a given value if the value is not
 
     // 10
 
-A default value or closure may be passed as the third argument to the function. This value will be returned if the given value is blank:
+В качестве третьего аргумента функции может быть передано значение по умолчанию или замыкание. Это значение будет возвращено, если данное значение пусто:
 
     $result = transform(null, $callback, 'The value is blank');
 
@@ -3044,14 +3044,14 @@ A default value or closure may be passed as the third argument to the function. 
 <a name="method-validator"></a>
 #### `validator()` {#collection-method}
 
-The `validator` function creates a new [validator](/docs/{{version}}/validation) instance with the given arguments. You may use it as an alternative to the `Validator` facade:
+Функция `validator` создает новый экземпляр [валидатора](/docs/{{version}}/validation) с заданными аргументами. Вы можете использовать его как альтернативу фасаду `Validator`:
 
     $validator = validator($data, $rules, $messages);
 
 <a name="method-value"></a>
 #### `value()` {#collection-method}
 
-The `value` function returns the value it is given. However, if you pass a closure to the function, the closure will be executed and its returned value will be returned:
+Функция `value` возвращает заданное значение. Однако, если вы передадите замыкание функции, замыкание будет выполнено, и его возвращенное значение будет возвращено:
 
     $result = value(true);
 
@@ -3066,14 +3066,14 @@ The `value` function returns the value it is given. However, if you pass a closu
 <a name="method-view"></a>
 #### `view()` {#collection-method}
 
-The `view` function retrieves a [view](/docs/{{version}}/views) instance:
+Функция `view` получает экземпляр [представления](/docs/{{version}}/views):
 
     return view('auth.login');
 
 <a name="method-with"></a>
 #### `with()` {#collection-method}
 
-The `with` function returns the value it is given. If a closure is passed as the second argument to the function, the closure will be executed and its returned value will be returned:
+Функция `with` возвращает заданное значение. Если замыкание передается в качестве второго аргумента функции, замыкание будет выполнено, и будет возвращено его возвращаемое значение:
 
     $callback = function ($value) {
         return (is_numeric($value)) ? $value * 2 : 0;

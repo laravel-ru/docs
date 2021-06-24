@@ -36,7 +36,7 @@
     - [Контракты](/docs/{{version}}/contracts)
     - [События](/docs/{{version}}/events)
     - [Файловое хранилище](/docs/{{version}}/filesystem)
-    - [Helpers](/docs/{{version}}/helpers)
+    - [Хелперы](/docs/{{version}}/helpers)
     - [HTTP Client](/docs/{{version}}/http-client)
     - [Localization](/docs/{{version}}/localization)
     - [Mail](/docs/{{version}}/mail)
